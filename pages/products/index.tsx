@@ -1,4 +1,8 @@
 import React from "react";
+
+export default function Products() {
+  return <div>PRODUCTS</div>;
+}
 // import { useEffect, useState, useLayoutEffect } from "react";
 // import { useProducts } from "../layout/navbar";
 

@@ -1,4 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
+export default function Id() {
+  return <div>ID</div>;
+}
 // import { useRouter } from "next/router";
 // import Cart from "../components/cart";
 // import { useProducts } from "../layout/navbar";
