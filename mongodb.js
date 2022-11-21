@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 //Connection URI
-const uri = process.env.API_URL;
+const uri = process.env.MONGODB_URI;
 
 let client;
 let clientPromise;
