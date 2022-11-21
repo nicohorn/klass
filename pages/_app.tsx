@@ -5,12 +5,11 @@ import Navbar from "./layout/navbar";
 function MyApp({ Component, pageProps }) {
   const path = useRouter().pathname;
 
-  console.log(path);
   return (
-    <>
+    <main className="flex flex-col h-screen">
       <Navbar path={path} />
       <Component {...pageProps} />
-    </>
+    </main>
   );
 }
 

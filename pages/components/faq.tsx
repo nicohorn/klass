@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function faq(props) {
+export default function Faq(props) {
   const falseStyle =
     "opacity-0 transition-all duration-300 transition-height duration-500 break-words max-h-0 pointer-events-none";
   const trueStyle =

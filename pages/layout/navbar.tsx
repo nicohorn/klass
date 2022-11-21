@@ -1,5 +1,66 @@
 import { ClassNames } from "@emotion/react";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import create from "zustand";
+
+export const useProducts = create((set) => ({
+  cart: [],
+  setCart: (items: any) => {
+    set((state) => {
+      return {
+        ...state,
+        cart: [...items],
+      };
+    });
+    console.log("Set Cart", items);
+  },
+  addToCart: (id: any) => {
+    set((state) => {
+      //Función para chequear si el producto ya existe en el carrito
+      const isInCart = state.cart.find((product) => product.id == id);
+      //Si el producto no existe, devuelve el carro con el producto adentro y un count = 1;
+      console.log("addToCart", state.cart);
+      if (!isInCart) {
+        //console.log("Console log desde useProducts", ...state);
+        return {
+          ...state,
+          cart: [...state.cart, { id, count: 1 }],
+        };
+      }
+      //Recorre el array de productos para ver si encuentra el producto que se quiere agregar, en caso de encontrarlo, suma +1 a su count, si no, queda solo el producto.
+      const updatedCart = state.cart.map((product) =>
+        product.id === id ? { ...product, count: product.count + 1 } : product
+      );
+
+      return {
+        ...state,
+        cart: updatedCart,
+      };
+    });
+  },
+  removeFromCart: (id) =>
+    set((state) => {
+      const isPresent = state.cart.findIndex((product) => product.id === id);
+
+      if (isPresent === -1) {
+        return {
+          ...state,
+        };
+      }
+
+      const updatedCart = state.cart
+        .map((product) =>
+          product.id === id
+            ? { ...product, count: Math.max(product.count - 1, 0) }
+            : product
+        )
+        .filter((product) => product.count);
+
+      return {
+        ...state,
+        cart: updatedCart,
+      };
+    }),
+}));
 
 const content = [
   { title: "Inicio", url: "/" },
@@ -8,16 +69,23 @@ const content = [
   { title: "Nosotros", url: "/us" },
 ];
 
-export default function navbar(props) {
+export default function Navbar(props) {
+  let products = useProducts((state: any) => state.cart);
+  useEffect(() => {}, []);
   return (
-    <>
+    <nav id="myNavbar" className="">
       {/* Logo y socials  */}
+
       <div className="w-full flex py-5 px-20 bg-black gap-10 items-center justify-between">
         <div className="text-4xl font-bold text-white ">
           <img className="h-16" src="/logos-03.png"></img>
         </div>
         <div className="flex gap-4">
-          {" "}
+          <div className="text-white">
+            Carrito
+            {products == "undefined" ? "Carrito vacío" : products[0]?.count}
+            {/*cookieProducts ? JSON.parse(cookieProducts).name : null*/}
+          </div>{" "}
           <a href="">
             <svg
               role="img"
@@ -43,12 +111,15 @@ export default function navbar(props) {
         </div>
       </div>
       {/* Navbar routes / páginas, segunda mitad */}
-      <div className="text-lg text-white grow capitalize flex gap-10 bg-black px-20 pb-5">
-        {content.map((item) => (
-          <div className="active:scale-90 disabled:scale-100 transition-all duration-150 ">
+      <div className="text-md text-white grow capitalize flex gap-5 bg-black px-20 pb-5">
+        {content.map((item, i) => (
+          <div
+            key={i}
+            className="active:scale-90 disabled:scale-100 transition-all duration-150 "
+          >
             <a className="group" href={item.url} key={item.url}>
               {item.title}
-              {console.log(item.url)}
+
               {props.path == item.url ? (
                 <div className="h-[1px] bg-white w-full transition-all duration-150"></div>
               ) : (
@@ -58,6 +129,6 @@ export default function navbar(props) {
           </div>
         ))}
       </div>
-    </>
+    </nav>
   );
 }

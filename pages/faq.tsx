@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Faq from "./components/faq";
+import FaqComponent from "./components/faq";
 
-export default function faq() {
+export default function Faq() {
   const content = [
     {
       q: "Lorem ipsum dolor sit amet",
@@ -57,9 +57,13 @@ export default function faq() {
             <button onClick={() => setShow(!show)}>Expandir todos</button>
           </span>
         </div>
-        {content.map((item) => (
-          <div className="mt-5">
-            <Faq s={show ? true : false} q={item.q} a={item.a}></Faq>
+        {content.map((item, i) => (
+          <div key={i} className="mt-5">
+            <FaqComponent
+              s={show ? true : false}
+              q={item.q}
+              a={item.a}
+            ></FaqComponent>
           </div>
         ))}
       </div>
