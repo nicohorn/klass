@@ -118,13 +118,15 @@ export default function Navbar(props) {
             className="active:scale-90 disabled:scale-100 transition-all duration-150 "
           >
             <a className="group" href={item.url} key={item.url}>
-              {item.title}
+              <div>
+                {item.title}
 
-              {props.path == item.url ? (
-                <div className="h-[1px] bg-white w-full transition-all duration-150"></div>
-              ) : (
-                <div className="w-0 h-[1px] bg-white group-hover:w-full transition-all duration-150"></div>
-              )}
+                {props.path == item.url ? (
+                  <div className="h-[1px] bg-white w-full transition-all duration-150"></div>
+                ) : (
+                  <div className="w-0 h-[1px] bg-white group-hover:w-full transition-all duration-150"></div>
+                )}
+              </div>
             </a>
           </div>
         ))}
