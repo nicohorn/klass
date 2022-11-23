@@ -7,7 +7,8 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     const findResult = await collection.find({}).toArray();
-    console.log("Found documents =>", findResult);
+    //console.log("Found documents =>", findResult);
+
     return res.status(200).json(findResult);
   } else if (req.method === "POST") {
     const insert = await collection.insertOne({ ...req.body });

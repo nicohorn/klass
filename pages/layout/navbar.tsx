@@ -1,6 +1,7 @@
 import { ClassNames } from "@emotion/react";
 import React, { useEffect, useRef, useState } from "react";
 import create from "zustand";
+import Link from "next/link";
 
 export const useProducts = create((set) => ({
   cart: [],
@@ -71,7 +72,22 @@ const content = [
 
 export default function Navbar(props) {
   let products = useProducts((state: any) => state.cart);
-  useEffect(() => {}, []);
+
+  const getTotalCount = () => {
+    let counts = products.map((product) => {
+      return product.count;
+    });
+
+    let sum = counts.reduce((acc, num) => {
+      return acc + num;
+    }, 0);
+
+    return sum;
+  };
+
+  useEffect(() => {
+    console.log(getTotalCount());
+  });
   return (
     <nav id="myNavbar" className="">
       {/* Logo y socials  */}
@@ -80,13 +96,33 @@ export default function Navbar(props) {
         <div className="text-4xl font-bold text-white ">
           <img className="h-16" src="/logos-03.png"></img>
         </div>
-        <div className="flex gap-4">
-          <div className="text-white">
-            Carrito
-            {products == "undefined" ? "Carrito vacío" : products[0]?.count}
-            {/*cookieProducts ? JSON.parse(cookieProducts).name : null*/}
-          </div>{" "}
-          <a href="">
+        <div className="flex gap-4 items-center">
+          <Link href="/cart">
+            <div className="text-white cursor-pointer flex mr-5 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.3"
+                stroke="currentColor"
+                className="w-12 h-12"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                />
+              </svg>
+              <div className="text-xs -translate-x-[29px] -translate-y-[5px]">
+                {products == "undefined" ? "Carrito vacío" : getTotalCount()}
+              </div>
+            </div>
+          </Link>
+          <a
+            href="https://www.facebook.com/klass.arg"
+            target="_blank"
+            rel="noreferrer"
+          >
             <svg
               role="img"
               viewBox="0 0 24 24"
@@ -97,7 +133,11 @@ export default function Navbar(props) {
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
             </svg>
           </a>
-          <a href="">
+          <a
+            href="https://www.instagram.com/klass.rosario/"
+            target="_blank"
+            rel="noreferrer"
+          >
             <svg
               role="img"
               viewBox="0 0 24 24"
