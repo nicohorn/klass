@@ -48,7 +48,7 @@ function Home(obj: { items }) {
   return (
     <div className="w-full flex-grow">
       <div className="flex h-full">
-        {obj.items.slice(0, 5).map((item, i) => (
+        {obj.items.slice(1, 6).map((item, i) => (
           <div
             key={i}
             style={{ backgroundImage: `url(${item.img})` }}

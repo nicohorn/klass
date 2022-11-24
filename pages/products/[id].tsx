@@ -50,8 +50,8 @@ export default function Id({ item }) {
           <h2 className="text-2xl text-lime-700 font-bold">
             {typeof product.price == "number"
               ? formatter.format(product.price)
-              : typeof product.price[0] == "number"
-              ? formatter.format(product.price[0])
+              : typeof product.price[0] == "object"
+              ? formatter.format(product.price[0].price)
               : product.price[0]}
           </h2>
           <p className="text-md whitespace-pre-wrap">{product.description}</p>
