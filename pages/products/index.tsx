@@ -59,7 +59,7 @@ function Products(obj: { items }) {
             />
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 auto-rows-auto xl:grid-cols-4 gap-6">
           {obj.items.map((item, i) => (
             <div
               key={i}
