@@ -52,7 +52,7 @@ export default function Id({ item }) {
               ? formatter.format(product.price)
               : formatter.format(product.price[0])}
           </h2>
-          <p className="">{product.description}</p>
+          <p className="text-md whitespace-pre-wrap">{product.description}</p>
           <div className="text-sm text-gray-600 italic ">{product.tags}</div>
           <button
             className="bg-black p-3  hover:bg-gray-700 text-white active:scale-95 transition-all duration-150"
