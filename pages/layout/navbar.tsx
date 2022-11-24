@@ -14,7 +14,7 @@ export const useProducts = create((set) => ({
     });
     console.log("Set Cart", items);
   },
-  addToCart: (id: any) => {
+  addToCart: (id: any, price: any) => {
     set((state) => {
       //Función para chequear si el producto ya existe en el carrito
       const isInCart = state.cart.find((product) => product.id == id);
@@ -24,7 +24,7 @@ export const useProducts = create((set) => ({
         //console.log("Console log desde useProducts", ...state);
         return {
           ...state,
-          cart: [...state.cart, { id, count: 1 }],
+          cart: [...state.cart, { id, price, count: 1 }],
         };
       }
       //Recorre el array de productos para ver si encuentra el producto que se quiere agregar, en caso de encontrarlo, suma +1 a su count, si no, queda solo el producto.

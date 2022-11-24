@@ -42,6 +42,13 @@ export default function Id({ item }) {
     }
   });
 
+  let productPrice =
+    typeof product.price == "number"
+      ? product.price
+      : typeof product.price[0] == "object"
+      ? product.price[0].price
+      : product.price[0];
+
   return (
     <section className="flex justify-center m-4 mt-8 flex-grow ">
       <div className="w-[30%]">
@@ -59,7 +66,7 @@ export default function Id({ item }) {
           <button
             className="bg-black p-3  hover:bg-gray-700 text-white active:scale-95 transition-all duration-150"
             onClick={() => {
-              addToCart(product._id);
+              addToCart(product._id, productPrice);
             }}
           >
             Agregar al carrito
