@@ -73,7 +73,7 @@ function Products(obj: { items }) {
                   ></img>
                   <div className="bg-black text-white drop-shadow p-5">
                     <p className="font-bold text-lg">{item.name}</p>
-                    <p>Categorías: {item.categories}</p>
+                    <p className="text-xs">Categorías: {item.categories}</p>
                   </div>
                 </div>
               </a>
