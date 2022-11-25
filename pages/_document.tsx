@@ -5,6 +5,11 @@ class MyDocument extends Document {
     return (
       <Html className="scroll-smooth">
         <Head>
+          <title>Klass</title>
+          <meta
+            name="facebook-domain-verification"
+            content="l8kt4tprsunykmw8wkpz6xuy1bkfin"
+          />
           <link
             href="C:\Users\User\Documents\dev\web_development\klass-ecommerce\styles\globals.css"
             rel="stylesheet"
