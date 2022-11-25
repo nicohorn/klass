@@ -50,10 +50,10 @@ export default function Id({ item }) {
       : product.price[0];
 
   return (
-    <section className="flex justify-center m-4 mt-8 flex-grow ">
-      <div className="w-[30%]">
-        <div className=" flex flex-col gap-5 mr-10 shadow-lg p-10">
-          <h1 className="font-bold text-5xl">{product.name}</h1>
+    <section className="flex justify-center m-4 mt-8 flex-grow lg:flex-row flex-col gap-5 lg:gap-0 ">
+      <div className="w-full xl:w-[30%]">
+        <div className=" flex flex-col gap-5 lg:mr-10 mr-0 shadow-lg p-5 lg:p-10">
+          <h1 className="font-bold text-3xl lg:text-5xl">{product.name}</h1>
           <h2 className="text-2xl text-lime-700 font-bold">
             {typeof product.price == "number"
               ? formatter.format(product.price)

@@ -47,7 +47,7 @@ function Home(obj: { items }) {
 
   return (
     <div className="w-full flex-grow">
-      <div className="flex h-full">
+      <div className="flex h-full lg:flex-row flex-col">
         {obj.items.slice(1, 6).map((item, i) => (
           <div
             key={i}
