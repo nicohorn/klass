@@ -5,7 +5,6 @@ class MyDocument extends Document {
     return (
       <Html className="scroll-smooth">
         <Head>
-          <title>Klass</title>
           <meta
             name="facebook-domain-verification"
             content="l8kt4tprsunykmw8wkpz6xuy1bkfin"

@@ -2581,6 +2581,11 @@
 "graceful-fs@^4.1.2", "graceful-fs@^4.2.10", "graceful-fs@^4.2.6":
   "version" "4.2.10"
 
+"gsap@^3.11.3":
+  "integrity" "sha512-xc/iIJy+LWiMbRa4IdMtdnnKa/7PXEK6NNzV71gdOYUVeTZN7UWnLU0fB7Hi1iwiz4ZZoYkBZPPYGg+2+zzFHA=="
+  "resolved" "https://registry.npmjs.org/gsap/-/gsap-3.11.3.tgz"
+  "version" "3.11.3"
+
 "has-bigints@^1.0.1", "has-bigints@^1.0.2":
   "integrity" "sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ=="
   "resolved" "https://registry.npmjs.org/has-bigints/-/has-bigints-1.0.2.tgz"

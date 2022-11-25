@@ -2,6 +2,16 @@ import { ClassNames } from "@emotion/react";
 import React, { useEffect, useRef, useState } from "react";
 import create from "zustand";
 import Link from "next/link";
+import gsap from "gsap";
+import { useForkRef } from "@mui/material";
+import { setCommentRange } from "typescript";
+
+const content = [
+  { title: "Inicio", url: "/" },
+  { title: "Productos", url: "/products" },
+  // { title: "Preguntas frecuentes", url: "/faq" },
+  { title: "Nosotros", url: "/us" },
+];
 
 export const useProducts = create((set) => ({
   cart: [],
@@ -63,13 +73,6 @@ export const useProducts = create((set) => ({
     }),
 }));
 
-const content = [
-  { title: "Inicio", url: "/" },
-  { title: "Productos", url: "/products" },
-  // { title: "Preguntas frecuentes", url: "/faq" },
-  { title: "Nosotros", url: "/us" },
-];
-
 export default function Navbar(props) {
   let products = useProducts((state: any) => state.cart);
 
@@ -86,8 +89,13 @@ export default function Navbar(props) {
   };
 
   useEffect(() => {
-    console.log(getTotalCount());
-  });
+    gsap.fromTo("#cart-icon", { scale: 1.2 }, { scale: 1, duration: 0.5 });
+    gsap.fromTo(
+      "#cart-number",
+      { opacity: 1, x: 0, y: 0 },
+      { opacity: 0, x: -30, y: -5, duration: 0.8, delay: 1 }
+    );
+  }, []);
 
   const desktopNav = () => {
     return (
@@ -98,7 +106,10 @@ export default function Navbar(props) {
           </div>
           <div className="flex gap-4 items-center">
             <Link href="/cart">
-              <div className="text-white cursor-pointer flex mr-5 items-center">
+              <div
+                id="cart-icon"
+                className="text-white cursor-pointer flex mr-5 items-center"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -113,8 +124,8 @@ export default function Navbar(props) {
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                   />
                 </svg>
-                <div className="text-xs -translate-x-[29px] -translate-y-[5px] text-center">
-                  {products == "undefined" ? "Carrito vacío" : getTotalCount()}
+                <div id="cart-number" className="text-xs text-center">
+                  +1
                 </div>
               </div>
             </Link>
@@ -199,7 +210,10 @@ export default function Navbar(props) {
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                   />
                 </svg>
-                <div className="text-xs -translate-x-[29px] -translate-y-[5px] text-center">
+                <div
+                  id="cart-icon"
+                  className="text-xs -translate-x-[29px] -translate-y-[5px] text-center"
+                >
                   {products == "undefined" ? "Carrito vacío" : getTotalCount()}
                 </div>
               </div>
