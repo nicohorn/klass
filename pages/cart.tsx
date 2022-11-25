@@ -51,14 +51,18 @@ export default function Cart({ items }) {
                 Precio individual:{" "}
                 {typeof product.price == "number"
                   ? formatter.format(product.price)
-                  : formatter.format(product.price[0])}
+                  : typeof product.price[0] == "object"
+                  ? formatter.format(product.price[0].price)
+                  : product.price[0]}
               </div>
             </div>
             <div>
               Total:{" "}
               {typeof product.price == "number"
                 ? formatter.format(product.price * product.count)
-                : formatter.format(product.price[0] * product.count)}
+                : typeof product.price[0] == "object"
+                ? formatter.format(product.price[0].price * product.count)
+                : product.price[0] * product.count}
             </div>
           </div>
         );
