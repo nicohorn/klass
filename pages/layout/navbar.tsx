@@ -89,13 +89,12 @@ export default function Navbar(props) {
   };
 
   useEffect(() => {
-    gsap.fromTo("#cart-icon", { scale: 1.2 }, { scale: 1, duration: 0.5 });
     gsap.fromTo(
       "#cart-number",
-      { opacity: 1, x: 0, y: 0 },
-      { opacity: 0, x: -30, y: -5, duration: 0.8, delay: 1 }
+      { opacity: 1, scale: 1.4, x: 0, y: 0 },
+      { opacity: 0, scale: 0.2, x: -30, y: -5, duration: 0.4, delay: 0.5 }
     );
-  }, []);
+  });
 
   const desktopNav = () => {
     return (
