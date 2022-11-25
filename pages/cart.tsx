@@ -40,7 +40,7 @@ export default function Cart({ items }) {
   let transformedProducts = filteredProducts();
 
   return (
-    <main className="w-[50%] mx-auto flex flex-col gap-3 my-10">
+    <main className="w-[50%] mx-auto flex flex-col gap-3 my-10 hover:shadow-md transition-all duration-150">
       {transformedProducts.map((product, i) => {
         return (
           <div key={i} className="border p-5 flex gap-5 justify-between">
