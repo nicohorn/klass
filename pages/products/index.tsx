@@ -41,7 +41,7 @@ function Products(obj: { items }) {
           {obj.items.map((item, i) => (
             <div
               key={i}
-              className=" border-2 border-black border-opacity-0 hover:border-opacity-100  transition-all duration-200 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.55)] group"
+              className=" border-2 border-black border-opacity-0 hover:border-opacity-100  transition-all duration-200 active:scale-95 hover:drop-shadow-[5px_5px_3px_rgba(0,0,0,0.45)] group"
             >
               <a href={`/products/` + item._id}>
                 <div className="flex flex-col ">
