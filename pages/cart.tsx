@@ -127,7 +127,7 @@ export default function Cart({ items }) {
                     leaveTo="transform scale-95 opacity-0"
                   >
                     <Disclosure.Panel className=" mb-4 flex flex-col px-4 pt-4 pb-2 text-sm text-gray-600">
-                      <div className="flex gap-2">
+                      <div key={i} className="flex gap-2">
                         <div>
                           {" "}
                           <span className="font-bold">
@@ -141,8 +141,8 @@ export default function Cart({ items }) {
                         </div>
                         <div className="flex gap-1 flex-wrap">
                           <div className="font-bold">Categorías: </div>
-                          {categories.map((category, i) => {
-                            return <p key={i}>{category}</p>;
+                          {categories.map((category, ii) => {
+                            return <p key={ii}>{category}</p>;
                           })}
                         </div>
                       </div>
