@@ -4,11 +4,11 @@ import { useProducts } from "./layout/navbar";
 import clientPromise from "../mongodb";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronRightIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
-import { isNull } from "util";
 
 export default function Cart({ items }) {
   const productsCart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
+  const removeFromCart = useProducts((state: any) => state.removeFromCart);
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -21,7 +21,6 @@ export default function Cart({ items }) {
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
 
-    //console.log("Retrieve Local Storage", retrieveLocalStorage);
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);
     }
@@ -36,16 +35,18 @@ export default function Cart({ items }) {
   const filteredProducts = () => {
     //Function to "join" the products retrieved from the db and the products in cart (which only have id and count properties, while the products form the database have all the rest of the info)
     return productsCart.map((product) => {
-      return { ...product, ...items.find((item) => item._id === product.id) };
+      return { ...items.find((item) => item._id === product.id), ...product };
     });
   };
 
   let transformedProducts = filteredProducts();
-  console.log(transformedProducts);
+
+  console.log("transformedproducts", transformedProducts);
 
   const totalCartPrice = () => {
     let sum = 0;
     for (let i = 0; i < transformedProducts.length; i++) {
+      console.log("tp price", transformedProducts[i].price);
       sum += transformedProducts[i].price * transformedProducts[i].count;
     }
 
@@ -84,6 +85,7 @@ export default function Cart({ items }) {
           </div>
         </div>
         {transformedProducts.map((product, i) => {
+          let categories = product.categories.toString().split("/");
           return (
             <Disclosure>
               {({ open }) => (
@@ -125,13 +127,35 @@ export default function Cart({ items }) {
                     leaveFrom="transform scale-100 opacity-100"
                     leaveTo="transform scale-95 opacity-0"
                   >
-                    <Disclosure.Panel className=" mb-4  px-4 pt-4 pb-2 text-sm text-gray-600">
-                      Precio individual:{" "}
-                      {typeof product.price == "number"
-                        ? formatter.format(product.price)
-                        : typeof product.price[0] == "object"
-                        ? formatter.format(product.price[0].price)
-                        : product.price[0]}
+                    <Disclosure.Panel className=" mb-4 flex flex-col px-4 pt-4 pb-2 text-sm text-gray-600">
+                      <div className="flex gap-2">
+                        <div>
+                          {" "}
+                          <span className="font-bold">
+                            Precio individual:
+                          </span>{" "}
+                          {typeof product.price == "number"
+                            ? formatter.format(product.price)
+                            : typeof product.price[0] == "object"
+                            ? formatter.format(product.price[0].price)
+                            : product.price[0]}
+                        </div>
+                        <div className="flex gap-1">
+                          <div className="font-bold">Categorías: </div>
+                          {categories.map((category) => {
+                            return <p>{category}</p>;
+                          })}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => {
+                          removeFromCart(product._id);
+                          localStorage.setItem("my-cart", JSON.stringify(""));
+                        }}
+                        className="self-end p-2 mt-4 text-white font-bold rounded-md bg-red-700"
+                      >
+                        Quitar del carrito
+                      </button>
                     </Disclosure.Panel>
                   </Transition>
                 </>

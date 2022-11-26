@@ -8,7 +8,6 @@ const createNewProduct = async (params: {
   productName: string;
   id: number;
 }) => {
-  console.log("hola");
   const res = await fetch("/api/products", {
     method: "POST",
     mode: "cors",
@@ -18,8 +17,6 @@ const createNewProduct = async (params: {
     body: JSON.stringify(params),
   });
   const data = await res.json();
-
-  console.log(data);
 };
 
 function Home(obj: { items }) {
@@ -28,18 +25,14 @@ function Home(obj: { items }) {
   let productsCart = useProducts((state: any) => state.cart);
 
   useEffect(() => {
-    console.log("localStorage wacho", localStorage.getItem("my-cart"));
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
 
-    //console.log("Retrieve Local Storage", retrieveLocalStorage);
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);
     }
   }, []);
 
   useEffect(() => {
-    console.log("this little shit is making me waste time", productsCart);
-
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
@@ -61,14 +54,6 @@ function Home(obj: { items }) {
                 </p>
               </div>
             </a>
-            {/* <button
-              onClick={() => {
-                addToCart(item._id);
-              }}
-              className="text-white bg-black "
-            >
-              Agregar al carrito
-            </button> */}
           </div>
         ))}
       </div>
