@@ -95,9 +95,10 @@ export default function Cart({ items }) {
                       className=" flex grow gap-5 justify-between items-center"
                     >
                       <div className="flex gap-2 grow items-center">
-                        <div className="font-semibold lg:text-lg">
+                        <div className="font-bold lg:text-lg">
                           {product.name}
                         </div>
+                        {product.option ? product.option : null}
                         <div>x {product.count}</div>
                       </div>
                       <div className="mr-2">
@@ -148,7 +149,7 @@ export default function Cart({ items }) {
                       </div>
                       <button
                         onClick={() => {
-                          removeFromCart(product._id);
+                          removeFromCart(product._id, product.option);
                           localStorage.setItem("my-cart", JSON.stringify(""));
                         }}
                         className="hover:bg-red-500 transition-all duration-150 self-end p-2 mt-4 text-white font-bold rounded-md bg-red-700"

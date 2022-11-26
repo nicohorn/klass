@@ -24,22 +24,27 @@ export const useProducts = create((set) => ({
     });
     console.log("Set Cart", items);
   },
-  addToCart: (id: any, price: any) => {
+  addToCart: (id: any, price: any, option: any) => {
     set((state) => {
       //Función para chequear si el producto ya existe en el carrito
-      const isInCart = state.cart.find((product) => product.id == id);
+      const isInCart = state.cart.find(
+        (product) => product.id == id && product.option == option
+      );
+
       //Si el producto no existe, devuelve el carro con el producto adentro y un count = 1;
       console.log("addToCart", state.cart);
       if (!isInCart) {
         //console.log("Console log desde useProducts", ...state);
         return {
           ...state,
-          cart: [...state.cart, { id, price, count: 1 }],
+          cart: [...state.cart, { id, option, price, count: 1 }],
         };
       }
       //Recorre el array de productos para ver si encuentra el producto que se quiere agregar, en caso de encontrarlo, suma +1 a su count, si no, queda solo el producto.
       const updatedCart = state.cart.map((product) =>
-        product.id === id ? { ...product, count: product.count + 1 } : product
+        product.id === id && product.option == option
+          ? { ...product, count: product.count + 1 }
+          : product
       );
 
       return {
@@ -48,9 +53,11 @@ export const useProducts = create((set) => ({
       };
     });
   },
-  removeFromCart: (id) =>
+  removeFromCart: (id, option) =>
     set((state) => {
-      const isPresent = state.cart.findIndex((product) => product.id === id);
+      const isPresent = state.cart.findIndex(
+        (product) => product.id === id && product.option == option
+      );
 
       if (isPresent === -1) {
         return {
@@ -60,7 +67,7 @@ export const useProducts = create((set) => ({
 
       const updatedCart = state.cart
         .map((product) =>
-          product.id === id
+          product.id === id && product.option == option
             ? { ...product, count: Math.max(product.count - 1, 0) }
             : product
         )
