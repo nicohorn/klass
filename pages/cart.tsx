@@ -141,8 +141,8 @@ export default function Cart({ items }) {
                         </div>
                         <div className="flex gap-1 flex-wrap">
                           <div className="font-bold">Categorías: </div>
-                          {categories.map((category) => {
-                            return <p>{category}</p>;
+                          {categories.map((category, i) => {
+                            return <p key={i}>{category}</p>;
                           })}
                         </div>
                       </div>
