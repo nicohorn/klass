@@ -86,7 +86,7 @@ export default function Cart({ items }) {
         {transformedProducts.map((product, i) => {
           let categories = product.categories.toString().split("/");
           return (
-            <Disclosure>
+            <Disclosure key={i}>
               {({ open }) => (
                 <>
                   <Disclosure.Button className="  flex w-full hover:shadow-md items-center justify-between bg-white px-4 py-2 text-left text-sm font-medium text-gray-900 hover:bg-emerald-100 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 border transition-all duration-150 mb-4">
