@@ -41,12 +41,11 @@ export default function Cart({ items }) {
 
   let transformedProducts = filteredProducts();
 
-  console.log("transformedproducts", transformedProducts);
+  //console.log("transformedproducts", transformedProducts);
 
   const totalCartPrice = () => {
     let sum = 0;
     for (let i = 0; i < transformedProducts.length; i++) {
-      console.log("tp price", transformedProducts[i].price);
       sum += transformedProducts[i].price * transformedProducts[i].count;
     }
 
@@ -62,7 +61,7 @@ export default function Cart({ items }) {
             {" "}
             <div
               id="cart-icon"
-              className="text-white cursor-pointer flex md:mr-5 items-center"
+              className="text-white cursor-pointer flex items-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +139,7 @@ export default function Cart({ items }) {
                             ? formatter.format(product.price[0].price)
                             : product.price[0]}
                         </div>
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 flex-wrap">
                           <div className="font-bold">Categorías: </div>
                           {categories.map((category) => {
                             return <p>{category}</p>;
@@ -152,7 +151,7 @@ export default function Cart({ items }) {
                           removeFromCart(product._id);
                           localStorage.setItem("my-cart", JSON.stringify(""));
                         }}
-                        className="self-end p-2 mt-4 text-white font-bold rounded-md bg-red-700"
+                        className="hover:bg-red-500 transition-all duration-150 self-end p-2 mt-4 text-white font-bold rounded-md bg-red-700"
                       >
                         Quitar del carrito
                       </button>

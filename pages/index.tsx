@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState, useLayoutEffect } from "react";
 import { useProducts } from "./layout/navbar";
 import clientPromise from "../mongodb";
+import { setInterval } from "timers";
 
 const createNewProduct = async (params: {
   img: string;
@@ -32,16 +33,26 @@ function Home(obj: { items }) {
     }
   }, []);
 
+  const [numberSlicer, setSlicer] = useState(0);
+
   useEffect(() => {
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
 
+  setInterval(() => {
+    if (numberSlicer <= obj.items.length - 5) {
+      setSlicer(numberSlicer + 5);
+    } else {
+      setSlicer(0);
+    }
+  }, 15000);
+
   return (
     <div className="w-full flex-grow">
       <div className="flex h-full lg:flex-row flex-col">
-        {obj.items.slice(1, 6).map((item, i) => (
+        {obj.items.slice(numberSlicer, numberSlicer + 5).map((item, i) => (
           <div
             key={i}
             style={{ backgroundImage: `url(${item.img})` }}
