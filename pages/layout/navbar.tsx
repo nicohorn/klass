@@ -1,10 +1,7 @@
-import { ClassNames } from "@emotion/react";
 import React, { useEffect, useRef, useState } from "react";
 import create from "zustand";
 import Link from "next/link";
 import gsap from "gsap";
-import { useForkRef } from "@mui/material";
-import { setCommentRange } from "typescript";
 
 const content = [
   { title: "Inicio", url: "/" },

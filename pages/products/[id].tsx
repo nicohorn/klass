@@ -21,7 +21,6 @@ export default function Id({ item }) {
   const setCart = useProducts((state: any) => state.setCart);
 
   const router = useRouter();
-  const id = router.query["id"];
   const product = item[0];
 
   const formatter = new Intl.NumberFormat("en-US", {
@@ -68,7 +67,7 @@ export default function Id({ item }) {
 
   function productOptionsListBox() {
     return (
-      <div className="">
+      <div>
         <Listbox value={selected} onChange={setSelected}>
           <div className="relative mt-1">
             <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -129,6 +128,7 @@ export default function Id({ item }) {
   }
 
   let priceSize = () => {
+    //This is a helper function to return the price and the option selected when it's available. If it's not, it will return an option (called size because that's how it's defined on the db) with a value of null.
     let price, size;
     if (typeof selected == "undefined") {
       price = product.price;
@@ -158,10 +158,10 @@ export default function Id({ item }) {
           </p>
           <div className="text-sm text-gray-600 italic ">{product.tags}</div>
           <div>
-            {typeof item[0].price == "object" ? productOptionsListBox() : null}
+            {typeof product.price == "object" ? productOptionsListBox() : null}
           </div>
           <button
-            className="bg-green-500 p-3 rounded-lg w-[100%] xl:w-[50%] self-center hover:bg-green-700 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
+            className="bg-green-500 p-3 rounded-lg w-[100%]  self-center hover:bg-green-700 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
             onClick={() => {
               addToCart(product._id, priceSize().price, priceSize().size);
             }}

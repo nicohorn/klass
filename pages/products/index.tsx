@@ -23,7 +23,7 @@ function Products(obj: { items }) {
 
   return (
     <div className="w-full flex-grow">
-      <div className="w-[70%] mx-auto my-10 ">
+      <div className="md:w-[70%] p-4 mx-auto my-10 ">
         <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 items-center">
           {" "}
           <div className="font-bold text-4xl text-center lg:text-left">
