@@ -11,6 +11,7 @@ const content = [
 ];
 
 export const useProducts = create((set) => ({
+  //Zustand is a state management solution. I've used it in order to make the cart available throughout all components of the page.
   cart: [],
   setCart: (items: any) => {
     set((state) => {

@@ -20,7 +20,6 @@ export default function Id({ item }) {
 
   const setCart = useProducts((state: any) => state.setCart);
 
-  const router = useRouter();
   const product = item[0];
 
   const formatter = new Intl.NumberFormat("en-US", {
@@ -59,8 +58,6 @@ export default function Id({ item }) {
     { id: 4, name: "Benedict Kessler", unavailable: true },
     { id: 5, name: "Katelyn Rohan", unavailable: false },
   ];
-
-  console.log(item[0].price, item[0].name);
 
   //Este useState contiene una de las opciones que fue seleccionada de precio del producto (en caso de tener opciones de precio).
   const [selected, setSelected] = useState(item[0].price[0]);
@@ -141,6 +138,8 @@ export default function Id({ item }) {
     return { price: price, size: size };
   };
 
+  console.log(product.price == "Presupuestar");
+
   return (
     <section className="flex justify-center m-4 mt-8 flex-grow lg:flex-row flex-col lg:px-0 sm:px-32  gap-5 lg:gap-0 ">
       <div className="w-full xl:w-[40%]">
@@ -158,7 +157,9 @@ export default function Id({ item }) {
           </p>
           <div className="text-sm text-gray-600 italic ">{product.tags}</div>
           <div>
-            {typeof product.price == "object" ? productOptionsListBox() : null}
+            {typeof product.price == "object" && product.price != "Presupuestar"
+              ? productOptionsListBox()
+              : null}
           </div>
           <button
             className="bg-green-500 p-3 rounded-lg w-[100%]  self-center hover:bg-green-700 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"

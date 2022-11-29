@@ -46,7 +46,9 @@ export default function Cart({ items }) {
   const totalCartPrice = () => {
     let sum = 0;
     for (let i = 0; i < transformedProducts.length; i++) {
-      sum += transformedProducts[i].price * transformedProducts[i].count;
+      if (typeof transformedProducts[i].price == "number") {
+        sum += transformedProducts[i].price * transformedProducts[i].count;
+      }
     }
 
     return sum;
@@ -109,6 +111,8 @@ export default function Cart({ items }) {
                           ? formatter.format(
                               product.price[0].price * product.count
                             )
+                          : typeof product.price[0] == "string"
+                          ? product.price[0]
                           : product.price[0] * product.count}
                       </div>
                     </div>
