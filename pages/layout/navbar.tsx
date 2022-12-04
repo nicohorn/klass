@@ -110,7 +110,7 @@ export default function Navbar(props) {
     //Dropdown menu options.
     {
       title: "Mis pedidos",
-      href: `/orders?id=${user.sub}`,
+      href: `/orders?id=${user?.sub}`,
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -31,7 +31,7 @@ export default function Profile({ items }) {
 
   try {
     //This try catch is to ensure that the logged user can only see his orders and not the orders of other users.
-    if (items[0].userId == user.sub) {
+    if (items[0]?.userId == user?.sub) {
       return (
         <main className="flex-grow ">
           <div className="w-[50%] mx-auto p-5 mt-10 border shadow-md">

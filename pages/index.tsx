@@ -2,23 +2,6 @@ import React from "react";
 import { useEffect, useState, useLayoutEffect } from "react";
 import { useProducts } from "./layout/navbar";
 import clientPromise from "../mongodb";
-import { setInterval } from "timers";
-
-const createNewProduct = async (params: {
-  img: string;
-  productName: string;
-  id: number;
-}) => {
-  const res = await fetch("/api/products", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(params),
-  });
-  const data = await res.json();
-};
 
 function Home(obj: { items }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -37,14 +20,6 @@ function Home(obj: { items }) {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
-
-  // setInterval(() => {
-  //   if (numberSlicer <= obj.items.length - 5) {
-  //     setSlicer(numberSlicer + 5);
-  //   } else {
-  //     setSlicer(0);
-  //   }
-  // }, 15000);
 
   return (
     <div className="w-full flex-grow">

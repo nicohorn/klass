@@ -107,7 +107,7 @@ export default function Cart({ items }) {
         return response.json();
       })
       .then((json) => {
-        router.push(`/orders?id=${user.sub}`);
+        router.push(`/orders?id=${user?.sub}`);
         console.log(json);
       });
 
@@ -241,7 +241,7 @@ export default function Cart({ items }) {
                   className="font-semibold"
                   onClick={() => {
                     createOrder({
-                      userId: user.sub,
+                      userId: user?.sub,
                       products: transformedProducts,
                       total: totalCartPrice(),
                       createdAt: new Date().toISOString(),
