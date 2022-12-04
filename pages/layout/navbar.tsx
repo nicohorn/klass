@@ -17,11 +17,6 @@ export default function Navbar(props) {
     }
   }, []);
 
-  if (isLoading) {
-    //Wait for auth0 user data.
-    return null;
-  }
-
   const content = [
     //Navbar links.
     { title: "Inicio", url: "/" },
@@ -97,7 +92,7 @@ export default function Navbar(props) {
             <Link href="/cart">
               <div
                 id="cart-icon"
-                className="text-white cursor-pointer flex  items-center group"
+                className="text-white cursor-pointer flex  items-center group hover:scale-110 transition-all duration-150"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +102,12 @@ export default function Navbar(props) {
                   stroke="currentColor"
                   className="w-10 h-10 "
                 >
-                  <title>Carrito</title>
+                  <title>
+                    {" "}
+                    {getTotalCount() != 0
+                      ? "Hay " + getTotalCount() + " items en el carrito"
+                      : "Carrito vacío"}
+                  </title>
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -128,11 +128,6 @@ export default function Navbar(props) {
                     className="h-3 w-3 opacity-0 transition-all duration-200 -translate-x-3 -translate-y-2 rounded-full bg-green-500"
                   ></div>
                 )}
-                <div className="bg-white opacity-0 transition-all duration-150 group-hover:opacity-100 text-black px-2 py-1 rounded-md absolute text-sm translate-y-10 -translate-x-16 inline-block text-center font-semibold">
-                  {getTotalCount() != 0
-                    ? "Hay " + getTotalCount() + " items en el carrito"
-                    : "Carrito vacío"}
-                </div>
               </div>
             </Link>
             {user ? (
@@ -145,7 +140,7 @@ export default function Navbar(props) {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="white"
-                  className="w-8 h-8"
+                  className="w-8 h-8 cursor-pointer hover:scale-110 transition-all duration-150"
                 >
                   <title>Iniciar Sesión</title>
                   <path
