@@ -1,90 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import create from "zustand";
+import { useProducts } from "../../zustand";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 import Dropdown from "../components/dropdown";
 
-export const useProducts = create((set) => ({
-  //Zustand is a state management solution. I've used it in order to make the cart available throughout all components of the page.
-  cart: [],
-  deleteCart: () => {
-    set((state) => {
-      return {
-        ...state,
-        cart: [],
-      };
-    });
-  },
-  setCart: (items: any) => {
-    set((state) => {
-      return {
-        ...state,
-        cart: [...items],
-      };
-    });
-    console.log("Set Cart", items);
-  },
-  addToCart: (id: any, price: any, option: any) => {
-    set((state) => {
-      //Función para chequear si el producto ya existe en el carrito
-      const isInCart = state.cart.find(
-        (product) => product.id == id && product.option == option
-      );
-
-      //Si el producto no existe, devuelve el carrito con el producto adentro y un count = 1;
-      console.log("addToCart", state.cart);
-      if (!isInCart) {
-        //console.log("Console log desde useProducts", ...state);
-        return {
-          ...state,
-          cart: [...state.cart, { id, option, price, count: 1 }],
-        };
-      }
-      //Recorre el array de productos para ver si encuentra el producto que se quiere agregar, en caso de encontrarlo, suma +1 a su count, si no, queda solo el producto.
-      const updatedCart = state.cart.map((product) =>
-        product.id === id && product.option == option
-          ? { ...product, count: product.count + 1 }
-          : product
-      );
-
-      return {
-        ...state,
-        cart: updatedCart,
-      };
-    });
-  },
-  removeFromCart: (id, option) =>
-    set((state) => {
-      const isPresent = state.cart.findIndex(
-        (product) => product.id === id && product.option == option
-      );
-
-      if (isPresent === -1) {
-        return {
-          ...state,
-        };
-      }
-
-      const updatedCart = state.cart
-        .map((product) =>
-          product.id === id && product.option == option
-            ? { ...product, count: Math.max(product.count - 1, 0) }
-            : product
-        )
-        .filter((product) => product.count);
-
-      return {
-        ...state,
-        cart: updatedCart,
-      };
-    }),
-}));
-
 export default function Navbar(props) {
-  const cart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
   const { user, error, isLoading } = useUser();
-  let products = useProducts((state: any) => state.cart);
+  const products = useProducts((state: any) => state.cart);
 
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
@@ -192,7 +115,7 @@ export default function Navbar(props) {
                   />
                 </svg>
 
-                {cart.length != 0 ? (
+                {products.length != 0 ? (
                   <div
                     id="cart-number"
                     className="h-3 w-3 -translate-x-3  transition-all duration-200 -translate-y-2 rounded-full bg-green-500"

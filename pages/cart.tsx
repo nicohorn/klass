@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useProducts } from "./layout/navbar";
+import { useProducts } from "../zustand";
 import clientPromise from "../mongodb";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
@@ -240,13 +240,18 @@ export default function Cart({ items }) {
                 <button
                   className="font-semibold"
                   onClick={() => {
-                    createOrder({
-                      userId: user?.sub,
-                      products: transformedProducts,
-                      total: totalCartPrice(),
-                      createdAt: new Date().toISOString(),
-                      state: "pending",
-                    });
+                    if (user) {
+                      createOrder({
+                        userId: user?.sub,
+                        products: transformedProducts,
+                        total: totalCartPrice(),
+                        createdAt: new Date().toISOString(),
+                        state: "pending",
+                      });
+                    } else {
+                      router.push("/api/auth/login");
+                      localStorage.setItem("route", `${router.pathname}`);
+                    }
                   }}
                 >
                   {loading ? (

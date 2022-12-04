@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState, useLayoutEffect } from "react";
-import { useProducts } from "../layout/navbar";
+import { useProducts } from "../../zustand";
 import clientPromise from "../../mongodb";
 
 function Products(obj: { items }) {

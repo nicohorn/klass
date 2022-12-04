@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState, useLayoutEffect } from "react";
-import { useProducts } from "./layout/navbar";
+import { useProducts } from "../zustand";
 import clientPromise from "../mongodb";
+import Router from "next/router";
 
 function Home(obj: { items }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -16,6 +17,10 @@ function Home(obj: { items }) {
   }, []);
 
   useEffect(() => {
+    if (localStorage.getItem("route")) {
+      Router.push(`${localStorage.getItem("route")}`);
+      localStorage.removeItem("route");
+    }
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }

@@ -5,11 +5,11 @@ import React, {
   useRef,
   Fragment,
 } from "react";
-import { useRouter } from "next/router";
+
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { useProducts } from "../../zustand";
 
-import { useProducts } from "../layout/navbar";
 var ObjectId = require("mongodb").ObjectId;
 import clientPromise from "../../mongodb";
 import { type } from "os";
