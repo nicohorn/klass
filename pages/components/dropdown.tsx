@@ -1,7 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import gsap from "gsap";
-
 import Link from "next/link";
 
 export default function Dropdown(props) {
@@ -78,7 +76,7 @@ export default function Dropdown(props) {
         className="absolute p-2 rounded-sm font-semibold w-40 mt-4 opacity-0 bg-neutral-100 right-0 transition-all duration-200 z-50 drop-shadow-md text-sm"
       >
         <div className=" w-4 h-4 rotate-45 absolute -translate-y-4 translate-x-32 bg-neutral-100"></div>
-        {props.options.map((option, i) => {
+        {props.options?.map((option, i) => {
           return (
             <div className="cursor-pointer" key={i}>
               <Link href={option.href}>
