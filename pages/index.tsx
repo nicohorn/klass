@@ -21,7 +21,6 @@ const createNewProduct = async (params: {
 };
 
 function Home(obj: { items }) {
-  const addToCart = useProducts((state: any) => state.addToCart);
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
 
@@ -33,30 +32,28 @@ function Home(obj: { items }) {
     }
   }, []);
 
-  const [numberSlicer, setSlicer] = useState(0);
-
   useEffect(() => {
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
 
-  setInterval(() => {
-    if (numberSlicer <= obj.items.length - 5) {
-      setSlicer(numberSlicer + 5);
-    } else {
-      setSlicer(0);
-    }
-  }, 15000);
+  // setInterval(() => {
+  //   if (numberSlicer <= obj.items.length - 5) {
+  //     setSlicer(numberSlicer + 5);
+  //   } else {
+  //     setSlicer(0);
+  //   }
+  // }, 15000);
 
   return (
     <div className="w-full flex-grow">
       <div className="flex h-full lg:flex-row flex-col">
-        {obj.items.slice(numberSlicer, numberSlicer + 5).map((item, i) => (
+        {obj.items.slice(1, 6).map((item, i) => (
           <div
             key={i}
             style={{ backgroundImage: `url(${item.img})` }}
-            className="flex-[0.5] bg-cover bg-center bg-no-repeat hover:flex-[0.6] transition-all duration-300 group grid hover:p-20 shadow-2xl"
+            className="flex-[0.5] bg-cover bg-center bg-no-repeat hover:flex-[0.6] transition-all duration-300 group grid hover:p-20 drop-shadow-[8px_8px_20px_rgba(0,0,0,0.95)]"
           >
             <a href={`/products/` + item._id}>
               <div className="group-hover:opacity-100 opacity-0 text-4xl font-bold transition-all duration-500 ">

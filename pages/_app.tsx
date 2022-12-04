@@ -1,10 +1,11 @@
 import "tailwindcss/tailwind.css";
 import { useRouter } from "next/router";
 import Navbar from "./layout/navbar";
+import Footer from "./layout/footer";
 import Head from "next/head";
-import { useEffect } from "react";
 import React from "react";
 import Router from "next/router";
+import { UserProvider } from "@auth0/nextjs-auth0";
 
 function FacebookPixel() {
   React.useEffect(() => {
@@ -26,7 +27,7 @@ function MyApp({ Component, pageProps }) {
   const path = useRouter().pathname;
 
   return (
-    <>
+    <UserProvider>
       <Head>
         <title>Klass</title>
         <meta
@@ -39,8 +40,9 @@ function MyApp({ Component, pageProps }) {
       <main className="flex flex-col h-screen">
         <Navbar path={path} />
         <Component {...pageProps} />
+        <Footer />
       </main>
-    </>
+    </UserProvider>
   );
 }
 

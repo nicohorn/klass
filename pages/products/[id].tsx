@@ -17,11 +17,8 @@ import { type } from "os";
 export default function Id({ item }) {
   const addToCart = useProducts((state: any) => state.addToCart);
   let productsCart = useProducts((state: any) => state.cart);
-
   const setCart = useProducts((state: any) => state.setCart);
-
   const product = item[0];
-
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -30,7 +27,11 @@ export default function Id({ item }) {
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
 
+  //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
+  const [selected, setSelected] = useState(item[0].price[0]);
+
   useEffect(() => {
+    //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
 
     if (retrieveLocalStorage) {
@@ -39,28 +40,11 @@ export default function Id({ item }) {
   }, []);
 
   useEffect(() => {
+    //For some reason, the client "loads" two times. The first time, the productsCart holds an empty array, thus replacing the localStorage "my-cart" for an empty array. To wait for the second load where the productsCart gets populated by the setCart (which is called in the usedEffect above with an empty dependecy array) method defined in useProducts I use this if condition.
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
-
-  let productPrice =
-    typeof product.price == "number"
-      ? product.price
-      : typeof product.price[0] == "object"
-      ? product.price[0].price
-      : product.price[0];
-
-  const people = [
-    { id: 1, name: "Durward Reynolds", unavailable: false },
-    { id: 2, name: "Kenton Towne", unavailable: false },
-    { id: 3, name: "Therese Wunsch", unavailable: false },
-    { id: 4, name: "Benedict Kessler", unavailable: true },
-    { id: 5, name: "Katelyn Rohan", unavailable: false },
-  ];
-
-  //Este useState contiene una de las opciones que fue seleccionada de precio del producto (en caso de tener opciones de precio).
-  const [selected, setSelected] = useState(item[0].price[0]);
 
   function productOptionsListBox() {
     return (
@@ -125,7 +109,7 @@ export default function Id({ item }) {
   }
 
   let priceSize = () => {
-    //This is a helper function to return the price and the option selected when it's available. If it's not, it will return an option (called size because that's how it's defined on the db) with a value of null.
+    //This is a helper function to return the price and the option selected of the product in case of having options. If the product doesn't have options, it will return its individual price and an option (called size because that's how it's defined on the db) with a value of null.
     let price, size;
     if (typeof selected == "undefined") {
       price = product.price;
@@ -137,8 +121,6 @@ export default function Id({ item }) {
 
     return { price: price, size: size };
   };
-
-  console.log(product.price == "Presupuestar");
 
   return (
     <section className="flex justify-center m-4 mt-8 flex-grow lg:flex-row flex-col lg:px-0 sm:px-32  gap-5 lg:gap-0 ">
@@ -162,7 +144,7 @@ export default function Id({ item }) {
               : null}
           </div>
           <button
-            className="bg-green-500 p-3 rounded-lg w-[100%]  self-center hover:bg-green-700 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
+            className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center hover:bg-green-600 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
             onClick={() => {
               addToCart(product._id, priceSize().price, priceSize().size);
             }}
@@ -183,9 +165,7 @@ export default function Id({ item }) {
 export async function getStaticProps(context) {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  // const res = await fetch(
-  //   `http://localhost:3000/api/products/${context.params.id}`
-  // );
+
   async function handler() {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
