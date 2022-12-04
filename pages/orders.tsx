@@ -40,7 +40,10 @@ export default function Profile({ items }) {
             <div className="flex flex-col gap-3 mt-2 mb-2">
               {items.map((item, i) => {
                 return (
-                  <div className="flex justify-between items-center bg-neutral-100 px-4 py-2 rounded-md">
+                  <div
+                    key={i}
+                    className="flex justify-between items-center bg-neutral-100 px-4 py-2 rounded-md"
+                  >
                     <div className="font-semibold flex gap-4">
                       <span>
                         Pedido realizado el:{" "}
@@ -155,9 +158,12 @@ export default function Profile({ items }) {
                           </div>
                         </Dialog.Title>
                         <div className="my-3 text-[.95rem] flex flex-col">
-                          {selected.products.map((product) => {
+                          {selected.products.map((product, i) => {
                             return (
-                              <div className="flex gap-5 justify-between">
+                              <div
+                                key={i}
+                                className="flex gap-5 justify-between"
+                              >
                                 <span className="font-semibold hover:text-gray-500 text-gray-800 transition-all duration-100">
                                   -
                                   <Link href={`/products/${product.id}`}>

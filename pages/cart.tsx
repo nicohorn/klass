@@ -26,11 +26,6 @@ export default function Cart({ items }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  if (isLoading) {
-    //This if is to wait for the user data retrieved by auth0 useUser hook.
-    return null;
-  }
-
   const formatter = new Intl.NumberFormat("en-US", {
     //To give the price field (number type in js, double in mongodb) a US currency format.
     style: "currency",
@@ -57,6 +52,11 @@ export default function Cart({ items }) {
 
     gsap.fromTo("#loading-icon", { rotate: 0 }, { rotate: 180, repeat: -1 });
   });
+
+  if (isLoading) {
+    //This if is to wait for the user data retrieved by auth0 useUser hook.
+    return null;
+  }
 
   const filteredProducts = () => {
     //Function to "join" the products retrieved from the db and the products in cart (which only have id and count properties, while the products form the database have all the rest of the info)

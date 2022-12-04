@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import gsap from "gsap";
-import { useForkRef } from "@mui/material";
+
+import Link from "next/link";
 
 export default function Dropdown(props) {
   const [open, setOpen] = useState(false);
@@ -77,14 +78,16 @@ export default function Dropdown(props) {
         className="absolute p-2 rounded-sm font-semibold w-40 mt-4 opacity-0 bg-neutral-100 right-0 transition-all duration-200 z-50 drop-shadow-md text-sm"
       >
         <div className=" w-4 h-4 rotate-45 absolute -translate-y-4 translate-x-32 bg-neutral-100"></div>
-        {props.options.map((option) => {
+        {props.options.map((option, i) => {
           return (
-            <a href={option.href}>
-              <div className=" p-2 rounded-md border bg-white border-white shadow-sm  my-2 hover:border-gray-400 transition-all duration-150 flex justify-between h-full">
-                <span>{option.title}</span>
-                <span>{option.icon}</span>
-              </div>
-            </a>
+            <div className="cursor-pointer" key={i}>
+              <Link href={option.href}>
+                <div className=" p-2 rounded-md border bg-white border-white shadow-sm  my-2 hover:border-gray-400 transition-all duration-150 flex justify-between h-full">
+                  <span>{option.title}</span>
+                  <span>{option.icon}</span>
+                </div>
+              </Link>
+            </div>
           );
         })}
       </div>
