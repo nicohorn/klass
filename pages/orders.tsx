@@ -41,6 +41,7 @@ export default function Profile({ items }) {
               {items.map((item, i) => {
                 return (
                   <button
+                    key={i}
                     type="button"
                     onClick={() => {
                       setSelected(item);
