@@ -72,6 +72,7 @@ export default function Profile({ items }) {
                           {item.products.map((product) => {
                             return (
                               <img
+                                key={i}
                                 className="rounded-full aspect-square object-cover object-center w-10 h-10"
                                 src={product.img}
                                 title={`${product.name} ${
