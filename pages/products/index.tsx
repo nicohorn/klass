@@ -4,7 +4,6 @@ import { useProducts } from "../../zustand";
 import clientPromise from "../../mongodb";
 
 function Products(obj: { items }) {
-  const addToCart = useProducts((state: any) => state.addToCart);
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
 

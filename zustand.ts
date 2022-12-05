@@ -75,3 +75,9 @@ export const useProducts = create((set) => ({
       };
     }),
 }));
+
+export const useDropdown = create((set) => ({
+  dropdownState: false,
+
+  changeState: () => set((state) => ({ dropdownState: !state.dropdownState })),
+}));

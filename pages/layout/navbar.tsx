@@ -3,11 +3,13 @@ import { useProducts } from "../../zustand";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 import Dropdown from "../components/dropdown";
+import { useDropdown } from "../../zustand";
 
 export default function Navbar(props) {
   const setCart = useProducts((state: any) => state.setCart);
   const { user, error, isLoading } = useUser();
   const products = useProducts((state: any) => state.cart);
+  const dropDownstate = useDropdown((state: any) => state.dropDownstate);
 
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
@@ -23,6 +25,8 @@ export default function Navbar(props) {
     { title: "Productos", url: "/products" },
     { title: "Nosotros", url: "/us" },
   ];
+
+  console.log("drp", dropDownstate);
 
   const options = [
     //Dropdown menu options.

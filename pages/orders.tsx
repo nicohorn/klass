@@ -34,23 +34,55 @@ export default function Profile({ items }) {
     if (items[0]?.userId == user?.sub) {
       return (
         <main className="flex-grow ">
-          <div className="w-[50%] mx-auto p-5 mt-10 border shadow-md">
+          <div className="md:w-[50%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
             <h1 className="text-3xl font-semibold">Hola {user.name}! </h1>
             <p className="p-2">Estos son tus pedidos:</p>
             <div className="flex flex-col gap-3 mt-2 mb-2">
               {items.map((item, i) => {
                 return (
-                  <div
-                    key={i}
-                    className="flex justify-between items-center bg-neutral-100 px-4 py-2 rounded-md"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelected(item);
+                      openModal();
+                    }}
                   >
-                    <div className="font-semibold flex gap-4">
-                      <span>
-                        Pedido realizado el:{" "}
-                        {new Date(item.createdAt).toLocaleDateString()}
-                      </span>
-                      <span>Total: {formatter.format(item.total)}</span>
-                      <div>
+                    <div
+                      key={i}
+                      className="flex flex-wrap  justify-between items-center bg-white border px-4 py-2 rounded-md hover:shadow-md
+                      hover:bg-emerald-100
+                      transition-all duration-150"
+                    >
+                      <div className="font-semibold flex-wrap flex gap-4 items-center">
+                        <span className="text-gray-500">
+                          Código: {item._id}
+                        </span>
+                        <span>
+                          Productos:{" "}
+                          {item.products
+                            .map((product) => {
+                              return product.count;
+                            })
+                            .reduce((acc, num) => {
+                              return acc + num;
+                            })}
+                        </span>
+                        <span className="flex gap-2 flex-wrap ">
+                          {item.products.map((product) => {
+                            return (
+                              <img
+                                className="rounded-full aspect-square object-cover object-center w-10 h-10"
+                                src={product.img}
+                                title={`${product.name} ${
+                                  product.option ? product.option : ""
+                                } x ${product.count}`}
+                              ></img>
+                            );
+                          })}
+                        </span>
+                      </div>
+
+                      <div className="py-2 flex gap-3 items-center flex-wrap ">
                         {item.state == "pending" ? (
                           <h2 className="bg-amber-400 text-white text-sm px-2 rounded-lg">
                             Pendiente
@@ -78,19 +110,12 @@ export default function Profile({ items }) {
                             </svg>
                           </h2>
                         ) : null}
+                        <span className="text-sm font-semibold text-green-600">
+                          Total: {formatter.format(item.total)}
+                        </span>
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelected(item);
-                        openModal();
-                      }}
-                      className="rounded-md bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                    >
-                      Ver detalles
-                    </button>
-                  </div>
+                  </button>
                 );
               })}
             </div>
@@ -168,7 +193,8 @@ export default function Profile({ items }) {
                                   -
                                   <Link href={`/products/${product.id}`}>
                                     {product.name}
-                                  </Link>
+                                  </Link>{" "}
+                                  x {product.count}
                                 </span>{" "}
                                 {product.option ? (
                                   <span className="text-gray-600">

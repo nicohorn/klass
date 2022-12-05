@@ -117,7 +117,7 @@ export default function Cart({ items }) {
 
   return (
     <main className="mx-auto  sm:my-10   sm:px-2 flex-grow w-full sm:w-auto">
-      <div className="md:w-[40rem] p-5 border bg-neutral-100 rounded-sm shadow-md">
+      <div className="md:w-[40rem] p-5 border bg-neutral-100 rounded-md shadow-md">
         <div className="pb-4 text-2xl font-bold justify-between flex items-center">
           <div>Mi carrito</div>
           <div>
@@ -151,7 +151,7 @@ export default function Cart({ items }) {
                 <Disclosure key={i}>
                   {({ open }) => (
                     <>
-                      <Disclosure.Button className="  flex  w-full hover:shadow-md items-center justify-between bg-white px-4 py-2 text-left text-sm font-medium text-gray-900 hover:bg-emerald-100 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 border transition-all duration-150 mb-4">
+                      <Disclosure.Button className=" rounded-md flex  w-full hover:shadow-md items-center justify-between bg-white px-4 py-2 text-left text-sm font-medium text-gray-900 hover:bg-emerald-100 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 border transition-all duration-150 mb-4">
                         <div
                           key={i}
                           className=" flex grow flex-col sm:flex-row gap-5 justify-between items-center"
@@ -236,7 +236,7 @@ export default function Cart({ items }) {
                 <span>{formatter.format(totalCartPrice())}</span>
               </div>
 
-              <div className=" bg-green-600 p-1 px-3 cursor-pointer mt-3 mr-2 self-end text-center text-white rounded-sm hover:drop-shadow-xl transition-all duration-150 w-44 flex justify-center">
+              <div className=" bg-green-600 p-1 px-3 cursor-pointer mt-3 mr-2 self-end text-center text-white rounded-sm hover:shadow-md transition-all duration-150 w-44 flex justify-center">
                 <button
                   className="font-semibold"
                   onClick={() => {

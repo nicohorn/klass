@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import gsap from "gsap";
 import Link from "next/link";
+import { useDropdown } from "../../zustand";
 
 export default function Dropdown(props) {
   const [open, setOpen] = useState(false);
+  const dropdownState = useDropdown((state: any) => state.dropdownState);
+  const changeState = useDropdown((state: any) => state.changeState);
 
   useEffect(() => {
-    if (open) {
+    console.log(dropdownState);
+    if (dropdownState) {
       gsap.to("#menu", {
         y: 0,
         opacity: 1,
@@ -24,11 +28,11 @@ export default function Dropdown(props) {
         },
       });
     }
-  }, [open]);
+  }, [dropdownState]);
 
   return (
     <div className="relative">
-      <button onClick={() => setOpen(!open)} className=" bg-black text-white">
+      <button onClick={() => changeState()} className=" bg-black text-white">
         <svg
           id="profile-icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +41,7 @@ export default function Dropdown(props) {
           strokeWidth={1.5}
           stroke="currentColor"
           className={
-            open
+            dropdownState
               ? "w-8 h-8 absolute opacity-0 rotate-180 transition-all duration-500"
               : "w-8 h-8 absolute transition-all duration-500"
           }
@@ -58,7 +62,7 @@ export default function Dropdown(props) {
           strokeWidth={1.5}
           stroke="currentColor"
           className={
-            open
+            dropdownState
               ? "w-8 h-8 transition-all duration-500"
               : "w-8 h-8  opacity-0 -rotate-180 transition-all duration-500"
           }
