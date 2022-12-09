@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useProducts } from "../zustand";
-import clientPromise from "../mongodb";
+import clientPromise from "@clientPromise";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
@@ -107,10 +107,11 @@ export default function Cart({ items }) {
         return response.json();
       })
       .then((json) => {
-        router.push(`/orders?id=${user?.sub}`);
-        console.log(json);
+        router.push(`/orders`);
+        console.log("El pedido es el siguiente: ", json);
       });
 
+    console.log("delete cart");
     deleteCart();
     localStorage.clear();
   };
@@ -249,8 +250,7 @@ export default function Cart({ items }) {
                         state: "pending",
                       });
                     } else {
-                      router.push("/api/auth/login");
-                      localStorage.setItem("route", `${router.pathname}`);
+                      router.push("/api/auth/login?returnTo=/cart");
                     }
                   }}
                 >
@@ -270,8 +270,13 @@ export default function Cart({ items }) {
                         d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
                       />
                     </svg>
-                  ) : (
+                  ) : user ? (
                     "Completar pedido"
+                  ) : (
+                    <span>
+                      Completar pedido
+                      <h3 className="text-xs">Iniciar sesión</h3>
+                    </span>
                   )}
                 </button>
               </div>

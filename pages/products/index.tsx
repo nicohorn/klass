@@ -1,11 +1,13 @@
 import React from "react";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProducts } from "../../zustand";
-import clientPromise from "../../mongodb";
+import clientPromise from "@clientPromise";
 
-function Products(obj: { items }) {
+function Products({ items }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
+  const [category, setCategory] = useState("");
+  const [active, setActive] = useState(null);
 
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
@@ -20,24 +22,82 @@ function Products(obj: { items }) {
     }
   });
 
+  function getCategories() {
+    const categories = items.map((item) => {
+      let categories = item.categories.toString().split("/");
+      categories.shift();
+      return categories;
+    });
+
+    let finalArray = [].concat.apply([], categories);
+
+    //Remove duplicates from the array
+    finalArray = finalArray.filter(
+      (item, index) => finalArray.indexOf(item) === index
+    );
+
+    return finalArray;
+  }
+
+  function getItemsByCategory(cat) {
+    return items.filter((item) => {
+      return item.categories.toString().includes(cat);
+    });
+  }
   return (
-    <div className="w-full flex-grow">
+    <div className="w-full flex-grow ">
       <div className="md:w-[70%] p-4 mx-auto my-10 ">
-        <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 items-center">
+        <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 items-center border-b-2 border-gray-300">
           {" "}
-          <div className="font-bold text-4xl text-center lg:text-left">
+          <div className="font-bold xl:text-5xl text-center lg:text-left pb-6 ">
             Nuestros productos
           </div>
-          <div>
-            <input
-              className="border border-black px-3 py-1 outline-none "
-              placeholder="Buscar"
-              type="text"
-            />
-          </div>
         </div>
-        <div className="grid lg:grid-cols-2 auto-rows-auto 2xl:grid-cols-4 gap-8">
-          {obj.items.map((item, i) => (
+        <div className="text-center mb-12 flex flex-wrap justify-start gap-5">
+          {getCategories().map((cat, i) => {
+            return (
+              <span
+                key={i}
+                onClick={() => {
+                  setCategory(cat);
+                  setActive(i);
+                }}
+                className={
+                  active == i
+                    ? `cursor-pointer rounded-md font-semibold  text-white px-3 py-1 drop-shadow-[3px_3px_5px_rgba(0,0,0,0.25)] bg-green-600 transition-all duration-100 shadow-md `
+                    : "cursor-pointer rounded-md font-semibold  text-black px-3 py-1 bg-white transition-all duration-100  shadow-inner border border-gray-100 hover:border-green-600"
+                }
+              >
+                {cat}
+              </span>
+            );
+          })}
+          <span
+            onClick={() => {
+              setCategory("");
+              setActive(null);
+            }}
+            className="cursor-pointer rounded-md font-semibold hover:scale-105 text-white px-3 py-1 bg-gray-400 transition-all duration-100 active:scale-100 border-2 border-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.7}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              />
+            </svg>
+          </span>
+        </div>
+
+        <div className="grid lg:grid-cols-2  auto-rows-auto 2xl:grid-cols-4 gap-8">
+          {getItemsByCategory(category).map((item, i) => (
             <div
               key={i}
               className=" border-2 rounded-dm border-black border-opacity-0 hover:border-opacity-100 transition-all duration-200 hover:scale-105 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group "

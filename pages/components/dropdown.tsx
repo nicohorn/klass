@@ -4,12 +4,10 @@ import Link from "next/link";
 import { useDropdown } from "../../zustand";
 
 export default function Dropdown(props) {
-  const [open, setOpen] = useState(false);
   const dropdownState = useDropdown((state: any) => state.dropdownState);
   const changeState = useDropdown((state: any) => state.changeState);
 
   useEffect(() => {
-    console.log(dropdownState);
     if (dropdownState) {
       gsap.to("#menu", {
         y: 0,

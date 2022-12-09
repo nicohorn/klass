@@ -26,13 +26,11 @@ export default function Navbar(props) {
     { title: "Nosotros", url: "/us" },
   ];
 
-  console.log("drp", dropDownstate);
-
   const options = [
     //Dropdown menu options.
     {
       title: "Mis pedidos",
-      href: `/orders?id=${user?.sub}`,
+      href: "/orders",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

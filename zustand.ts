@@ -81,3 +81,5 @@ export const useDropdown = create((set) => ({
 
   changeState: () => set((state) => ({ dropdownState: !state.dropdownState })),
 }));
+
+export default useProducts;
