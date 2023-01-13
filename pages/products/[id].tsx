@@ -47,6 +47,8 @@ export default function Id({ item }) {
     }
   });
 
+  console.log("asd", formatter.format(product.price));
+
   function productOptionsListBox() {
     return (
       <div>
@@ -128,32 +130,32 @@ export default function Id({ item }) {
       <Head>
         {/*Microdata tags for facebook Pixel*/}
         <title>{product.name}</title>
-        <meta name="title" content={product.name} />
-        <meta name="id" content={product.id} />
-
-        <meta name="description" content={product.description} />
-        <meta name="availability" content="in stock" />
-        <meta name="condition" content="new" />
+        <meta property="og:title" content={product.name} />
+        <meta property="product:retailer_item_id" content={product.id} />
+        <meta property="og:description" content={product.description} />
+        <meta property="product:availability" content="in stock" />
+        <meta property="product:condition" content="new" />
         <meta
-          name="price"
+          property="product:price:amount"
           content={`${
             typeof product.price == "number"
-              ? formatter.format(product.price)
+              ? product.price
               : typeof product.price[0] == "object"
-              ? formatter.format(selected.price)
+              ? selected.price
               : 0
           }`}
         />
+        <meta property="product:price:currency" content="ARS"></meta>
 
         <meta
-          name="link"
+          property="og:url"
           content={`https://www.klass.tienda/products/${product.id}`}
         />
         <meta
-          name="image_link"
+          property="og:image"
           content={`https://www.klass.tienda/${product.img}`}
         />
-        <meta name="brand" content="Klass" />
+        <meta property="product:brand" content="Klass" />
       </Head>
 
       <section className="flex justify-center m-4 mt-8 flex-grow lg:flex-row flex-col lg:px-0 sm:px-32  gap-5 lg:gap-0 ">
