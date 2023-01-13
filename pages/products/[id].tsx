@@ -131,7 +131,7 @@ export default function Id({ item }) {
         {/*Microdata tags for facebook Pixel*/}
         <title>{product.name}</title>
         <meta property="og:title" content={product.name} />
-        <meta property="product:retailer_item_id" content={product.id} />
+        <meta property="og:id" content={product.id} />
         <meta property="og:description" content={product.description} />
         <meta property="product:availability" content="in stock" />
         <meta property="product:condition" content="new" />
