@@ -4,6 +4,9 @@ import { MongoClient } from "mongodb";
 const uri = process.env.MONGODB_URI;
 
 let client;
+/** MongoDB connection
+ * @param clientPromise
+ * it returns the reference to the database. */
 let clientPromise;
 
 if (!process.env.MONGODB_URI) {
@@ -11,6 +14,7 @@ if (!process.env.MONGODB_URI) {
 }
 
 client = new MongoClient(uri);
+
 clientPromise = client.connect();
 
 export default clientPromise;

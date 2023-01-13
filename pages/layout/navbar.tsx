@@ -9,7 +9,6 @@ export default function Navbar(props) {
   const setCart = useProducts((state: any) => state.setCart);
   const { user, error, isLoading } = useUser();
   const products = useProducts((state: any) => state.cart);
-  const dropDownstate = useDropdown((state: any) => state.dropDownstate);
 
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));

@@ -36,10 +36,11 @@ export default function Profile({ items }) {
 
     return (
       <main className="flex-grow ">
-        <div className="2xl:w-[50%] lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
+        <div className="2xl:w-[60%] lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
           <h1 className="text-3xl font-semibold">Hola {user.name}! </h1>
           <p className="p-2">Estos son tus pedidos:</p>
-          <div className="flex flex-col gap-3 mt-2 mb-2">
+
+          <div className="flex flex-col gap-3 mt-2 mb-2 ">
             {items.map((item, i) => {
               return (
                 <button
@@ -52,45 +53,46 @@ export default function Profile({ items }) {
                 >
                   <div
                     key={i}
-                    className="flex   justify-between items-center bg-white border px-4 py-2 rounded-md hover:shadow-md
+                    className=" flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2 rounded-md hover:shadow-md
                       hover:bg-emerald-100
                       transition-all duration-150"
                   >
-                    <div className="font-semibold flex-wrap flex gap-4 items-center basis-4/5">
-                      <span className="text-gray-500">Código: {item._id}</span>
-                      <span>
-                        Productos:{" "}
-                        {item.products
-                          .map((product) => {
-                            return product.count;
-                          })
-                          .reduce((acc, num) => {
-                            return acc + num;
-                          })}
-                      </span>
-                      <span className="flex gap-2 flex-wrap ">
-                        {item.products.slice(0, 5).map((product, i) => {
-                          return (
-                            <div key={i}>
-                              <img
-                                className="rounded-full aspect-square object-cover object-center w-10 h-10"
-                                src={product.img}
-                                title={`${product.name} ${
-                                  product.option ? product.option : ""
-                                } x ${product.count}`}
-                              ></img>
-                              {product.count > 1 ? (
-                                <span className="hidden md:block absolute bg-white rounded-full px-1 -translate-y-4 ">
-                                  x{product.count}
-                                </span>
-                              ) : null}
-                            </div>
-                          );
-                        })}
-                      </span>
+                    <div className="font-semibold flex gap-4 xl:w-[30%] text-gray-500 break-words  break-all ">
+                      Código: {item._id}
                     </div>
 
-                    <div className="py-2 flex gap-3 items-center ">
+                    <span className="font-semibold ">
+                      Productos:{" "}
+                      {item.products
+                        .map((product) => {
+                          return product.count;
+                        })
+                        .reduce((acc, num) => {
+                          return acc + num;
+                        })}
+                    </span>
+                    <div className="flex gap-2 flex-grow">
+                      {item.products.slice(0, 5).map((product, i) => {
+                        return (
+                          <div key={i}>
+                            <img
+                              className="rounded-full aspect-square object-cover  object-center w-10 h-10"
+                              src={product.img}
+                              title={`${product.name} ${
+                                product.option ? product.option : ""
+                              } x ${product.count}`}
+                            ></img>
+                            {product.count > 1 ? (
+                              <span className="hidden xl:block absolute bg-white rounded-full px-1 -translate-y-4 ">
+                                x{product.count}
+                              </span>
+                            ) : null}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="py-2 flex gap-3 items-center md:w-[25%] ">
                       {item.state == "pending" ? (
                         <h2 className="bg-amber-400 text-white text-sm px-2 rounded-lg">
                           Pendiente

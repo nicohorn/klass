@@ -9,10 +9,11 @@ import React, {
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useProducts } from "../../zustand";
+import Head from "next/head";
 
 var ObjectId = require("mongodb").ObjectId;
+
 import clientPromise from "../../mongodb";
-import { type } from "os";
 
 export default function Id({ item }) {
   const addToCart = useProducts((state: any) => state.addToCart);
@@ -108,9 +109,9 @@ export default function Id({ item }) {
     );
   }
 
-  let priceSize = () => {
-    //This is a helper function to return the price and the option selected of the product in case of having options. If the product doesn't have options, it will return its individual price and an option (called size because that's how it's defined on the db) with a value of null.
-    let price, size;
+  /**This is a helper function to return the price and the option selected of the product in case of having options. If the product doesn't have options, it will return its individual price and an option (called size because that's how it's defined on the db) with a value of null. */
+  let priceSize = (): { price: number; size: string } => {
+    let price: number, size: string;
     if (typeof selected == "undefined") {
       price = product.price;
       size = null;
@@ -123,42 +124,76 @@ export default function Id({ item }) {
   };
 
   return (
-    <section className="flex justify-center m-4 mt-8 flex-grow lg:flex-row flex-col lg:px-0 sm:px-32  gap-5 lg:gap-0 ">
-      <div className="w-full xl:w-[40%]">
-        <div className=" flex flex-col gap-5 lg:mr-10 mr-0 shadow-lg p-5 lg:p-10">
-          <h1 className="font-bold text-3xl lg:text-5xl">{product.name}</h1>
-          <h2 className="text-2xl text-lime-700 font-bold">
-            {typeof product.price == "number"
+    <>
+      <Head>
+        {/*Microdata tags for facebook Pixel*/}
+        <title>{product.name}</title>
+        <meta name="title" content={product.name} />
+        <meta name="id" content={product.id} />
+
+        <meta name="description" content={product.description} />
+        <meta name="availability" content="in stock" />
+        <meta name="condition" content="new" />
+        <meta
+          name="price"
+          content={`${
+            typeof product.price == "number"
               ? formatter.format(product.price)
               : typeof product.price[0] == "object"
               ? formatter.format(selected.price)
-              : product.price[0]}
-          </h2>
-          <p className="text-md whitespace-pre-wrap text-[.93rem]">
-            {product.description}
-          </p>
-          <div className="text-sm text-gray-600 italic ">{product.tags}</div>
-          <div>
-            {typeof product.price == "object" && product.price != "Presupuestar"
-              ? productOptionsListBox()
-              : null}
-          </div>
-          <button
-            className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center hover:bg-green-600 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
-            onClick={() => {
-              addToCart(product._id, priceSize().price, priceSize().size);
-            }}
-          >
-            Agregar al carrito
-          </button>
-        </div>
-      </div>
+              : 0
+          }`}
+        />
 
-      <div
-        className="mb-10 aspect-[9/11] bg-cover bg-center rounded shadow-md"
-        style={{ backgroundImage: `url(${product.img})` }}
-      ></div>
-    </section>
+        <meta
+          name="link"
+          content={`https://www.klass.tienda/products/${product.id}`}
+        />
+        <meta
+          name="image_link"
+          content={`https://www.klass.tienda/${product.img}`}
+        />
+        <meta name="brand" content="Klass" />
+      </Head>
+
+      <section className="flex justify-center m-4 mt-8 flex-grow lg:flex-row flex-col lg:px-0 sm:px-32  gap-5 lg:gap-0 ">
+        <div className="w-full xl:w-[40%]">
+          <div className=" flex flex-col gap-5 lg:mr-10 mr-0 shadow-lg p-5 lg:p-10">
+            <h1 className="font-bold text-3xl lg:text-5xl">{product.name}</h1>
+            <h2 className="text-2xl text-lime-700 font-bold">
+              {typeof product.price == "number"
+                ? formatter.format(product.price)
+                : typeof product.price[0] == "object"
+                ? formatter.format(selected.price)
+                : product.price[0]}
+            </h2>
+            <p className="text-md whitespace-pre-wrap text-[.93rem]">
+              {product.description}
+            </p>
+            <div className="text-sm text-gray-600 italic ">{product.tags}</div>
+            <div>
+              {typeof product.price == "object" &&
+              product.price != "Presupuestar"
+                ? productOptionsListBox()
+                : null}
+            </div>
+            <button
+              className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center hover:bg-green-600 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
+              onClick={() => {
+                addToCart(product._id, priceSize().price, priceSize().size);
+              }}
+            >
+              Agregar al carrito
+            </button>
+          </div>
+        </div>
+
+        <div
+          className="mb-10 aspect-[9/11] bg-cover bg-center rounded shadow-md"
+          style={{ backgroundImage: `url(${product.img})` }}
+        ></div>
+      </section>
+    </>
   );
 }
 

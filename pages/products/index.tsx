@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useProducts } from "../../zustand";
 import clientPromise from "@clientPromise";
+import gsap from "gsap";
 
 function Products({ items }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -15,6 +16,14 @@ function Products({ items }) {
       setCart(retrieveLocalStorage);
     }
   }, []);
+
+  useEffect(() => {
+    gsap.fromTo(
+      "#product",
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, delay: 0.3, ease: "power1.out" }
+    );
+  }, [category]);
 
   useEffect(() => {
     if (JSON.stringify(productsCart) != "[]") {
@@ -45,11 +54,11 @@ function Products({ items }) {
     });
   }
   return (
-    <div className="w-full flex-grow ">
-      <div className="md:w-[70%] p-4 mx-auto my-10 ">
+    <div className="w-full flex-grow bg-neutral-100">
+      <div className="md:w-[70%] p-4 mx-auto mt-10 mb-28">
         <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 items-center border-b-2 border-gray-300">
           {" "}
-          <div className="font-bold xl:text-5xl text-center lg:text-left pb-6 ">
+          <div className="font-bold text-xl md:text-5xl text-center lg:text-left pb-6 ">
             Nuestros productos
           </div>
         </div>
@@ -64,7 +73,7 @@ function Products({ items }) {
                 }}
                 className={
                   active == i
-                    ? `cursor-pointer rounded-md font-semibold  text-white px-3 py-1 drop-shadow-[3px_3px_5px_rgba(0,0,0,0.25)] bg-green-600 transition-all duration-100 shadow-md `
+                    ? `cursor-pointer rounded-md font-semibold  text-white px-3 py-1 drop-shadow-[3px_3px_5px_rgba(0,0,0,0.20)] bg-green-600 transition-all duration-100 shadow-md `
                     : "cursor-pointer rounded-md font-semibold  text-black px-3 py-1 bg-white transition-all duration-100  shadow-inner border border-gray-100 hover:border-green-600"
                 }
               >
@@ -98,24 +107,23 @@ function Products({ items }) {
 
         <div className="grid lg:grid-cols-2  auto-rows-auto 2xl:grid-cols-4 gap-8">
           {getItemsByCategory(category).map((item, i) => (
-            <div
-              key={i}
-              className=" border-2 rounded-dm border-black border-opacity-0 hover:border-opacity-100 transition-all duration-200 hover:scale-105 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group "
-            >
-              <a href={`/products/` + item._id}>
-                <div className="flex flex-col ">
-                  <img
-                    className="aspect-square object-cover object-center rounded-t-sm"
-                    src={item.img}
-                  ></img>
+            <span id="product" key={i}>
+              <div className=" border-2 rounded-dm border-black border-opacity-0 hover:border-opacity-100 transition-all duration-200 hover:scale-105 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
+                <a href={`/products/` + item._id}>
+                  <div className="flex flex-col ">
+                    <img
+                      className="aspect-square object-cover object-center rounded-t-sm"
+                      src={item.img}
+                    ></img>
 
-                  <div className="bg-black text-white drop-shadow p-5 rounded-b-sm">
-                    <p className="font-bold text-lg">{item.name}</p>
-                    <p className="text-xs">Categorías: {item.categories}</p>
+                    <div className="bg-black text-white drop-shadow p-5 rounded-b-sm">
+                      <p className="font-bold text-lg">{item.name}</p>
+                      <p className="text-xs">Categorías: {item.categories}</p>
+                    </div>
                   </div>
-                </div>
-              </a>
-            </div>
+                </a>
+              </div>
+            </span>
           ))}
         </div>
       </div>

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Navbar from "./layout/navbar";
 import Footer from "./layout/footer";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
 import Router from "next/router";
 import { UserProvider } from "@auth0/nextjs-auth0";
 
