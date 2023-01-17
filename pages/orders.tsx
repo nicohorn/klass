@@ -1,12 +1,11 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import clientPromise from "../mongodb";
-import { Dialog, Transition } from "@headlessui/react";
-import Link from "next/link";
-import { getSession } from "@auth0/nextjs-auth0";
-import { ComputerDesktopIcon } from "@heroicons/react/20/solid";
 
-export default function Profile({ items }) {
+import { Dialog, Transition } from "@headlessui/react";
+import { getSession } from "@auth0/nextjs-auth0";
+
+export default function Orders({ items }) {
   const { user, error, isLoading } = useUser();
   const [selected, setSelected] = useState(items[0]);
   const formatter = new Intl.NumberFormat("en-US", {
@@ -82,11 +81,6 @@ export default function Profile({ items }) {
                                 product.option ? product.option : ""
                               } x ${product.count}`}
                             ></img>
-                            {product.count > 1 ? (
-                              <span className="hidden xl:block absolute bg-white rounded-full px-1 -translate-y-4 ">
-                                x{product.count}
-                              </span>
-                            ) : null}
                           </div>
                         );
                       })}

@@ -26,7 +26,7 @@ const createProfile = async (userProfile: userProfile) => {
     });
 };
 
-export default function Home({ products, profiles }) {
+export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
 
@@ -53,7 +53,7 @@ export default function Home({ products, profiles }) {
           <div
             key={i}
             style={{ backgroundImage: `url(${item.img})` }}
-            className="flex-[0.5] bg-cover bg-center bg-no-repeat hover:flex-[0.6] transition-all duration-300 group grid hover:p-20 drop-shadow-[8px_8px_20px_rgba(0,0,0,0.95)]"
+            className="flex-[0.5] bg-cover bg-center bg-no-repeat hover:flex-[0.6] transition-all duration-300 group grid hover:p-20 drop-shadow-[8px_8px_20px_rgba(0,0,0,0.75)]"
           >
             <a href={`/products/` + item._id}>
               <div className="group-hover:opacity-100 opacity-0 text-4xl font-bold transition-all duration-500 ">
@@ -69,7 +69,7 @@ export default function Home({ products, profiles }) {
   );
 }
 
-export async function getStaticProps({ req, res }) {
+export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   async function profileHandler() {

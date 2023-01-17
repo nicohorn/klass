@@ -108,7 +108,7 @@ function Products({ items }) {
         <div className="grid lg:grid-cols-2  auto-rows-auto 2xl:grid-cols-4 gap-8">
           {getItemsByCategory(category).map((item, i) => (
             <span id="product" key={i}>
-              <div className=" border-2 rounded-dm border-black border-opacity-0 hover:border-opacity-100 transition-all duration-200 hover:scale-105 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
+              <div className=" border-2 rounded-dm border-neutral-900 border-opacity-0 hover:border-opacity-100 transition-all duration-200 hover:scale-105 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
                 <a href={`/products/` + item._id}>
                   <div className="flex flex-col ">
                     <img
@@ -116,7 +116,7 @@ function Products({ items }) {
                       src={item.img}
                     ></img>
 
-                    <div className="bg-black text-white drop-shadow p-5 rounded-b-sm">
+                    <div className="bg-neutral-900 text-white drop-shadow p-5 rounded-b-sm">
                       <p className="font-bold text-lg">{item.name}</p>
                       <p className="text-xs">Categorías: {item.categories}</p>
                     </div>

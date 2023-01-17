@@ -30,7 +30,10 @@ export default function Dropdown(props) {
 
   return (
     <div className="relative">
-      <button onClick={() => changeState()} className=" bg-black text-white">
+      <button
+        onClick={() => changeState()}
+        className=" bg-neutral-900 text-white"
+      >
         <svg
           id="profile-icon"
           xmlns="http://www.w3.org/2000/svg"

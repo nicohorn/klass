@@ -85,7 +85,7 @@ export default function Navbar(props) {
   const desktopNav = () => {
     return (
       <nav className="hidden md:block">
-        <div className="w-full flex py-5 px-20 bg-black gap-10 items-center justify-between">
+        <div className="w-full flex py-5 px-20 bg-neutral-900 gap-10 items-center justify-between">
           <div className="text-4xl font-bold text-white ">
             <img className="h-16" src="/logos-03.png"></img>
           </div>
@@ -155,7 +155,7 @@ export default function Navbar(props) {
           </div>
         </div>
         {/* Navbar routes / páginas, segunda mitad */}
-        <div className="text-md text-white grow capitalize flex gap-5 bg-black px-20 pb-5">
+        <div className="text-md text-white grow capitalize flex gap-5 bg-neutral-900 px-20 pb-5">
           {content.map((item, i) => (
             <div
               key={i}
@@ -182,7 +182,7 @@ export default function Navbar(props) {
   const mobileNav = () => {
     return (
       <div className="block md:hidden">
-        <div className="w-full flex py-5 px-20 bg-black sm:gap-10 gap-5 items-center justify-between flex-col sm:flex-row">
+        <div className="w-full flex py-5 px-20 bg-neutral-900 sm:gap-10 gap-5 items-center justify-between flex-col sm:flex-row">
           <div className="text-4xl font-bold text-white ">
             <img className="h-10 sm:h-16" src="/logos-03.png"></img>
           </div>
@@ -244,7 +244,7 @@ export default function Navbar(props) {
           </div>
         </div>
         {/* Navbar routes / páginas, segunda mitad */}
-        <div className="text-md text-white grow capitalize flex gap-5 bg-black px-20 pb-5 justify-center sm:justify-start">
+        <div className="text-md text-white grow capitalize flex gap-5 bg-neutral-900 px-20 pb-5 justify-center sm:justify-start">
           {content.map((item, i) => (
             <div
               key={i}
