@@ -47,10 +47,6 @@ export default function Home({ products }) {
     }
   });
 
-  setTimeout(() => {
-    createProfile({ user_name: user?.name, userId: user?.sub });
-  }, 5000);
-
   return (
     <div className="w-full flex-grow">
       <div className="flex h-full lg:flex-row flex-col">
