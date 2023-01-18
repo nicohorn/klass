@@ -53,6 +53,7 @@ function Products({ items }) {
       return item.categories.toString().includes(cat);
     });
   }
+
   return (
     <div className="w-full flex-grow bg-neutral-100">
       <div className="md:w-[70%] p-4 mx-auto mt-10 mb-28">

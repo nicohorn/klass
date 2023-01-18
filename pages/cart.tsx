@@ -8,9 +8,12 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import gsap from "gsap";
+import { StringMappingType } from "typescript";
 
 type Order = {
   userId: string;
+  clientName: string;
+  clientEmail: string;
   products: object[];
   total: number;
   createdAt: string;
@@ -244,6 +247,8 @@ export default function Cart({ items }) {
                     if (user) {
                       createOrder({
                         userId: user?.sub,
+                        clientName: user?.name,
+                        clientEmail: user?.email,
                         products: transformedProducts,
                         total: totalCartPrice(),
                         createdAt: new Date().toISOString(),

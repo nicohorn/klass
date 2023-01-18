@@ -47,9 +47,9 @@ export default function Home({ products }) {
     }
   });
 
-  setInterval(() => {
-    console.log(user?.sub);
-  }, 5000);
+  // setInterval(() => {
+  //   console.log(user?.sub);
+  // }, 5000);
 
   return (
     <div className="w-full flex-grow">

@@ -25,6 +25,34 @@ export default function Navbar(props) {
     { title: "Nosotros", url: "/us" },
   ];
 
+  const content2 = [
+    //Navbar links.
+    { title: "Inicio", url: "/" },
+    { title: "Productos", url: "/products" },
+    { title: "Nosotros", url: "/us" },
+    { title: "Panel de administrador", url: "/adminpanel" },
+  ];
+
+  const content3 = () => {
+    if (
+      user?.sub == "google-oauth2|102747183325371068763" ||
+      user?.sub == "google-oauth2|101977740947109023372"
+    ) {
+      return [
+        { title: "Inicio", url: "/" },
+        { title: "Productos", url: "/products" },
+        { title: "Nosotros", url: "/us" },
+        { title: "Panel de administrador", url: "/adminpanel" },
+      ];
+    } else {
+      return [
+        { title: "Inicio", url: "/" },
+        { title: "Productos", url: "/products" },
+        { title: "Nosotros", url: "/us" },
+      ];
+    }
+  };
+
   const options = [
     //Dropdown menu options.
     {
@@ -156,7 +184,7 @@ export default function Navbar(props) {
         </div>
         {/* Navbar routes / páginas, segunda mitad */}
         <div className="text-md text-white grow capitalize flex gap-5 bg-neutral-900 px-20 pb-5">
-          {content.map((item, i) => (
+          {content3().map((item, i) => (
             <div
               key={i}
               className="active:scale-90 disabled:scale-100 transition-all duration-150 "
