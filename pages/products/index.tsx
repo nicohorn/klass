@@ -117,7 +117,7 @@ function Products({ items }) {
                     ></img>
 
                     <div className="bg-neutral-900 text-white drop-shadow p-5 rounded-b-sm">
-                      <meta property="og:title" content={item.name} />
+                      {/* <meta property="og:title" content={item.name} />
                       <meta
                         property="product:retailer_item_id"
                         content={item._id}
@@ -154,7 +154,7 @@ function Products({ items }) {
                         property="og:image"
                         content={`https://www.klass.tienda/${item.img}`}
                       />
-                      <meta property="product:brand" content="Klass" />
+                      <meta property="product:brand" content="Klass" /> */}
                       <p className="font-bold text-lg">{item.name}</p>
                       <p className="text-xs">Categorías: {item.categories}</p>
                     </div>
