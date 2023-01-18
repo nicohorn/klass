@@ -139,6 +139,7 @@ export default function Id({ item }) {
         <meta property="og:description" content={product.description} />
         <meta property="product:availability" content="in stock" />
         <meta property="product:condition" content="new" />
+        <meta property="google_product_category" content="furniture" />
         <meta
           property="product:price:amount"
           content={`${
