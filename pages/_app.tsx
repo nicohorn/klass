@@ -8,21 +8,21 @@ import Router from "next/router";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import Script from "next/script";
 
-function FacebookPixel() {
-  React.useEffect(() => {
-    import("react-facebook-pixel")
-      .then((x) => x.default)
-      .then((ReactPixel) => {
-        ReactPixel.init("908343633688942");
-        ReactPixel.pageView();
+// function FacebookPixel() {
+//   React.useEffect(() => {
+//     import("react-facebook-pixel")
+//       .then((x) => x.default)
+//       .then((ReactPixel) => {
+//         ReactPixel.init("908343633688942");
+//         ReactPixel.pageView();
 
-        Router.events.on("routeChangeComplete", () => {
-          ReactPixel.pageView();
-        });
-      });
-  });
-  return null;
-}
+//         Router.events.on("routeChangeComplete", () => {
+//           ReactPixel.pageView();
+//         });
+//       });
+//   });
+//   return null;
+// }
 
 function MyApp({ Component, pageProps }) {
   const path = useRouter().pathname;
@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
 
-      <FacebookPixel />
+      {/* <FacebookPixel /> */}
       <main className="flex flex-col h-screen">
         <Navbar path={path} />
         <Component {...pageProps} />
