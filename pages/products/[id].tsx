@@ -47,7 +47,7 @@ export default function Id({ item }) {
     }
   });
 
-  console.log("asd", formatter.format(product.price));
+  console.log("asd", product.price);
 
   function productOptionsListBox() {
     return (
@@ -158,10 +158,10 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="flex justify-center m-4 mt-8 flex-grow lg:flex-row flex-col lg:px-0 sm:px-32  gap-5 lg:gap-0 ">
-        <div className="w-full xl:w-[40%]">
-          <div className=" flex flex-col gap-5 lg:mr-10 mr-0 shadow-lg p-5 lg:p-10">
-            <h1 className="font-bold text-3xl lg:text-5xl">{product.name}</h1>
+      <section className="flex justify-center p-6   flex-grow lg:flex-row flex-col lg:px-0 sm:px-32  gap-5 lg:gap-0 ">
+        <div className="w-full xl:w-[40%] lg:mr-5">
+          <div className=" flex flex-col gap-5  mr-0 shadow-lg p-5 lg:p-10">
+            <h1 className="font-bold text-3xl lg:text-3xl">{product.name}</h1>
             <h2 className="text-2xl text-lime-700 font-bold">
               {typeof product.price == "number"
                 ? formatter.format(product.price)
@@ -169,10 +169,10 @@ export default function Id({ item }) {
                 ? formatter.format(selected.price)
                 : product.price[0]}
             </h2>
-            <p className="text-md whitespace-pre-wrap text-[.93rem]">
+            <p className="text-md whitespace-pre-wrap leading-5 text-[.93rem]">
               {product.description}
             </p>
-            <div className="text-sm text-gray-600 italic ">{product.tags}</div>
+
             <div>
               {typeof product.price == "object" &&
               product.price != "Presupuestar"
@@ -191,7 +191,7 @@ export default function Id({ item }) {
         </div>
 
         <div
-          className="mb-10 aspect-[9/11] bg-cover bg-center rounded shadow-md"
+          className="mb-10 aspect-[9/11] bg-cover bg-center rounded  drop-shadow-[5px_5px_5px_rgba(0,0,0,0.30)]"
           style={{ backgroundImage: `url(${product.img})` }}
         ></div>
       </section>

@@ -47,7 +47,9 @@ export default function Home({ products }) {
     }
   });
 
-  isLoading ? null : createProfile({ userId: user.sub, user_name: user.name });
+  setTimeout(() => {
+    createProfile({ user_name: user?.name, userId: user?.sub });
+  }, 5000);
 
   return (
     <div className="w-full flex-grow">
