@@ -47,7 +47,8 @@ export default function Id({ item }) {
     }
   });
 
-  console.log("asd", product.price);
+  console.log("PRICE", product.name, product.price);
+  console.log("SELECTED", selected?.price);
 
   function productOptionsListBox() {
     return (
