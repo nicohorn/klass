@@ -47,8 +47,11 @@ export default function Id({ item }) {
     }
   });
 
-  console.log("PRICE", product.name, product.price);
-  console.log("SELECTED", selected?.price);
+  typeof product.price == "number"
+    ? console.log("PRICE", product.name, product.price)
+    : typeof product.price[0] == "object"
+    ? console.log("SELECTED", product.name, selected?.price)
+    : 0;
 
   function productOptionsListBox() {
     return (
@@ -150,7 +153,7 @@ export default function Id({ item }) {
 
         <meta
           property="og:url"
-          content={`https://www.klass.tienda/products/${product.id}`}
+          content={`https://www.klass.tienda/products/${product._id}`}
         />
         <meta
           property="og:image"
