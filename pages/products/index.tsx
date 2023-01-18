@@ -117,6 +117,44 @@ function Products({ items }) {
                     ></img>
 
                     <div className="bg-neutral-900 text-white drop-shadow p-5 rounded-b-sm">
+                      <meta property="og:title" content={item.name} />
+                      <meta
+                        property="product:retailer_item_id"
+                        content={item._id}
+                      />
+                      <meta
+                        property="og:description"
+                        content={item.description}
+                      />
+                      <meta
+                        property="product:availability"
+                        content="in stock"
+                      />
+                      <meta property="product:condition" content="new" />
+                      <meta
+                        property="product:price:amount"
+                        content={`${
+                          typeof item.price == "number"
+                            ? item.price
+                            : typeof item.price[0] == "object"
+                            ? item.price
+                            : 0
+                        }`}
+                      />
+                      <meta
+                        property="product:price:currency"
+                        content="ARS"
+                      ></meta>
+
+                      <meta
+                        property="og:url"
+                        content={`https://www.klass.tienda/products/${item._id}`}
+                      />
+                      <meta
+                        property="og:image"
+                        content={`https://www.klass.tienda/${item.img}`}
+                      />
+                      <meta property="product:brand" content="Klass" />
                       <p className="font-bold text-lg">{item.name}</p>
                       <p className="text-xs">Categorías: {item.categories}</p>
                     </div>
