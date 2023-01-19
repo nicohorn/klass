@@ -23,10 +23,6 @@ export default function Orders({ items, totalDocuments }) {
 
   let [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    router.push(`/adminpanel/${page}`);
-  }, [page]);
-
   function openModal() {
     setIsOpen(true);
   }
@@ -357,8 +353,6 @@ export async function getServerSideProps(context) {
   let currentPage = parseInt(context.query.n);
   const ordersPerPage = 8;
   const totalDocuments = await collection.countDocuments();
-
-  console.log(currentPage);
 
   const ordersResponse = await collection
     .find({})
