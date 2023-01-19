@@ -65,7 +65,7 @@ export default function Orders({ items, totalDocuments }) {
   }
 
   const updateOrder = async (orderToBeUpdated) => {
-    const res = await fetch("http://localhost:3000/api/orders", {
+    const res = await fetch("http://klass.tienda/api/orders", {
       method: "PUT",
       mode: "cors",
       headers: {
