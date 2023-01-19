@@ -42,7 +42,7 @@ export default function Navbar(props) {
         { title: "Inicio", url: "/" },
         { title: "Productos", url: "/products" },
         { title: "Nosotros", url: "/us" },
-        { title: "Panel de administrador", url: "/adminpanel" },
+        { title: "Panel de administrador", url: "/adminpanel/1" },
       ];
     } else {
       return [
