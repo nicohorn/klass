@@ -74,8 +74,8 @@ function Products({ items }) {
                 }}
                 className={
                   active == i
-                    ? `cursor-pointer rounded-md font-semibold  text-white px-3 py-1 drop-shadow-[3px_3px_5px_rgba(0,0,0,0.20)] bg-green-600 transition-all duration-100 shadow-md `
-                    : "cursor-pointer rounded-md font-semibold  text-black px-3 py-1 bg-white transition-all duration-100  shadow-inner border border-gray-100 hover:border-green-600"
+                    ? "cursor-pointer  font-semibold  text-white px-3 py-1 drop-shadow-[3px_3px_5px_rgba(0,0,0,0.20)] bg-green-600 transition-all duration-100 shadow-md"
+                    : "cursor-pointer  font-semibold  text-black px-3 py-1 bg-neutral-100 transition-all duration-100   border border-neutral-100 hover:border-green-600 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.10)]"
                 }
               >
                 {cat}
@@ -87,7 +87,7 @@ function Products({ items }) {
               setCategory("");
               setActive(null);
             }}
-            className="cursor-pointer rounded-md font-semibold hover:scale-105 text-white px-3 py-1 bg-gray-400 transition-all duration-100 active:scale-100 border-2 border-white"
+            className="cursor-pointer font-semibold hover:scale-105 text-neutral-100 px-3 py-1 bg-gray-400 transition-all duration-100 active:scale-100  "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -118,46 +118,7 @@ function Products({ items }) {
                     ></img>
 
                     <div className="bg-neutral-900 text-white drop-shadow p-5 rounded-b-sm">
-                      {/* <meta property="og:title" content={item.name} />
-                      <meta
-                        property="product:retailer_item_id"
-                        content={item._id}
-                      />
-                      <meta
-                        property="og:description"
-                        content={item.description}
-                      />
-                      <meta
-                        property="product:availability"
-                        content="in stock"
-                      />
-                      <meta property="product:condition" content="new" />
-                      <meta
-                        property="product:price:amount"
-                        content={`${
-                          typeof item.price == "number"
-                            ? item.price
-                            : typeof item.price[0] == "object"
-                            ? item.price
-                            : 0
-                        }`}
-                      />
-                      <meta
-                        property="product:price:currency"
-                        content="ARS"
-                      ></meta>
-
-                      <meta
-                        property="og:url"
-                        content={`https://www.klass.tienda/products/${item._id}`}
-                      />
-                      <meta
-                        property="og:image"
-                        content={`https://www.klass.tienda/${item.img}`}
-                      />
-                      <meta property="product:brand" content="Klass" /> */}
                       <p className="font-bold text-lg">{item.name}</p>
-                      <p className="text-xs">Categorías: {item.categories}</p>
                     </div>
                   </div>
                 </a>
