@@ -5,7 +5,6 @@ import React, {
   useRef,
   Fragment,
 } from "react";
-import { showNotification } from "@mantine/notifications";
 
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
@@ -189,7 +188,6 @@ export default function Id({ item }) {
             <button
               className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center hover:bg-green-600 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
               onClick={() => {
-                showNotification({ message: "Hello" });
                 addToCart(product._id, priceSize().price, priceSize().size);
               }}
             >
