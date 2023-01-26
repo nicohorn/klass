@@ -3,7 +3,6 @@ import { useEffect, useState, useLayoutEffect } from "react";
 import { useProducts } from "../zustand";
 import clientPromise from "@clientPromise";
 import { useUser } from "@auth0/nextjs-auth0";
-import { minHeight } from "@mui/system";
 
 type userProfile = {
   userId: string;

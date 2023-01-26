@@ -5,6 +5,7 @@ import React, {
   useRef,
   Fragment,
 } from "react";
+import { showNotification } from "@mantine/notifications";
 
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
@@ -73,7 +74,7 @@ export default function Id({ item }) {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {item[0].price.map((price, i) => (
                   <Listbox.Option
                     key={i}
@@ -164,9 +165,9 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="flex justify-center p-6   flex-grow lg:flex-row flex-col lg:px-0 sm:px-32  gap-5 lg:gap-0 ">
-        <div className="w-full xl:w-[40%] lg:mr-5">
-          <div className=" flex flex-col gap-5  mr-0 shadow-lg p-5 lg:p-10">
+      <section className="flex justify-center lg:h-[70vh] p-6 flex-grow lg:flex-row flex-col lg:px-10 sm:px-32  gap-5 ">
+        <div className="w-full xl:w-[40%] h-full z-50">
+          <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl">{product.name}</h1>
             <h2 className="text-2xl text-lime-700 font-bold">
               {typeof product.price == "number"
@@ -175,7 +176,7 @@ export default function Id({ item }) {
                 ? formatter.format(selected.price)
                 : product.price[0]}
             </h2>
-            <p className="text-md whitespace-pre-wrap leading-5 text-[.93rem]">
+            <p className="text-md whitespace-pre-wrap leading-5 ">
               {product.description}
             </p>
 
@@ -188,6 +189,7 @@ export default function Id({ item }) {
             <button
               className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center hover:bg-green-600 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
               onClick={() => {
+                showNotification({ message: "Hello" });
                 addToCart(product._id, priceSize().price, priceSize().size);
               }}
             >
@@ -195,11 +197,12 @@ export default function Id({ item }) {
             </button>
           </div>
         </div>
-
-        <div
-          className="mb-10 aspect-[9/11] bg-cover bg-center rounded  drop-shadow-[5px_5px_5px_rgba(0,0,0,0.30)]"
-          style={{ backgroundImage: `url(${product.img})` }}
-        ></div>
+        <div className="h-full">
+          <img
+            className=" h-full  object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
+            src={`${product.img}`}
+          ></img>
+        </div>
       </section>
     </>
   );

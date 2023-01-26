@@ -4,9 +4,7 @@ import Navbar from "./layout/navbar";
 import Footer from "./layout/footer";
 import Head from "next/head";
 import React, { useEffect } from "react";
-import Router from "next/router";
 import { UserProvider } from "@auth0/nextjs-auth0";
-import Script from "next/script";
 
 // function FacebookPixel() {
 //   React.useEffect(() => {

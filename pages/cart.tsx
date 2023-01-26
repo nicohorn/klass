@@ -8,7 +8,8 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import gsap from "gsap";
-import { StringMappingType } from "typescript";
+import { IconX } from "@tabler/icons";
+import { showNotification } from "@mantine/notifications";
 
 type Order = {
   userId: string;
@@ -245,6 +246,21 @@ export default function Cart({ items }) {
                   className="font-semibold"
                   onClick={() => {
                     if (user) {
+                      showNotification({
+                        id: "hello-there",
+                        disallowClose: true,
+                        onClose: () => console.log("unmounted"),
+                        onOpen: () => console.log("mounted"),
+                        autoClose: 5000,
+                        title: "You've been compromised",
+                        message: "Leave the building immediately",
+                        color: "red",
+                        icon: <IconX />,
+                        className: "my-notification-class",
+                        style: { backgroundColor: "red" },
+                        sx: { backgroundColor: "red" },
+                        loading: false,
+                      });
                       createOrder({
                         userId: user?.sub,
                         clientName: user?.name,
