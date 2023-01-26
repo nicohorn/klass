@@ -148,7 +148,7 @@ export default function Id({ item }) {
               ? product.price
               : typeof product.price[0] == "object"
               ? selected.price
-              : 0
+              : 1
           }`}
         />
         <meta property="product:price:currency" content="ARS"></meta>
