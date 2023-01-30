@@ -8,6 +8,8 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import gsap from "gsap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Order = {
   userId: string;
@@ -97,6 +99,7 @@ export default function Cart({ items }) {
   const createOrder = async (order: Order) => {
     //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
     setLoading(true);
+
     const res = await fetch("/api/orders", {
       method: "POST",
       mode: "cors",
@@ -106,6 +109,8 @@ export default function Cart({ items }) {
       body: JSON.stringify(order),
     })
       .then((response) => {
+        setLoading(false);
+
         return response.json();
       })
       .then((json) => {
@@ -117,6 +122,20 @@ export default function Cart({ items }) {
     deleteCart();
     localStorage.clear();
   };
+
+  /** Toast */
+  const notify = () =>
+    toast.success(
+      <p className="">
+        <b>Genial! Ya recibimos tu pedido. </b>
+        <br />
+        En las próximas horas nos estaremos contactando a tu <b>email</b> para
+        coordinar el <i>pago y el envío.</i>
+      </p>,
+      {
+        autoClose: 8000,
+      }
+    );
 
   return (
     <main className="mx-auto  sm:my-10   sm:px-2 flex-grow w-full sm:w-auto">
@@ -253,6 +272,9 @@ export default function Cart({ items }) {
                         createdAt: new Date().toISOString(),
                         state: "pending",
                       });
+                      setTimeout(() => {
+                        notify();
+                      }, 1000);
                     } else {
                       router.push("/api/auth/login?returnTo=/cart");
                     }

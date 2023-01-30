@@ -1,20 +1,31 @@
-import React, { useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import clientPromise from "../../mongodb";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
+import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
+import { ProductJsonLd } from "next-seo";
 
 export default function Orders({ items, totalDocuments }) {
+  const router = useRouter();
   const { user, error, isLoading } = useUser();
   const [selected, setSelected] = useState(items[0]);
 
   const [page, setPage] = useState(1);
+  /**Formats price field (number type in js, double in mongodb) to a US currency format. */
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
 
   let [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    router.push(`/adminpanel/${page}`);
+  }, [page]);
 
   function openModal() {
     setIsOpen(true);
@@ -25,6 +36,7 @@ export default function Orders({ items, totalDocuments }) {
 
   const [orderState, setOrderState] = useState(0);
 
+  /**Generates numeration of pages in divs according to the max number of documents in the db */
   function pagination() {
     let buttons = [];
     for (let i = 0; i < Math.ceil(totalDocuments / 8); i++) {
@@ -53,7 +65,7 @@ export default function Orders({ items, totalDocuments }) {
   }
 
   const updateOrder = async (orderToBeUpdated) => {
-    const res = await fetch("https://www.klass.tienda/api/orders", {
+    const res = await fetch("https://www.klass.com/api/orders", {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -342,16 +354,17 @@ export async function getServerSideProps(context) {
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");
   const collection = db.collection("orders");
-  let currentPage = parseInt(context.query.n) || 1; // set default value for currentPage if not provided
+  let currentPage = parseInt(context.query.n);
   const ordersPerPage = 8;
-  const totalDocuments = await collection.countDocuments();
 
-  const ordersResponse = await collection
-    .find({})
-    .sort({ createdAt: -1 }) // sort by date in descending order
-    .skip((currentPage - 1) * ordersPerPage)
-    .limit(ordersPerPage)
-    .toArray();
+  const [totalDocuments, ordersResponse] = await Promise.all([
+    await collection.countDocuments(),
+    await collection
+      .find({})
+      .skip((currentPage - 1) * ordersPerPage)
+      .limit(ordersPerPage)
+      .toArray(),
+  ]);
 
   return {
     props: {
@@ -362,7 +375,6 @@ export async function getServerSideProps(context) {
         };
       }),
       totalDocuments: totalDocuments,
-      currentPage: currentPage, // return current page number
     },
   };
 }

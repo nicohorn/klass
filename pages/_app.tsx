@@ -5,7 +5,7 @@ import Footer from "./layout/footer";
 import Head from "next/head";
 import React, { useEffect } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0";
-
+import { ToastContainer, toast } from "react-toastify";
 // function FacebookPixel() {
 //   React.useEffect(() => {
 //     import("react-facebook-pixel")
@@ -38,6 +38,7 @@ function MyApp({ Component, pageProps }) {
 
       {/* <FacebookPixel /> */}
       <main className="flex flex-col h-screen">
+        <ToastContainer position="top-center" />
         <Navbar path={path} />
         <Component {...pageProps} />
         <Footer />
