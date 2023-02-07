@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  Fragment,
-} from "react";
+import React, { useEffect, useState, Fragment } from "react";
 
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
@@ -30,6 +24,17 @@ export default function Id({ item }) {
 
   //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
   const [selected, setSelected] = useState(item[0].price[0]);
+  const [selectedSize, setSelectedSize] = useState(
+    productOptions().size_options[0]
+  );
+  const [selectedColor_1, setSelectedColor_1] = useState(
+    productOptions().color_1_options[0]
+  );
+  const [selectedColor_2, setSelectedColor_2] = useState(
+    productOptions().color_2_options[0]
+  );
+
+  console.log(selectedSize);
 
   useEffect(() => {
     //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
@@ -47,70 +52,223 @@ export default function Id({ item }) {
     }
   });
 
-  typeof product.price == "number"
-    ? console.log("PRICE", product.name, product.price)
-    : typeof product.price[0] == "object"
-    ? console.log("SELECTED", product.name, selected?.price)
-    : 0;
+  /**This functions retrieves an object with 3 properties: size options, color 1 options and color 2 options. It's a helper function to easily access and use the product options */
+  function productOptions() {
+    const size_options = product.options[0]["size"];
+    const color_1_options = product.options[1]["color_1"];
+    const color_2_options = product.options[2]["color_2"];
 
-  function productOptionsListBox() {
+    return {
+      size_options: size_options,
+      color_1_options: color_1_options,
+      color_2_options: color_2_options,
+    };
+  }
+
+  /**Helper function to calculate the total price of a product with its selected options */
+  function totalPrice() {
+    const total =
+      product.base_price +
+      (selectedSize.multiplier * product.base_price - product.base_price) +
+      (selectedColor_1.multiplier * product.base_price - product.base_price) +
+      (selectedColor_2.multiplier * product.base_price - product.base_price);
+
+    const totalToNeareastFive = Math.ceil(total / 5) * 5;
+
+    return formatter.format(totalToNeareastFive);
+  }
+
+  /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
+  function listboxOptions() {
     return (
-      <div>
-        <Listbox value={selected} onChange={setSelected}>
-          <div className="relative mt-1">
-            <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-              <span className="block truncate">{selected.size}</span>
-              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon
-                  className="h-5 w-5 text-gray-400"
-                  aria-hidden="true"
-                />
-              </span>
-            </Listbox.Button>
-            <Transition
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {item[0].price.map((price, i) => (
-                  <Listbox.Option
-                    key={i}
-                    className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-amber-100 text-amber-900" : "text-gray-900"
-                      }`
-                    }
-                    value={price}
-                  >
-                    {({ selected }) => (
-                      <>
-                        <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
-                        >
-                          <div className="flex justify-between mr-2">
-                            <span>{price.size}</span>
-                            <span className="text-gray-500 italic">
-                              {formatter.format(price.price)}
+      <div className="flex gap-5 ">
+        {selectedSize.value == "none" ? null : (
+          <div className="flex-shrink">
+            <p className="italic text-sm">Tamaño (en metros)</p>
+            <Listbox value={selectedSize} onChange={setSelectedSize}>
+              <div className="relative mt-1 flex-auto">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                  <span className="block truncate">{selectedSize.value}</span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon
+                      className="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Listbox.Button>
+                <Transition
+                  as={Fragment}
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    {productOptions().size_options.map((size, i) => (
+                      <Listbox.Option
+                        key={i}
+                        className={({ active }) =>
+                          `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                            active
+                              ? "bg-amber-100 text-amber-900"
+                              : "text-gray-900"
+                          }`
+                        }
+                        value={size}
+                      >
+                        {({ selected }) => (
+                          <>
+                            <span
+                              className={`block truncate ${
+                                selected ? "font-medium" : "font-normal"
+                              }`}
+                            >
+                              <div className="flex justify-between mr-2">
+                                <span>{size.value}</span>
+                              </div>
                             </span>
-                          </div>
-                        </span>
-                        {selected ? (
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
+                            {selected ? (
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                <CheckIcon
+                                  className="h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            ) : null}
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </Transition>
+              </div>
+            </Listbox>
           </div>
-        </Listbox>
+        )}
+
+        <div className="flex-grow">
+          <p className="italic text-sm">Color 1</p>
+          <Listbox value={selectedColor_1} onChange={setSelectedColor_1}>
+            <div className="relative mt-1 flex-auto">
+              <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <span className="block truncate">{selectedColor_1.value}</span>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <ChevronUpDownIcon
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Listbox.Button>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  {productOptions().color_1_options.map((color_1, i) => (
+                    <Listbox.Option
+                      key={i}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active
+                            ? "bg-amber-100 text-amber-900"
+                            : "text-gray-900"
+                        }`
+                      }
+                      value={color_1}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            <div className="flex justify-between mr-2">
+                              <span>{color_1.value}</span>
+                            </div>
+                          </span>
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </Listbox>
+        </div>
+        {selectedColor_2.value == "none" ? null : (
+          <div className="flex-grow">
+            <p className="italic text-sm">Color 2</p>
+            <Listbox value={selectedColor_2} onChange={setSelectedColor_2}>
+              <div className="relative mt-1 flex-auto">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                  <span className="block truncate">
+                    {selectedColor_2.value}
+                  </span>
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <ChevronUpDownIcon
+                      className="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Listbox.Button>
+                <Transition
+                  as={Fragment}
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    {productOptions().color_2_options.map((color_2, i) => (
+                      <Listbox.Option
+                        key={i}
+                        className={({ active }) =>
+                          `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                            active
+                              ? "bg-amber-100 text-amber-900"
+                              : "text-gray-900"
+                          }`
+                        }
+                        value={color_2}
+                      >
+                        {({ selected }) => (
+                          <>
+                            <span
+                              className={`block truncate ${
+                                selected ? "font-medium" : "font-normal"
+                              }`}
+                            >
+                              <div className="flex justify-between mr-2">
+                                <span>{color_2.value}</span>
+                              </div>
+                            </span>
+                            {selected ? (
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                <CheckIcon
+                                  className="h-5 w-5"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            ) : null}
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </Transition>
+              </div>
+            </Listbox>
+          </div>
+        )}
       </div>
     );
   }
@@ -168,23 +326,20 @@ export default function Id({ item }) {
         <div className="w-full xl:w-[40%] h-full z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl">{product.name}</h1>
-            <h2 className="text-2xl text-lime-700 font-bold">
-              {typeof product.price == "number"
-                ? formatter.format(product.price)
-                : typeof product.price[0] == "object"
-                ? formatter.format(selected.price)
-                : product.price[0]}
-            </h2>
+            <h2 className="text-2xl text-lime-700 font-bold">{totalPrice()}</h2>
+
             <p className="text-md whitespace-pre-wrap leading-5 ">
               {product.description}
             </p>
 
             <div>
-              {typeof product.price == "object" &&
+              {/* {typeof product.price == "object" &&
               product.price != "Presupuestar"
                 ? productOptionsListBox()
-                : null}
+                : null} */}{" "}
+              {listboxOptions()}
             </div>
+
             <button
               className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center hover:bg-green-600 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
               onClick={() => {
