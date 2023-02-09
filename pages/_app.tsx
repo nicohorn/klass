@@ -1,4 +1,5 @@
 import "tailwindcss/tailwind.css";
+import "../styles/globals.css";
 import { useRouter } from "next/router";
 import Navbar from "./layout/navbar";
 import Footer from "./layout/footer";

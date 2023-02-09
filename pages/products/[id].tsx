@@ -75,7 +75,7 @@ export default function Id({ item }) {
 
     const totalToNeareastFive = Math.ceil(total / 5) * 5;
 
-    return formatter.format(totalToNeareastFive);
+    return totalToNeareastFive;
   }
 
   /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
@@ -273,20 +273,6 @@ export default function Id({ item }) {
     );
   }
 
-  /**This is a helper function to return the price and the option selected of the product in case of having options. If the product doesn't have options, it will return its individual price and an option (called size because that's how it's defined on the db) with a value of null. */
-  let priceSize = (): { price: number; size: string } => {
-    let price: number, size: string;
-    if (typeof selected == "undefined") {
-      price = product.price;
-      size = null;
-    } else {
-      price = selected.price;
-      size = selected.size;
-    }
-
-    return { price: price, size: size };
-  };
-
   return (
     <>
       <Head>
@@ -325,8 +311,14 @@ export default function Id({ item }) {
       <section className="flex justify-center lg:h-[70vh] p-6 flex-grow lg:flex-row flex-col lg:px-10 sm:px-32  gap-5 ">
         <div className="w-full xl:w-[40%] h-full z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
-            <h1 className="font-bold text-3xl lg:text-3xl">{product.name}</h1>
-            <h2 className="text-2xl text-lime-700 font-bold">{totalPrice()}</h2>
+            <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
+
+            <h2
+              key={totalPrice()}
+              className="text-2xl text-lime-700 font-bold tilt-in-fwd-tr"
+            >
+              {formatter.format(totalPrice())}
+            </h2>
 
             <p className="text-md whitespace-pre-wrap leading-5 ">
               {product.description}
@@ -343,7 +335,13 @@ export default function Id({ item }) {
             <button
               className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center hover:bg-green-600 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
               onClick={() => {
-                addToCart(product._id, priceSize().price, priceSize().size);
+                addToCart(
+                  product._id,
+                  totalPrice(),
+                  selectedSize.value,
+                  selectedColor_1.value,
+                  selectedColor_2.value
+                );
               }}
             >
               Agregar al carrito
