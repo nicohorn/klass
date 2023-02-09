@@ -197,7 +197,7 @@ export default function Id({ item }) {
         </div>
         <div className="h-full">
           <img
-            className="md:h-full h-[50%] object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
+            className="md:h-full h-auto object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
             src={`${product.img}`}
           ></img>
         </div>
