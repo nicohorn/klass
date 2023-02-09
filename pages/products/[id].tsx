@@ -165,7 +165,7 @@ export default function Id({ item }) {
       </Head>
 
       <section className="flex justify-center lg:h-[70vh] p-6 flex-grow lg:flex-row flex-col lg:px-10 sm:px-32  gap-5 ">
-        <div className="w-full xl:w-[40%] h-full z-50">
+        <div className="w-full lg:w-[40%] h-full z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl">{product.name}</h1>
             <h2 className="text-2xl text-lime-700 font-bold">
@@ -197,7 +197,7 @@ export default function Id({ item }) {
         </div>
         <div className="h-full">
           <img
-            className=" h-full  object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
+            className="md:h-full object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
             src={`${product.img}`}
           ></img>
         </div>
