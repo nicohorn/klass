@@ -195,7 +195,7 @@ export default function Id({ item }) {
             </button>
           </div>
         </div>
-        <div className="h-full">
+        <div className="md:h-full h-full">
           <img
             className="md:h-full h-auto object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
             src={`${product.img}`}
