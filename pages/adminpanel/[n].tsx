@@ -291,7 +291,17 @@ export default function Orders({ items, totalDocuments }) {
                                   x {product.count}
                                 </span>{" "}
                                 <div className="flex flex-col">
-                                  {product.size !== "none" ? (
+                                  {/* This product.option es outdated, I only keep it to correctly show older orders correctly */}
+                                  {product.option ? (
+                                    <span className="text-gray-600">
+                                      Opción:{" "}
+                                      <span className="italic">
+                                        {product.option}
+                                      </span>
+                                    </span>
+                                  ) : null}
+                                  {product.size !== "none" &&
+                                  typeof product.size !== "undefined" ? (
                                     <span className="text-gray-600">
                                       Tamaño:{" "}
                                       <span className="italic">
@@ -299,7 +309,8 @@ export default function Orders({ items, totalDocuments }) {
                                       </span>
                                     </span>
                                   ) : null}
-                                  {product.color_1 !== "none" ? (
+                                  {product.color_1 !== "none" &&
+                                  typeof product.color_1 !== "undefined" ? (
                                     <span className="text-gray-600">
                                       Color 1:{" "}
                                       <span className="italic">
@@ -307,11 +318,30 @@ export default function Orders({ items, totalDocuments }) {
                                       </span>
                                     </span>
                                   ) : null}
-                                  {product.color_2 !== "none" ? (
+                                  {product.color_2 !== "none" &&
+                                  typeof product.color_2 !== "undefined" ? (
                                     <span className="text-gray-600">
                                       Color 2:{" "}
                                       <span className="italic">
                                         {product.color_2}
+                                      </span>
+                                    </span>
+                                  ) : null}
+                                  {product.style !== "none" &&
+                                  typeof product.style !== "undefined" ? (
+                                    <span className="text-gray-600">
+                                      Estilo:{" "}
+                                      <span className="italic">
+                                        {product.style}
+                                      </span>
+                                    </span>
+                                  ) : null}
+                                  {product.model !== "none" &&
+                                  typeof product.model !== "undefined" ? (
+                                    <span className="text-gray-600">
+                                      Modelo:{" "}
+                                      <span className="italic">
+                                        {product.model}
                                       </span>
                                     </span>
                                   ) : null}

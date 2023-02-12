@@ -6,7 +6,10 @@ export default async function handler(req, res) {
   const collection = db.collection("products");
 
   if (req.method === "GET") {
-    const findResult = await collection.find({}).toArray();
+    const findResult = await collection
+      .find({})
+      .sort({ categories: 1 })
+      .toArray();
     //console.log("Found documents =>", findResult);
 
     return res.status(200).json(findResult);

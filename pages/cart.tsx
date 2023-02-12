@@ -65,11 +65,10 @@ export default function Cart({ items }) {
   const filteredProducts = () => {
     /**Helper function to only get specific fields from the product document (there are many fields that aren't used for the order) */
     const itemsWithSpecificFields = items.map((item) => {
-      const { _id, name, img, ...fields } = item;
+      const { _id, name, img } = item;
       return { _id, name, img };
     });
     return productsCart.map((product) => {
-      console.log(product);
       return {
         ...itemsWithSpecificFields.find((item) => item._id === product.id),
         ...product,
@@ -178,6 +177,7 @@ export default function Cart({ items }) {
         {getTotalCount() != 0 ? (
           <>
             {transformedProducts.map((product, i) => {
+              console.log(product.color_1);
               //let categories = product.categories.toString().split("/");
               return (
                 <Disclosure key={i}>
@@ -253,6 +253,18 @@ export default function Cart({ items }) {
                                     {product.color_2}
                                   </span>
                                 )}
+                                {product.style == "none" ? null : (
+                                  <span className="flex gap-1">
+                                    <p className="italic">Estilo:</p>
+                                    {product.style}
+                                  </span>
+                                )}
+                                {product.model == "none" ? null : (
+                                  <span className="flex gap-1">
+                                    <p className="italic">Modelo:</p>
+                                    {product.model}
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -262,7 +274,9 @@ export default function Cart({ items }) {
                                 product._id,
                                 product.size,
                                 product.color_1,
-                                product.color_2
+                                product.color_2,
+                                product.style,
+                                product.model
                               );
                               localStorage.setItem(
                                 "my-cart",

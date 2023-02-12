@@ -18,9 +18,16 @@ export const useProducts = create((set) => ({
         cart: [...items],
       };
     });
-    console.log("Set Cart", items);
   },
-  addToCart: (id: any, price: any, size: any, color_1: any, color_2: any) => {
+  addToCart: (
+    id: any,
+    price: any,
+    size: any,
+    color_1: any,
+    color_2: any,
+    style: any,
+    model: any
+  ) => {
     set((state) => {
       //Función para chequear si el producto ya existe en el carrito
       const isInCart = state.cart.find(
@@ -28,18 +35,20 @@ export const useProducts = create((set) => ({
           product.id == id &&
           product.size == size &&
           product.color_1 == color_1 &&
-          product.color_2 == color_2
+          product.color_2 == color_2 &&
+          product.style == style &&
+          product.model == model
       );
+      console.log(state.cart);
 
       //Si el producto no existe, devuelve el carrito con el producto adentro y un count = 1;
-      console.log("addToCart", state.cart);
       if (!isInCart) {
         //console.log("Console log desde useProducts", ...state);
         return {
           ...state,
           cart: [
             ...state.cart,
-            { id, size, color_1, color_2, price, count: 1 },
+            { id, size, color_1, color_2, style, model, price, count: 1 },
           ],
         };
       }
@@ -48,7 +57,9 @@ export const useProducts = create((set) => ({
         product.id == id &&
         product.size == size &&
         product.color_1 == color_1 &&
-        product.color_2 == color_2
+        product.color_2 == color_2 &&
+        product.style == style &&
+        product.model == model
           ? { ...product, count: product.count + 1 }
           : product
       );
@@ -59,14 +70,16 @@ export const useProducts = create((set) => ({
       };
     });
   },
-  removeFromCart: (id, size, color_1, color_2) =>
+  removeFromCart: (id, size, color_1, color_2, style, model) =>
     set((state) => {
       const isPresent = state.cart.findIndex(
         (product) =>
           product.id == id &&
           product.size == size &&
           product.color_1 == color_1 &&
-          product.color_2 == color_2
+          product.color_2 == color_2 &&
+          product.style == style &&
+          product.model == model
       );
 
       if (isPresent === -1) {
@@ -80,7 +93,9 @@ export const useProducts = create((set) => ({
           product.id == id &&
           product.size == size &&
           product.color_1 == color_1 &&
-          product.color_2 == color_2
+          product.color_2 == color_2 &&
+          product.style == style &&
+          product.model == model
             ? { ...product, count: Math.max(product.count - 1, 0) }
             : product
         )
