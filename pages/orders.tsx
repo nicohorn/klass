@@ -77,9 +77,7 @@ export default function Orders({ items }) {
                             <img
                               className="rounded-full aspect-square object-cover  object-center w-10 h-10"
                               src={product.img}
-                              title={`${product.name} ${
-                                product.option ? product.option : ""
-                              } x ${product.count}`}
+                              title={`${product.name} `}
                             ></img>
                           </div>
                         );
@@ -191,7 +189,7 @@ export default function Orders({ items }) {
                           return (
                             <div
                               key={i}
-                              className="flex gap-5 justify-between border-b border-gray-200"
+                              className="flex flex-col gap-1 mb-2 justify-between border-b border-gray-200"
                             >
                               <span className="font-semibold hover:text-gray-500 text-gray-800 transition-all duration-100">
                                 -
@@ -205,15 +203,56 @@ export default function Orders({ items }) {
                                 </a>{" "}
                                 x {product.count}
                               </span>{" "}
-                              {product.option ? (
-                                <span className="text-gray-600">
-                                  Opción:{" "}
-                                  <span className="italic">
-                                    {product.option}
+                              <span className="flex flex-col">
+                                {product.size !== "none" &&
+                                typeof product.size !== "undefined" ? (
+                                  <span className="text-gray-600">
+                                    Tamaño:{" "}
+                                    <span className="italic">
+                                      {product.size}
+                                    </span>
                                   </span>
-                                </span>
-                              ) : null}
-                              <span>{formatter.format(product.price)}</span>
+                                ) : null}
+                                {product.color_1 !== "none" &&
+                                typeof product.color_1 !== "undefined" ? (
+                                  <span className="text-gray-600">
+                                    Color 1:{" "}
+                                    <span className="italic">
+                                      {product.color_1}
+                                    </span>
+                                  </span>
+                                ) : null}
+                                {product.color_2 !== "none" &&
+                                typeof product.color_2 !== "undefined" ? (
+                                  <span className="text-gray-600">
+                                    Color 2:{" "}
+                                    <span className="italic">
+                                      {product.color_2}
+                                    </span>
+                                  </span>
+                                ) : null}
+                                {product.style !== "none" &&
+                                typeof product.style !== "undefined" ? (
+                                  <span className="text-gray-600">
+                                    Estilo:{" "}
+                                    <span className="italic">
+                                      {product.style}
+                                    </span>
+                                  </span>
+                                ) : null}
+                                {product.model !== "none" &&
+                                typeof product.model !== "undefined" ? (
+                                  <span className="text-gray-600">
+                                    Modelo:{" "}
+                                    <span className="italic">
+                                      {product.model}
+                                    </span>
+                                  </span>
+                                ) : null}
+                              </span>
+                              <span className="self-end">
+                                {formatter.format(product.price)}
+                              </span>
                             </div>
                           );
                         })}

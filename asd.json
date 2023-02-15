@@ -1,0 +1,128 @@
+[
+  {
+    "_id": { "$oid": "637fb57d753df04961cce00b" },
+    "categories": "/Dormitorio",
+    "price": { "$numberDouble": "28000.0" },
+    "description": "Nuestra cama de cajones viene a optimizar el espacio de tu dormitorio!\n\n3 divisiones por lado en color blanco: pueden ser cajones, zapateros o combinado.\n+1 baulera en central. Podés elegir el color de la estructura.\n\nPara otras modificaciones solicitá un presupuesto personalizado haciendo click aquí.",
+    "tags": "dormitorio, complemento, mesa de luz, mdf, paraiso",
+    "img": "/images/cuna.jpg",
+    "name": "Cuna funcional",
+    "options": [
+      {
+        "size": [{ "value": "none", "multiplier": { "$numberDouble": "1.0" } }]
+      },
+      {
+        "color_1": [
+          { "value": "Blanco", "multiplier": { "$numberDouble": "1.0" } },
+          { "value": "Negro", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Grafito", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Himalaya", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Tribal", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Safari", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Tuareg", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Helsinki", "multiplier": { "$numberDouble": "1.05" } },
+          {
+            "value": "Roble Escandinavo",
+            "multiplier": { "$numberDouble": "1.05" }
+          },
+          { "value": "Teka Oslo", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Seda Giorno", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Seda Notte", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Lino Chiaro", "multiplier": { "$numberDouble": "1.05" } },
+          {
+            "value": "Enchapado Paraíso",
+            "multiplier": { "$numberDouble": "1.2" }
+          }
+        ]
+      },
+      {
+        "color_2": [
+          { "value": "Blanco", "multiplier": { "$numberDouble": "1.0" } },
+          { "value": "Negro", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Grafito", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Himalaya", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Tribal", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Safari", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Tuareg", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Helsinki", "multiplier": { "$numberDouble": "1.05" } },
+          {
+            "value": "Roble Escandinavo",
+            "multiplier": { "$numberDouble": "1.05" }
+          },
+          { "value": "Teka Oslo", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Seda Giorno", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Seda Notte", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Lino Chiaro", "multiplier": { "$numberDouble": "1.05" } },
+          {
+            "value": "Enchapado Paraíso",
+            "multiplier": { "$numberDouble": "1.1" }
+          }
+        ]
+      }
+    ],
+    "base_price": { "$numberDouble": "63900.0" }
+  },
+
+  {
+    "_id": { "$oid": "637fb57d753df04961cce00b" },
+    "categories": "/Living/Racks de TV",
+    "price": { "$numberDouble": "48000" },
+    "description": "En melamina se usa sócalo, mientras que en paraíso se puede optar también por patas nórdicas o rectas.\n\nMedidas: 1,40x0,40x0,60 m\n\nPara otras modificaciones solicitá un presupuesto personalizado haciendo click aquí.",
+    "img": "/images/ceibo.jpg",
+    "name": "Rack Cambur",
+    "options": [
+      {
+        "size": [{ "value": "none", "multiplier": { "$numberDouble": "1.0" } }]
+      },
+      {
+        "color_1": [
+          { "value": "Blanco", "multiplier": { "$numberDouble": "1.0" } },
+          { "value": "Negro", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Grafito", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Himalaya", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Tribal", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Safari", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Tuareg", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Helsinki", "multiplier": { "$numberDouble": "1.05" } },
+          {
+            "value": "Roble Escandinavo",
+            "multiplier": { "$numberDouble": "1.05" }
+          },
+          { "value": "Teka Oslo", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Seda Giorno", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Seda Notte", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Lino Chiaro", "multiplier": { "$numberDouble": "1.05" } },
+          {
+            "value": "Enchapado Paraíso",
+            "multiplier": { "$numberDouble": "1.2" }
+          }
+        ]
+      },
+      {
+        "color_2": [
+          { "value": "Blanco", "multiplier": { "$numberDouble": "1.0" } },
+          { "value": "Negro", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Grafito", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Himalaya", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Tribal", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Safari", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Tuareg", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Helsinki", "multiplier": { "$numberDouble": "1.05" } },
+          {
+            "value": "Roble Escandinavo",
+            "multiplier": { "$numberDouble": "1.05" }
+          },
+          { "value": "Teka Oslo", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Seda Giorno", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Seda Notte", "multiplier": { "$numberDouble": "1.05" } },
+          { "value": "Lino Chiaro", "multiplier": { "$numberDouble": "1.05" } },
+          {
+            "value": "Enchapado Paraíso",
+            "multiplier": { "$numberDouble": "1.1" }
+          }
+        ]
+      }
+    ],
+    "base_price": { "$numberDouble": "29400" }
+  }
+]

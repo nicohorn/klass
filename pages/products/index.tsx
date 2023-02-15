@@ -140,7 +140,7 @@ export async function getStaticProps() {
     const db = client.db("klass_ecommerce");
     const collection = db.collection("products");
 
-    return await collection.find({}).toArray();
+    return await collection.find({}).sort({ categories: 1 }).toArray();
   }
 
   const res = await handler();

@@ -61,14 +61,24 @@ export default function Cart({ items }) {
     return null;
   }
 
+  /**Function to join the products retrieved from the db and the products in cart (which only have id and count properties, while the products form the database have all the rest of the info) */
   const filteredProducts = () => {
-    //Function to "join" the products retrieved from the db and the products in cart (which only have id and count properties, while the products form the database have all the rest of the info)
+    /**Helper function to only get specific fields from the product document (there are many fields that aren't used for the order) */
+    const itemsWithSpecificFields = items.map((item) => {
+      const { _id, name, img } = item;
+      return { _id, name, img };
+    });
     return productsCart.map((product) => {
-      return { ...items.find((item) => item._id === product.id), ...product };
+      return {
+        ...itemsWithSpecificFields.find((item) => item._id === product.id),
+        ...product,
+      };
     });
   };
 
   let transformedProducts = filteredProducts();
+
+  console.log("trans products", transformedProducts);
 
   const totalCartPrice = () => {
     //Gets the corresponding individual price (meaning that if the product has an option selected, it will get the price for that option) of each product in cart and then sums them all up to get the total price of the cart using the reduce function.
@@ -167,7 +177,8 @@ export default function Cart({ items }) {
         {getTotalCount() != 0 ? (
           <>
             {transformedProducts.map((product, i) => {
-              let categories = product.categories.toString().split("/");
+              console.log(product.color_1);
+              //let categories = product.categories.toString().split("/");
               return (
                 <Disclosure key={i}>
                   {({ open }) => (
@@ -219,22 +230,54 @@ export default function Cart({ items }) {
                               <span className="font-bold">
                                 Precio individual:
                               </span>{" "}
-                              {typeof product.price == "number"
-                                ? formatter.format(product.price)
-                                : typeof product.price[0] == "object"
-                                ? formatter.format(product.price[0].price)
-                                : product.price[0]}
+                              {formatter.format(product.price)}
                             </div>
                             <div className="flex gap-1 flex-wrap">
-                              <div className="font-bold">Categorías: </div>
-                              {categories.map((category, ii) => {
-                                return <p key={ii}>{category}</p>;
-                              })}
+                              <div className="font-bold">Opciones: </div>
+                              <div>
+                                {product.size == "none" ? null : (
+                                  <span className="flex gap-1">
+                                    <p className="italic">Tamaño:</p>
+                                    {product.size}
+                                  </span>
+                                )}
+                                {product.color_1 == "none" ? null : (
+                                  <span className="flex gap-1">
+                                    <p className="italic">Color 1:</p>
+                                    {product.color_1}
+                                  </span>
+                                )}
+                                {product.color_2 == "none" ? null : (
+                                  <span className="flex gap-1">
+                                    <p className="italic">Color 2:</p>
+                                    {product.color_2}
+                                  </span>
+                                )}
+                                {product.style == "none" ? null : (
+                                  <span className="flex gap-1">
+                                    <p className="italic">Estilo:</p>
+                                    {product.style}
+                                  </span>
+                                )}
+                                {product.model == "none" ? null : (
+                                  <span className="flex gap-1">
+                                    <p className="italic">Modelo:</p>
+                                    {product.model}
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
                           <button
                             onClick={() => {
-                              removeFromCart(product._id, product.option);
+                              removeFromCart(
+                                product._id,
+                                product.size,
+                                product.color_1,
+                                product.color_2,
+                                product.style,
+                                product.model
+                              );
                               localStorage.setItem(
                                 "my-cart",
                                 JSON.stringify("")
