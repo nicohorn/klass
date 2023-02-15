@@ -127,9 +127,9 @@ export default function Id({ item }) {
   /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
   function listboxOptions() {
     return (
-      <div className="flex gap-5 ">
+      <div className="flex gap-5 flex-col md:flex-row ">
         {selectedSize.value == "none" ? null : (
-          <div className="flex-shrink">
+          <div className="md:w-1/4 w-full">
             <p className="italic text-sm">Tamaño (en metros)</p>
             <Listbox value={selectedSize} onChange={setSelectedSize}>
               <div className="relative mt-1 flex-auto">
@@ -498,16 +498,10 @@ export default function Id({ item }) {
               {product.description}
             </p>
 
-            <div>
-              {/* {typeof product.price == "object" &&
-              product.price != "Presupuestar"
-                ? productOptionsListBox()
-                : null} */}{" "}
-              {listboxOptions()}
-            </div>
+            {listboxOptions()}
 
             <button
-              className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center hover:bg-green-600 text-white active:scale-95 transition-all duration-150 hover:drop-shadow-[3px_3px_1px_rgba(0,0,0,0.25)]"
+              className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center text-white active:scale-95 transition-all duration-150 shadow-pop-tr"
               onClick={() => {
                 console.log(
                   selectedSize.value,
