@@ -114,7 +114,7 @@ function Products({ items }) {
                   <div className="flex flex-col ">
                     <img
                       className="aspect-square object-cover object-center rounded-t-sm"
-                      src={item.img}
+                      src={item.img[0]}
                     ></img>
 
                     <div className="bg-neutral-900 text-white drop-shadow p-5 rounded-b-sm">
