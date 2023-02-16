@@ -571,7 +571,7 @@ export default function Id({ item }) {
         <div className="relative aspect-[4/5]  xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
-        <div className="h-full min-w-[40vw] z-50">
+        <div className="h-full min-w-[40vw] lg:max-w-[40vw] z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 
