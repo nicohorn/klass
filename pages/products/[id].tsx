@@ -8,7 +8,6 @@ import Head from "next/head";
 var ObjectId = require("mongodb").ObjectId;
 
 import clientPromise from "../../mongodb";
-import ImageContainer from "pages/components/imagecontainer";
 
 export default function Id({ item }) {
   const addToCart = useProducts((state: any) => state.addToCart);
@@ -90,15 +89,6 @@ export default function Id({ item }) {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
-
-  console.log(
-    "SELECTED OPTIONS",
-    selectedSize,
-    selectedColor_1,
-    selectedColor_2,
-    selectedStyle,
-    selectedModel
-  );
 
   /**This functions retrieves an object with 3 properties: size options, color 1 options and color 2 options. It's a helper function to easily access and use the product options */
   function productOptions() {
@@ -553,13 +543,6 @@ export default function Id({ item }) {
               <button
                 className="bg-green-600 p-3 font-semibold rounded-sm w-[100%]  self-center  text-white active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-green-500 "
                 onClick={() => {
-                  console.log(
-                    selectedSize.value,
-                    selectedColor_1.value,
-                    selectedColor_2.value,
-                    selectedStyle.value,
-                    selectedModel.value
-                  );
                   addToCart(
                     product._id,
                     totalPrice(),
@@ -577,11 +560,38 @@ export default function Id({ item }) {
           </div>
         </div>
         <div className=" relative w-auto group text-xl ">
-          <ImageContainer
-            imageIndex={imageIndex}
-            img={product.img}
-            setImageIndex={setImageIndex}
-          ></ImageContainer>
+          <img
+            id="productImage"
+            key={imageIndex}
+            className="h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
+            src={`${product.img[imageIndex]}`}
+            style={{ opacity: "0" }} // Set initial opacity to 0
+            onLoad={(e) => {
+              const img = e.target as HTMLImageElement; // Use type assertion to cast to HTMLImageElement
+              img.style.opacity = "1"; // Set opacity to 1 after image is loaded
+            }}
+          ></img>
+
+          <div
+            onClick={() => {
+              product.img.length - 1 === imageIndex
+                ? setImageIndex(0)
+                : setImageIndex(imageIndex + 1);
+            }}
+            className="heartbeat absolute transition-all duration-150 p-3 cursor-pointer active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-neutral-900 bg-neutral-900/70 text-white top-[45%] sm:right-5 right-2 "
+          >
+            {">"}
+          </div>
+          <div
+            onClick={() => {
+              imageIndex === 0
+                ? setImageIndex(product.img.length - 1)
+                : setImageIndex(imageIndex - 1);
+            }}
+            className="heartbeat absolute transition-all duration-150 cursor-pointer p-3 active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-neutral-900 bg-neutral-900/70 text-white top-[45%] sm:left-5 left-2"
+          >
+            {"<"}
+          </div>
         </div>
       </section>
     </>
