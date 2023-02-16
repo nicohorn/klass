@@ -559,11 +559,11 @@ export default function Id({ item }) {
             )}
           </div>
         </div>
-        <div className=" relative w-auto group text-xl ">
+        <div className=" relative md:h-full h-full group text-xl ">
           <img
             id="productImage"
             key={imageIndex}
-            className="aspect-[4/5] h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
+            className=" md:h-full h-auto object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
             src={`${product.img[imageIndex]}`}
             style={{ opacity: "0" }} // Set initial opacity to 0
             onLoad={(e) => {
