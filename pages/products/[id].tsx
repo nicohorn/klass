@@ -500,7 +500,7 @@ export default function Id({ item }) {
         <img
           id="productImage"
           key={imageIndex}
-          className="z-30  h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
+          className="z-30 aspect-[4/5] h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
           src={`${product.img[imageIndex]}`}
           style={{ opacity: "0" }} // Set initial opacity to 0
           onLoad={(e) => {
