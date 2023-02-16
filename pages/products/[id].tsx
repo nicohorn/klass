@@ -22,6 +22,24 @@ export default function Id({ item }) {
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
 
+  //Kinda dictionary to map names of colors to their respective image.
+  const colors = [
+    { name: "Enchapado Paraíso", img: "/images/colores_enchapadoparaiso.jpg" },
+    { name: "Negro", img: "/images/colores_negro.jpg" },
+    { name: "Blanco", img: "/images/colores_blanco.jpg" },
+    { name: "Grafito", img: "/images/colores_grafito.jpg" },
+    { name: "Himalaya", img: "/images/colores_himalaya.jpg" },
+    { name: "Tribal", img: "/images/colores_tribal.jpg" },
+    { name: "Safari", img: "/images/colores_safari.jpg" },
+    { name: "Tuareg", img: "/images/colores_tuareg.jpg" },
+    { name: "Helsinki", img: "/images/colores_helsinki.jpg" },
+    { name: "Roble Escandinavo", img: "/images/colores_robleescandinavo.jpg" },
+    { name: "Teka Oslo", img: "/images/colores_tekaoslo.jpg" },
+    { name: "Seda Giorno", img: "/images/colores_sedagiorno.jpg" },
+    { name: "Seda Notte", img: "/images/colores_sedanotte.jpg" },
+    { name: "Lino Chiaro", img: "/images/colores_linochiaro.jpg" },
+  ];
+
   //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
   const [selected, setSelected] = useState(item[0].price[0]);
   const [selectedSize, setSelectedSize] = useState(
@@ -44,6 +62,8 @@ export default function Id({ item }) {
     multiplier: 1,
   });
 
+  const [imageIndex, setImageIndex] = useState(-1);
+
   useEffect(() => {
     //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
@@ -59,6 +79,8 @@ export default function Id({ item }) {
         setSelectedModel(productOptions().model_options[0]);
       }
     }
+
+    setImageIndex(0);
   }, []);
 
   useEffect(() => {
@@ -232,8 +254,23 @@ export default function Id({ item }) {
                                 selected ? "font-medium" : "font-normal"
                               }`}
                             >
-                              <div className="flex justify-between mr-2">
+                              <div className="flex justify-between mr-2 items-center">
                                 <span>{color_1.value}</span>
+                                {color_1.img ? (
+                                  <img
+                                    className="w-10"
+                                    src={`${color_1.img}`}
+                                  ></img>
+                                ) : (
+                                  <img
+                                    className="w-10 drop-shadow-lg"
+                                    src={`${
+                                      colors.find(
+                                        (color) => color_1.value === color.name
+                                      )?.img
+                                    }`}
+                                  ></img>
+                                )}
                               </div>
                             </span>
                             {selected ? (
@@ -297,8 +334,23 @@ export default function Id({ item }) {
                                 selected ? "font-medium" : "font-normal"
                               }`}
                             >
-                              <div className="flex justify-between mr-2">
+                              <div className="flex items-center justify-between mr-2">
                                 <span>{color_2.value}</span>
+                                {color_2.img ? (
+                                  <img
+                                    className="w-10"
+                                    src={`${color_2.img}`}
+                                  ></img>
+                                ) : (
+                                  <img
+                                    className="w-10 drop-shadow-lg"
+                                    src={`${
+                                      colors.find(
+                                        (color) => color_2.value === color.name
+                                      )?.img
+                                    }`}
+                                  ></img>
+                                )}
                               </div>
                             </span>
                             {selected ? (
@@ -461,13 +513,7 @@ export default function Id({ item }) {
         <meta property="google_product_category" content="furniture" />
         <meta
           property="product:price:amount"
-          content={`${
-            typeof product.price == "number"
-              ? product.price
-              : typeof product.price[0] == "object"
-              ? selected.price
-              : 1
-          }`}
+          content={`${product.base_price}`}
         />
         <meta property="product:price:currency" content="ARS"></meta>
 
@@ -491,7 +537,9 @@ export default function Id({ item }) {
               key={totalPrice()}
               className="text-2xl text-lime-700 font-bold tilt-in-fwd-tr"
             >
-              {formatter.format(totalPrice())}
+              {product.base_price === 1
+                ? "Presupuestar"
+                : formatter.format(totalPrice())}
             </h2>
 
             <p className="text-md whitespace-pre-wrap leading-5 ">
@@ -500,36 +548,73 @@ export default function Id({ item }) {
 
             {listboxOptions()}
 
-            <button
-              className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center text-white active:scale-95 transition-all duration-150 shadow-pop-tr"
-              onClick={() => {
-                console.log(
-                  selectedSize.value,
-                  selectedColor_1.value,
-                  selectedColor_2.value,
-                  selectedStyle.value,
-                  selectedModel.value
-                );
-                addToCart(
-                  product._id,
-                  totalPrice(),
-                  selectedSize.value,
-                  selectedColor_1.value,
-                  selectedColor_2.value,
-                  selectedStyle.value,
-                  selectedModel.value
-                );
-              }}
-            >
-              Agregar al carrito
-            </button>
+            {product.base_price !== 1 && (
+              <button
+                className="bg-green-600 p-3 font-semibold rounded-sm w-[100%]  self-center  text-white active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-green-500 "
+                onClick={() => {
+                  console.log(
+                    selectedSize.value,
+                    selectedColor_1.value,
+                    selectedColor_2.value,
+                    selectedStyle.value,
+                    selectedModel.value
+                  );
+                  addToCart(
+                    product._id,
+                    totalPrice(),
+                    selectedSize.value,
+                    selectedColor_1.value,
+                    selectedColor_2.value,
+                    selectedStyle.value,
+                    selectedModel.value
+                  );
+                }}
+              >
+                Agregar al carrito
+              </button>
+            )}
           </div>
         </div>
+
+        <div className="relative h-full group text-xl">
+          <img
+            id="productImage"
+            key={imageIndex}
+            className=" h-full object-cover  transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
+            src={`${product.img[imageIndex]}`}
+            style={{ opacity: "0" }} // Set initial opacity to 0
+            onLoad={(e) => {
+              const img = e.target as HTMLImageElement; // Use type assertion to cast to HTMLImageElement
+              img.style.opacity = "1"; // Set opacity to 1 after image is loaded
+            }}
+
         <div className="md:h-full h-full">
           <img
             className="md:h-full h-auto object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
             src={`${product.img}`}
+
           ></img>
+
+          <div
+            onClick={() => {
+              product.img.length - 1 === imageIndex
+                ? setImageIndex(0)
+                : setImageIndex(imageIndex + 1);
+            }}
+            className="heartbeat absolute transition-all duration-150 p-3 cursor-pointer active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-neutral-900 bg-neutral-900/70 text-white top-[45%] sm:right-5 right-2 "
+          >
+            {">"}
+          </div>
+          <div
+            onClick={() => {
+              imageIndex === 0
+                ? setImageIndex(product.img.length - 1)
+                : setImageIndex(imageIndex - 1);
+            }}
+            className="heartbeat absolute transition-all duration-150 cursor-pointer p-3 active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-neutral-900 bg-neutral-900/70 text-white top-[45%] sm:left-5 left-2"
+          >
+            {"<"}
+          </div>
         </div>
       </section>
     </>
