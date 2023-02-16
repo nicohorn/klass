@@ -499,12 +499,12 @@ export default function Id({ item }) {
       <>
         <img
           src={`${product.img[imageIndex + 1]}`}
-          className="absolute z-0 opacity-0 top-0 md:h-full h-auto object-cover transition-all duration-200 object-center rounded-sm"
+          className="absolute z-0 opacity-0 top-0 h-full object-cover transition-all duration-200 object-center rounded-sm"
         ></img>
         <img
           id="productImage"
           key={imageIndex}
-          className="z-30 md:h-full h-auto object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
+          className="z-30  h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
           src={`${product.img[imageIndex]}`}
           style={{ opacity: "0" }} // Set initial opacity to 0
           onLoad={(e) => {
@@ -571,11 +571,11 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="flex justify-center p-6 flex-grow lg:flex-row flex-col lg:px-10 sm:px-32  gap-5 ">
-        <div className=" relative md:h-full h-full group text-xl ">
+      <section className="flex justify-center xl:w-[80%] mx-auto  p-5  xl:flex-row flex-col  gap-5 ">
+        <div className=" relative max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
-        <div className="w-full xl:w-[40%] h-full z-50">
+        <div className="h-full z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 
