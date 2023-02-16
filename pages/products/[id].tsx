@@ -142,9 +142,9 @@ export default function Id({ item }) {
   /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
   function listboxOptions() {
     return (
-      <div className="flex gap-5 flex-col md:flex-row ">
+      <div className="flex gap-5 flex-col  ">
         {selectedSize.value == "none" ? null : (
-          <div className="md:w-1/4 w-full">
+          <div className="w-full">
             <p className="italic text-sm">Tamaño (en metros)</p>
             <Listbox value={selectedSize} onChange={setSelectedSize}>
               <div className="relative mt-1 flex-auto">
@@ -206,7 +206,7 @@ export default function Id({ item }) {
           </div>
         )}
         {selectedColor_1.value == "none" ? null : (
-          <div className="flex-grow">
+          <div className="">
             <p className="italic text-sm">Color 1</p>
             <Listbox value={selectedColor_1} onChange={setSelectedColor_1}>
               <div className="relative mt-1 flex-auto">
@@ -286,7 +286,7 @@ export default function Id({ item }) {
         )}
 
         {selectedColor_2.value == "none" ? null : (
-          <div className="flex-grow">
+          <div className="">
             <p className="italic text-sm">Color 2</p>
             <Listbox value={selectedColor_2} onChange={setSelectedColor_2}>
               <div className="relative mt-1 flex-auto">
@@ -328,7 +328,9 @@ export default function Id({ item }) {
                               }`}
                             >
                               <div className="flex items-center justify-between mr-2">
-                                <span>{color_2.value}</span>
+                                <span className="whitespace-pre-line">
+                                  {color_2.value}
+                                </span>
                                 {color_2.img ? (
                                   <img
                                     className="w-10"
@@ -496,13 +498,9 @@ export default function Id({ item }) {
     return (
       <>
         <img
-          src={`${product.img[imageIndex + 1]}`}
-          className="absolute z-0 opacity-0 top-0 md:h-full h-auto object-cover transition-all duration-200 object-center rounded-sm"
-        ></img>
-        <img
           id="productImage"
           key={imageIndex}
-          className="z-30 md:h-full h-auto object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
+          className="z-30 max-h-[70vh] object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
           src={`${product.img[imageIndex]}`}
           style={{ opacity: "0" }} // Set initial opacity to 0
           onLoad={(e) => {
@@ -569,11 +567,11 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="flex justify-center lg:h-[70vh] p-6 flex-grow lg:flex-row flex-col lg:px-10 sm:px-32  gap-5 ">
-        <div className=" relative md:h-full h-full group text-xl ">
+      <section className="py-12 flex justify-center xl:w-[80%] mx-auto items-center   p-5  xl:flex-row flex-col  gap-5 ">
+        <div className="relative aspect-[4/5]  xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
-        <div className="w-full xl:w-[40%] h-full z-50">
+        <div className="h-full min-w-[40vw] z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 

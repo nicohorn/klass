@@ -51,7 +51,7 @@ export default function Home({ products }) {
   // }, 5000);
 
   return (
-    <div className="w-full flex-grow">
+    <div className="w-full h-[75vh]">
       <div className="flex h-full lg:flex-row flex-col">
         {products.slice(1, 6).map((item, i) => (
           <div

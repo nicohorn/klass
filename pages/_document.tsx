@@ -3,7 +3,7 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 class MyDocument extends Document {
   render() {
     return (
-      <Html className="overflow-hidden">
+      <Html>
         <Head>
           <meta
             name="facebook-domain-verification"
