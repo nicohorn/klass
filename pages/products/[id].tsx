@@ -498,10 +498,6 @@ export default function Id({ item }) {
     return (
       <>
         <img
-          src={`${product.img[imageIndex + 1]}`}
-          className="absolute z-0 opacity-0 top-0 h-full object-cover transition-all duration-200 object-center rounded-sm"
-        ></img>
-        <img
           id="productImage"
           key={imageIndex}
           className="z-30  h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
