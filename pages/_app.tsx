@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       {/* <FacebookPixel /> */}
-      <main className="flex flex-col h-screen">
+      <main className="">
         <ToastContainer position="top-center" />
         <Navbar path={path} />
         <Component {...pageProps} />

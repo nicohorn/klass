@@ -56,7 +56,7 @@ function Products({ items }) {
 
   return (
     <div className="w-full flex-grow bg-neutral-100">
-      <div className="md:w-[70%] p-4 mx-auto mt-10 mb-28">
+      <div className="md:w-[70%] p-4 mx-auto py-20">
         <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 items-center border-b-2 border-gray-300">
           {" "}
           <div className="font-bold text-xl md:text-5xl text-center lg:text-left pb-6 ">

@@ -500,7 +500,7 @@ export default function Id({ item }) {
         <img
           id="productImage"
           key={imageIndex}
-          className="z-30 min-w-full h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
+          className="z-30  h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
           src={`${product.img[imageIndex]}`}
           style={{ opacity: "0" }} // Set initial opacity to 0
           onLoad={(e) => {
@@ -567,11 +567,11 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="flex justify-center xl:w-[80%] mx-auto  p-5  xl:flex-row flex-col  gap-5 ">
-        <div className="aspect-[4/5] relative max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
+      <section className="py-12 flex justify-center xl:w-[80%] mx-auto items-center 2xl:items-start  p-5  xl:flex-row flex-col  gap-5 ">
+        <div className="aspect-[4/5] xl:min-w-max relative max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
-        <div className="h-full z-50">
+        <div className="h-full max-w-2xl z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 
