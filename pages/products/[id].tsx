@@ -583,7 +583,8 @@ export default function Id({ item }) {
             src={`${product.img[imageIndex]}`}
             style={{ opacity: "0" }} // Set initial opacity to 0
             onLoad={(e) => {
-              e.target.style.opacity = "1"; // Set opacity to 1 after image is loaded
+              const img = e.target as HTMLImageElement; // Use type assertion to cast to HTMLImageElement
+              img.style.opacity = "1"; // Set opacity to 1 after image is loaded
             }}
           ></img>
 
