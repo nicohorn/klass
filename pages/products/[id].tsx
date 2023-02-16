@@ -44,6 +44,8 @@ export default function Id({ item }) {
     multiplier: 1,
   });
 
+  const [imageIndex, setImageIndex] = useState(-1);
+
   useEffect(() => {
     //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
@@ -59,6 +61,8 @@ export default function Id({ item }) {
         setSelectedModel(productOptions().model_options[0]);
       }
     }
+
+    setImageIndex(0);
   }, []);
 
   useEffect(() => {
@@ -501,7 +505,7 @@ export default function Id({ item }) {
             {listboxOptions()}
 
             <button
-              className="bg-green-500 p-3 font-semibold rounded-sm w-[100%]  self-center text-white active:scale-95 transition-all duration-150 shadow-pop-tr"
+              className="bg-green-600 p-3 font-semibold rounded-sm w-[100%]  self-center  text-white active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-green-500 "
               onClick={() => {
                 console.log(
                   selectedSize.value,
@@ -525,11 +529,38 @@ export default function Id({ item }) {
             </button>
           </div>
         </div>
-        <div className="h-full">
+        <div className="relative h-full group text-xl">
           <img
-            className=" h-full  object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
-            src={`${product.img}`}
+            id="productImage"
+            key={imageIndex}
+            className=" h-full object-cover  transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
+            src={`${product.img[imageIndex]}`}
+            style={{ opacity: "0" }} // Set initial opacity to 0
+            onLoad={(e) => {
+              e.target.style.opacity = "1"; // Set opacity to 1 after image is loaded
+            }}
           ></img>
+
+          <div
+            onClick={() => {
+              product.img.length - 1 === imageIndex
+                ? setImageIndex(0)
+                : setImageIndex(imageIndex + 1);
+            }}
+            className="heartbeat absolute transition-all duration-150 p-3 cursor-pointer active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-neutral-900 bg-neutral-900/70 text-white top-[45%] sm:right-5 right-2 "
+          >
+            {">"}
+          </div>
+          <div
+            onClick={() => {
+              imageIndex === 0
+                ? setImageIndex(product.img.length - 1)
+                : setImageIndex(imageIndex - 1);
+            }}
+            className="heartbeat absolute transition-all duration-150 cursor-pointer p-3 active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-neutral-900 bg-neutral-900/70 text-white top-[45%] sm:left-5 left-2"
+          >
+            {"<"}
+          </div>
         </div>
       </section>
     </>
