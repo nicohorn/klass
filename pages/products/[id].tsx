@@ -568,7 +568,7 @@ export default function Id({ item }) {
       </Head>
 
       <section className="py-12 flex justify-center xl:w-[80%] mx-auto items-center 2xl:items-start  p-5  xl:flex-row flex-col  gap-5 ">
-        <div className="relative max-w-lg max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
+        <div className="relative md:max-w-lg xl:max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
         <div className="h-full max-w-2xl z-50">
