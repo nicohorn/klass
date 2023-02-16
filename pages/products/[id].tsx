@@ -562,7 +562,7 @@ export default function Id({ item }) {
         />
         <meta
           property="og:image"
-          content={`https://www.klass.tienda/${product.img}`}
+          content={`https://www.klass.tienda/${product.img[0]}`}
         />
         <meta property="product:brand" content="Klass" />
       </Head>
