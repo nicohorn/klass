@@ -567,11 +567,11 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="py-12 flex justify-center xl:w-[80%] mx-auto items-center 2xl:items-start  p-5  xl:flex-row flex-col  gap-5 ">
-        <div className="relative md:max-w-lg xl:max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
+      <section className="py-12 flex justify-center xl:w-[80%] mx-auto items-center   p-5  xl:flex-row flex-col  gap-5 ">
+        <div className="relative aspect-[4/5] max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
-        <div className="h-full max-w-2xl z-50">
+        <div className="h-full min-w-[40vw] z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 
