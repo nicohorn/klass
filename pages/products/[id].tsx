@@ -529,7 +529,7 @@ export default function Id({ item }) {
       </Head>
 
       <section className="flex justify-center lg:h-[70vh] p-6 flex-grow lg:flex-row flex-col lg:px-10 sm:px-32  gap-5 ">
-        <div className="w-full xl:w-[40%] h-full z-50">
+        <div className="w-full lg:w-[40%] h-full z-50">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 
@@ -575,6 +575,7 @@ export default function Id({ item }) {
             )}
           </div>
         </div>
+
         <div className="relative h-full group text-xl">
           <img
             id="productImage"
@@ -586,6 +587,12 @@ export default function Id({ item }) {
               const img = e.target as HTMLImageElement; // Use type assertion to cast to HTMLImageElement
               img.style.opacity = "1"; // Set opacity to 1 after image is loaded
             }}
+
+        <div className="md:h-full h-full">
+          <img
+            className="md:h-full h-auto object-cover object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.20)]"
+            src={`${product.img}`}
+
           ></img>
 
           <div
