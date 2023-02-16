@@ -56,7 +56,7 @@ export default function Home({ products }) {
         {products.slice(1, 6).map((item, i) => (
           <div
             key={i}
-            style={{ backgroundImage: `url(${item.img})` }}
+            style={{ backgroundImage: `url(${item.img[0]})` }}
             className="flex-[0.5] bg-cover bg-center bg-no-repeat hover:flex-[0.6] transition-all duration-300 group grid hover:p-20 drop-shadow-[8px_8px_20px_rgba(0,0,0,0.75)]"
           >
             <a href={`/products/` + item._id}>
