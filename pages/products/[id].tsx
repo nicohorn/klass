@@ -500,7 +500,7 @@ export default function Id({ item }) {
         <img
           id="productImage"
           key={imageIndex}
-          className="z-30 aspect-[4/5] h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
+          className="z-30  h-full object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
           src={`${product.img[imageIndex]}`}
           style={{ opacity: "0" }} // Set initial opacity to 0
           onLoad={(e) => {
@@ -568,7 +568,7 @@ export default function Id({ item }) {
       </Head>
 
       <section className="flex justify-center xl:w-[80%] mx-auto  p-5  xl:flex-row flex-col  gap-5 ">
-        <div className=" relative max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
+        <div className="aspect-[4/5] relative max-h-[70vh] xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
         <div className="h-full z-50">
