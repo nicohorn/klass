@@ -8,10 +8,10 @@ export default function Us() {
   if (error) return <div>{error.message}</div>;
   return (
     <main className="bg-[url('/images/gardenia.jpg')] min-h-[85vh]  bg-cover bg-center lg:bg-[center_top_-35rem] bg-no-repeat flex flex-col justify-center">
-      <div className="text-center font-bold xl:text-5xl lg:text-3xl text-xl">
+      <div className="text-center text-black opacity-animation font-bold xl:text-5xl lg:text-3xl text-xl">
         Nosotros
       </div>
-      <div className="text-black mx-5   xl:w-[40%] xl:mx-auto md:text-justify md:p-10 p-4 flex flex-col gap-6 lg:shadow-md mt-5 bg-white/60 backdrop-blur-sm rounded-md ">
+      <div className="text-black mx-5  slide-left   xl:w-[40%] xl:mx-auto md:text-justify md:p-10 p-4 flex flex-col gap-6 lg:shadow-md mt-5 bg-white/60 backdrop-blur-sm rounded-md ">
         <p>
           Nuestra guía es el diseño, el resultado son <b>muebles asequibles.</b>{" "}
           Con la mirada puesta en la vida diaria del hogar, tomamos decisiones

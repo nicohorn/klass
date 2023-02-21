@@ -75,9 +75,9 @@ export default function Dropdown(props) {
 
       <div
         id="menu"
-        className="absolute p-2 rounded-sm font-semibold w-40 mt-4 opacity-0 bg-neutral-100 right-0 transition-all duration-200 z-50 drop-shadow-md text-sm"
+        className="absolute p-2 rounded-sm font-semibold w-40 mt-4 opacity-0 bg-white right-0 transition-all duration-200 z-50 drop-shadow-md text-sm"
       >
-        <div className=" w-4 h-4 rotate-45 absolute -translate-y-4 translate-x-32 bg-neutral-100"></div>
+        <div className=" w-4 h-4 rotate-45 absolute -translate-y-4 translate-x-32 bg-white"></div>
         {props.options?.map((option, i) => {
           return (
             <div className="cursor-pointer" key={i}>

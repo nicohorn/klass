@@ -75,7 +75,7 @@ function Products({ items }) {
   }
 
   return (
-    <div className="w-full flex-grow bg-neutral-100 p-5 lg:p-0">
+    <div className="w-full flex-grow bg-primary p-5 lg:p-0">
       <div className="md:mx-20 py-5">
         <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 items-center border-b-2 border-white">
           {" "}

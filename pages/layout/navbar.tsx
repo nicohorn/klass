@@ -240,7 +240,7 @@ export default function Navbar(props) {
               </svg>
             </a>
             <a
-              href="https://www.instagram.com/klass.rosario/"
+              href="https://www.instagram.com/klass.arg/"
               target="_blank"
               rel="noreferrer"
             >
