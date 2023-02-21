@@ -4,6 +4,7 @@ import { useProducts } from "../zustand";
 import clientPromise from "@clientPromise";
 import { useUser } from "@auth0/nextjs-auth0";
 import ProductContainer from "./components/productContainer";
+import Link from "next/link";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -87,12 +88,12 @@ export default function Home({ products }) {
               <div className="flex gap-5">
                 {" "}
                 <div className=" p-3 md:text-lg text-sm border  drop-shadow-[1px_1px_1px_rgba(0,0,0,0.60)] transition-all duration-200 hover:border-green-700 hover:bg-green-700  cursor-pointer  ">
-                  <a href="/products">Ver todos los productos</a>
+                  <Link href="/products">Ver todos los productos</Link>
                 </div>
                 <div className=" p-3 border md:text-lg text-sm cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)]  bg-green-700">
-                  <a href={`/products/${camaFuncional2Plazas._id}`}>
+                  <Link href={`/products/${camaFuncional2Plazas._id}`}>
                     Ver detalles
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -124,7 +125,9 @@ export default function Home({ products }) {
                 <p className="text-right font-normal text-xs">Precio base</p>
               </div>
               <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
-                <a href={`/products/${cajoneraAster._id}`}>Ver detalles</a>
+                <Link href={`/products/${cajoneraAster._id}`}>
+                  Ver detalles
+                </Link>
               </div>
             </div>
           </div>
@@ -150,7 +153,7 @@ export default function Home({ products }) {
                 <p className="text-right font-normal text-xs">Precio base</p>
               </div>
               <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
-                <a href={`/products/${rackBrezo._id}`}>Ver detalles</a>
+                <Link href={`/products/${rackBrezo._id}`}>Ver detalles</Link>
               </div>
             </div>
           </div>
@@ -179,7 +182,9 @@ export default function Home({ products }) {
                 <p className="text-right font-normal text-xs">Precio base</p>
               </div>
               <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
-                <a href={`/products/${escritorioKlassic._id}`}>Ver detalles</a>
+                <Link href={`/products/${escritorioKlassic._id}`}>
+                  Ver detalles
+                </Link>
               </div>
             </div>
           </div>
@@ -208,7 +213,9 @@ export default function Home({ products }) {
                 <p className="text-right font-normal text-xs">Precio base</p>
               </div>
               <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
-                <a href={`/products/${estanteriaKlassic._id}`}>Ver detalles</a>
+                <Link href={`/products/${estanteriaKlassic._id}`}>
+                  Ver detalles
+                </Link>
               </div>
             </div>
           </div>
@@ -243,7 +250,7 @@ export async function getStaticProps() {
   const productsResponse = await productsHandler();
 
   // By returning { props: { items } }, the Products component
-  // will receive `items` as a prop at build time
+  // will receive `items` as Link prop at build time
   return {
     props: {
       products: productsResponse.map((product) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useInView } from "react-intersection-observer";
 
-export default function productContainer(props) {
+export default function ProductContainer(props) {
   const { ref, inView, entry } = useInView({
     threshold: 0,
   });
