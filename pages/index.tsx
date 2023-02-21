@@ -39,10 +39,10 @@ export default function Home({ products }) {
           backgroundImage: `url("${camaFuncional2Plazas.img[0]}")`,
         }}
       >
-        <p className="uppercase slide-bottom  text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] md:text-6xl md:text-left">
+        <p className="uppercase slide-bottom  text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] xl:text-5xl lg:text-4xl  lg:text-left">
           Cama funcional de dos plazas
         </p>
-        <div className="flex gap-4 flex-col lg:flex-row">
+        <div className="flex gap-4 flex-col xl:flex-row">
           <div
             id="container-left"
             className="flex-1 justify-items-stretch self-stretch flex flex-col text-lg  opacity-animation  text-justify  text-white font-semibold"
@@ -65,7 +65,7 @@ export default function Home({ products }) {
           </div>
 
           <div
-            className="bg-cover backdrop-blur-lg slide-left   bg-center lg:w-[40%] h-[60vh] drop-shadow-[0px_5px_5px_rgba(0,0,0,0.250)]"
+            className="bg-cover backdrop-blur-lg slide-left   bg-center xl:w-[40%] h-[60vh] drop-shadow-[0px_5px_5px_rgba(0,0,0,0.250)]"
             style={{ backgroundImage: `url("${camaFuncional2Plazas.img[0]}")` }}
           ></div>
         </div>
