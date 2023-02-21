@@ -3,6 +3,7 @@ import { useEffect, useState, useLayoutEffect } from "react";
 import { useProducts } from "../zustand";
 import clientPromise from "@clientPromise";
 import { useUser } from "@auth0/nextjs-auth0";
+import ProductContainer from "./components/productContainer";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -36,7 +37,21 @@ export default function Home({ products }) {
     return product.name === "Cama Funcional - 2 plazas";
   });
 
-  console.log(camaFuncional2Plazas.img[0]);
+  const cajoneraAster = products.find((product) => {
+    return product.name === "Cajonera Aster";
+  });
+
+  const rackBrezo = products.find((product) => {
+    return product.name === "Rack Brezo";
+  });
+
+  const escritorioKlassic = products.find((product) => {
+    return product.name === "Escritorio Klassic";
+  });
+
+  const estanteriaKlassic = products.find((product) => {
+    return product.name === "Estantería Klassic";
+  });
 
   return (
     <main className="w-full relative text-white ">
@@ -47,35 +62,37 @@ export default function Home({ products }) {
           backgroundImage: `url("${camaFuncional2Plazas.img[0]}")`,
         }}
       >
-        <p className="uppercase slide-bottom  text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] xl:text-5xl lg:text-4xl  lg:text-left">
-          Cama funcional de dos plazas
-        </p>
         <div className="flex gap-4 flex-col xl:flex-row">
           <div
             id="container-left"
             className="flex-1 justify-items-stretch self-stretch flex flex-col text-lg  opacity-animation  text-justify  text-white font-semibold"
           >
-            <div className="backdrop-blur-lg shadow-lg text-[.9rem] md:text-lg rounded-sm bg-black/50  py-5 px-4 md:px-8">
+            <p className="uppercase slide-bottom  text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] xl:text-5xl lg:text-4xl  lg:text-left">
+              Cama funcional de dos plazas
+            </p>
+            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem] md:text-lg rounded-sm bg-black/50  py-5 px-4 md:px-8">
               {camaFuncional2Plazas.description}
             </div>
             <div className="cursor-pointer hover:bg-green-600 px-3 py-2 mx-8 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700 md:self-start self-center font-normal text-sm transition-all duration-200">
               Presupuesto personalizado
             </div>
 
-            <div className="mt-auto flex flex-col flex-wrap justify-center md:justify-end gap-5 items-center md:items-end">
-              <div className="px-4 py-2 rounded-sm bg-green-600 ">
-                <p className="text-4xl text-white">
+            <div className="mt-auto flex flex-col flex-wrap justify-center text-white md:justify-end gap-5 items-center md:items-end">
+              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)]">
+                <p className="md:text-4xl text-3xl font-bold  ">
                   {formatter.format(camaFuncional2Plazas.base_price)}
                 </p>
-                <p className="text-right">Precio base</p>
+                <p className="text-right font-normal">Precio base</p>
               </div>
               <div className="flex gap-5">
                 {" "}
-                <div className=" p-3 md:text-lg text-sm border bg-green-900/60 shadow-md transition-all duration-200 hover:border-green-700 hover:bg-green-700 cursor-pointer font-normal ">
-                  Ver todos los productos
+                <div className=" p-3 md:text-lg text-sm border  drop-shadow-[1px_1px_1px_rgba(0,0,0,0.60)] transition-all duration-200 hover:border-green-700 hover:bg-green-700  cursor-pointer  ">
+                  <a href="/products">Ver todos los productos</a>
                 </div>
-                <div className=" p-3 border md:text-lg text-sm cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-600 shadow-md bg-green-700">
-                  Ver detalles
+                <div className=" p-3 border md:text-lg text-sm cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)]  bg-green-700">
+                  <a href={`/products/${camaFuncional2Plazas._id}`}>
+                    Ver detalles
+                  </a>
                 </div>
               </div>
             </div>
@@ -87,6 +104,116 @@ export default function Home({ products }) {
           ></div>
         </div>
       </div>
+      <ProductContainer odd={false}>
+        <div className="px-8 flex flex-col gap-4">
+          <h1 className="font-bold text-3xl text-left">{cajoneraAster.name}</h1>{" "}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <img
+              className="sm:w-1/2 object-cover object-center aspect-[4/5]"
+              src={`${cajoneraAster.img[0]}`}
+            ></img>
+            <div className="flex flex-col">
+              <p>{cajoneraAster.description}</p>{" "}
+              <div className="cursor-pointer self-start hover:bg-green-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700  font-normal text-sm transition-all duration-200">
+                Presupuesto personalizado
+              </div>
+              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+                <p className="md:text-2xl text-xl font-bold">
+                  {formatter.format(cajoneraAster.base_price)}
+                </p>
+                <p className="text-right font-normal text-xs">Precio base</p>
+              </div>
+              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
+                <a href={`/products/${cajoneraAster._id}`}>Ver detalles</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ProductContainer>
+      <ProductContainer odd={true}>
+        <div className="px-8 flex flex-col gap-4">
+          <h1 className="font-bold text-3xl text-left">{rackBrezo.name}</h1>{" "}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <img
+              className="sm:w-1/2 object-cover object-center aspect-[4/5]"
+              src={`${rackBrezo.img[0]}`}
+            ></img>
+            <div className="flex flex-col">
+              <p>{rackBrezo.description}</p>{" "}
+              <div className="cursor-pointer self-start hover:bg-green-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700  font-normal text-sm transition-all duration-200">
+                Presupuesto personalizado
+              </div>
+              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+                <p className="md:text-2xl text-xl font-bold">
+                  {formatter.format(rackBrezo.base_price)}
+                </p>
+                <p className="text-right font-normal text-xs">Precio base</p>
+              </div>
+              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
+                <a href={`/products/${rackBrezo._id}`}>Ver detalles</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ProductContainer>
+      <ProductContainer odd={false}>
+        {" "}
+        <div className="px-8 flex flex-col gap-4">
+          <h1 className="font-bold text-3xl text-left">
+            {escritorioKlassic.name}
+          </h1>{" "}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <img
+              className="sm:w-1/2 object-cover object-center aspect-[4/5]"
+              src={`${escritorioKlassic.img[0]}`}
+            ></img>
+            <div className="flex flex-col">
+              <p>{escritorioKlassic.description}</p>{" "}
+              <div className="cursor-pointer self-start hover:bg-green-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700  font-normal text-sm transition-all duration-200">
+                Presupuesto personalizado
+              </div>
+              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+                <p className="md:text-2xl text-xl font-bold">
+                  {formatter.format(escritorioKlassic.base_price)}
+                </p>
+                <p className="text-right font-normal text-xs">Precio base</p>
+              </div>
+              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
+                <a href={`/products/${escritorioKlassic._id}`}>Ver detalles</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ProductContainer>
+      <ProductContainer odd={true}>
+        {" "}
+        <div className="px-8 flex flex-col gap-4">
+          <h1 className="font-bold text-3xl text-left">
+            {estanteriaKlassic.name}
+          </h1>{" "}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <img
+              className="sm:w-1/2 object-cover object-center aspect-[4/5]"
+              src={`${estanteriaKlassic.img[0]}`}
+            ></img>
+            <div className="flex flex-col">
+              <p>{estanteriaKlassic.description}</p>{" "}
+              <div className="cursor-pointer self-start hover:bg-green-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700  font-normal text-sm transition-all duration-200">
+                Presupuesto personalizado
+              </div>
+              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+                <p className="md:text-2xl text-xl font-bold">
+                  {formatter.format(estanteriaKlassic.base_price)}
+                </p>
+                <p className="text-right font-normal text-xs">Precio base</p>
+              </div>
+              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
+                <a href={`/products/${estanteriaKlassic._id}`}>Ver detalles</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ProductContainer>
     </main>
   );
 }
