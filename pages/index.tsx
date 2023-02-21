@@ -34,23 +34,33 @@ export default function Home({ products }) {
     <main className="w-full relative text-white ">
       <div
         id="product-container"
-        className=" bg-center bg-cover opacity-animation  mx-20 p-8 px-16 rounded-sm  shadow-lg"
+        className=" bg-center bg-cover opacity-animation  md:mx-20 p-8 px-4 md:px-16 rounded-sm  shadow-lg"
         style={{
           backgroundImage: `url("${camaFuncional2Plazas.img[0]}")`,
         }}
       >
-        <p className="uppercase slide-bottom  text-6xl font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)]">
+        <p className="uppercase slide-bottom  text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] md:text-6xl md:text-left">
           Cama funcional de dos plazas
         </p>
         <div className="flex gap-4 flex-col lg:flex-row">
-          <div className="flex-1  self-stretch flex flex-col text-lg  opacity-animation  text-justify  text-white font-semibold">
-            <div className="backdrop-blur-lg shadow-lg  rounded-sm bg-black/50  py-5 px-8">
+          <div
+            id="container-left"
+            className="flex-1 justify-items-stretch self-stretch flex flex-col text-lg  opacity-animation  text-justify  text-white font-semibold"
+          >
+            <div className="backdrop-blur-lg shadow-lg text-[.9rem] md:text-lg rounded-sm bg-black/50  py-5 px-4 md:px-8">
               {camaFuncional2Plazas.description}
             </div>
-            <div className="self-end  flex-grow">
-              <span className="p-4 bg-green-500 rounded-sm my-auto">
-                Presupuesto personalizado
-              </span>
+            <div className="cursor-pointer hover:bg-green-600 px-3 py-2 mx-8 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700 md:self-start self-center font-normal text-sm transition-all duration-200">
+              Presupuesto personalizado
+            </div>
+
+            <div className="mt-auto flex flex-wrap justify-center md:justify-end gap-5">
+              <div className=" p-3  border bg-green-900/60 shadow-md transition-all duration-200 hover:border-green-700 hover:bg-green-700 cursor-pointer font-normal ">
+                Ver todos los productos
+              </div>
+              <div className=" p-3 border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-600 shadow-md bg-green-700">
+                Realizar pedido
+              </div>
             </div>
           </div>
 

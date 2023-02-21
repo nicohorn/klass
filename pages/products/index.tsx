@@ -104,7 +104,7 @@ function Products({ items }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row justify-between gap-5">
+        <div className="hidden flex-col lg:flex-row justify-between gap-5 md:flex">
           <span className="text-2xl text-white">Categorías:</span>
           <div className="text-center mb-12 flex flex-wrap justify-start gap-5">
             {getCategories().map((cat, i) => {
