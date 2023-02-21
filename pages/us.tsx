@@ -7,7 +7,7 @@ export default function Us() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   return (
-    <main className="bg-[url('/images/gardenia.jpg')] min-h-[85vh] py-10  bg-cover bg-center lg:bg-[center_top_-20rem] bg-no-repeat flex flex-col justify-center">
+    <main className="bg-[url('/images/gardenia.jpg')] min-h-[85vh]  bg-cover bg-center lg:bg-[center_top_-35rem] bg-no-repeat flex flex-col justify-center">
       <div className="text-center font-bold xl:text-5xl lg:text-3xl text-xl">
         Nosotros
       </div>

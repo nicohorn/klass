@@ -4,28 +4,6 @@ import { useProducts } from "../zustand";
 import clientPromise from "@clientPromise";
 import { useUser } from "@auth0/nextjs-auth0";
 
-type userProfile = {
-  userId: string;
-  user_name: string;
-};
-
-const createProfile = async (userProfile: userProfile) => {
-  const res = await fetch("http://localhost:3000/api/profiles", {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userProfile),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      console.log("Se creó el siguiente usuario: ", json);
-    });
-};
-
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
@@ -46,30 +24,43 @@ export default function Home({ products }) {
     }
   });
 
-  // setInterval(() => {
-  //   console.log(user?.sub);
-  // }, 5000);
+  const camaFuncional2Plazas = products.find((product) => {
+    return product.name === "Cama Funcional - 2 plazas";
+  });
+
+  console.log(camaFuncional2Plazas.img[0]);
 
   return (
-    <div className="w-full h-[75vh]">
-      <div className="flex h-full lg:flex-row flex-col">
-        {products.slice(1, 6).map((item, i) => (
-          <div
-            key={i}
-            style={{ backgroundImage: `url(${item.img[0]})` }}
-            className="flex-[0.5] bg-cover bg-center bg-no-repeat hover:flex-[0.6] transition-all duration-300 group grid hover:p-20 drop-shadow-[8px_8px_20px_rgba(0,0,0,0.75)]"
-          >
-            <a href={`/products/` + item._id}>
-              <div className="group-hover:opacity-100 opacity-0 text-4xl font-bold transition-all duration-500 ">
-                <p className="bg-black text-white bg-opacity-40 drop-shadow p-5">
-                  {item.name}
-                </p>
-              </div>
-            </a>
+    <main className="w-full relative text-white ">
+      <div
+        id="product-container"
+        className=" bg-center bg-cover opacity-animation  mx-20 p-8 px-16 rounded-sm  shadow-lg"
+        style={{
+          backgroundImage: `url("${camaFuncional2Plazas.img[0]}")`,
+        }}
+      >
+        <p className="uppercase slide-bottom  text-6xl font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)]">
+          Cama funcional de dos plazas
+        </p>
+        <div className="flex gap-4 flex-col lg:flex-row">
+          <div className="flex-1  self-stretch flex flex-col text-lg  opacity-animation  text-justify  text-white font-semibold">
+            <div className="backdrop-blur-lg shadow-lg  rounded-sm bg-black/50  py-5 px-8">
+              {camaFuncional2Plazas.description}
+            </div>
+            <div className="self-end  flex-grow">
+              <span className="p-4 bg-green-500 rounded-sm my-auto">
+                Presupuesto personalizado
+              </span>
+            </div>
           </div>
-        ))}
+
+          <div
+            className="bg-cover backdrop-blur-lg slide-left   bg-center lg:w-[40%] h-[60vh] drop-shadow-[0px_5px_5px_rgba(0,0,0,0.250)]"
+            style={{ backgroundImage: `url("${camaFuncional2Plazas.img[0]}")` }}
+          ></div>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }
 

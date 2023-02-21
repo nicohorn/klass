@@ -36,10 +36,15 @@ function MyApp({ Component, pageProps }) {
           name="facebook-domain-verification"
           content="l8kt4tprsunykmw8wkpz6xuy1bkfin"
         />
+
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,900;1,300&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,400&display=swap"
+        />
       </Head>
 
       {/* <FacebookPixel /> */}
-      <main>
+      <main className=" bg-primary">
         <ToastContainer position="top-center" />
         <Navbar path={path} />
         <Component {...pageProps} />

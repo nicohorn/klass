@@ -112,7 +112,7 @@ export default function Orders({ items }) {
                           </svg>
                         </h2>
                       ) : null}
-                      <span className="text-sm font-semibold text-green-600 basis-4/5">
+                      <span className="text-sm font-semibold text-[#228d39] basis-4/5">
                         Total: {formatter.format(item.total)}
                       </span>
                     </div>
@@ -256,7 +256,7 @@ export default function Orders({ items }) {
                             </div>
                           );
                         })}
-                        <span className="text-green-600 font-semibold self-end mt-4">
+                        <span className="text-[#228d39] font-semibold self-end mt-4">
                           Total: {formatter.format(selected?.total)}
                         </span>
                       </div>

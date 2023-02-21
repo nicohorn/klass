@@ -2972,6 +2972,11 @@ futoin-hkdf@^1.5.0:
   resolved "https://registry.npmjs.org/futoin-hkdf/-/futoin-hkdf-1.5.1.tgz"
   integrity sha512-g5d0Qp7ks55hYmYmfqn4Nz18XH49lcCR+vvIvHT92xXnsJaGZmY1EtWQWilJ6BQp57heCIXM/rRo+AFep8hGgg==
 
+fuzzysort@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.npmjs.org/fuzzysort/-/fuzzysort-2.0.4.tgz"
+  integrity sha512-Api1mJL+Ad7W7vnDZnWq5pGaXJjyencT+iKGia2PlHUcSsSzWwIQ3S1isiMpwpavjYtGd2FzhUIhnnhOULZgDw==
+
 gauge@^3.0.0:
   version "3.0.2"
   resolved "https://registry.npmjs.org/gauge/-/gauge-3.0.2.tgz"

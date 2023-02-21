@@ -46,8 +46,8 @@ export default function Orders({ items, totalDocuments }) {
           onClick={() => setPage(i + 1)}
           className={
             i + 1 == page
-              ? "p-2 px-4 cursor-pointer bg-neutral-600 scale-110 rounded-md text-white transition-all duration-150"
-              : "p-2 px-4 cursor-pointer hover:bg-neutral-600 rounded-md  hover:text-white transition-all duration-150"
+              ? "p-1 px-3 cursor-pointer bg-primary scale-110 rounded-md text-white transition-all duration-150"
+              : "p-1 px-3 cursor-pointer hover:bg-primary rounded-md  hover:text-white transition-all duration-150"
           }
         >
           {i + 1}
@@ -154,7 +154,7 @@ export default function Orders({ items, totalDocuments }) {
       {user.sub == "google-oauth2|102747183325371068763" ||
       user.sub == "google-oauth2|101977740947109023372" ? (
         <div>
-          <div className="2xl:w-[60%] lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
+          <div className="2xl:w-[60%] bg-white lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
             <h1 className="text-3xl font-semibold mb-5">
               Estos son todos pedidos:{" "}
             </h1>
@@ -379,7 +379,7 @@ export default function Orders({ items, totalDocuments }) {
                         <div className="mt-4 self-end">
                           <button
                             type="button"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-teal-300 focus:outline-none"
+                            className="inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-teal-300 focus:outline-none bg-red-500"
                             onClick={closeModal}
                           >
                             Cerrar
