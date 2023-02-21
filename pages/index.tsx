@@ -10,6 +10,14 @@ export default function Home({ products }) {
 
   const { user, error, isLoading } = useUser();
 
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
+
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
 
@@ -54,18 +62,27 @@ export default function Home({ products }) {
               Presupuesto personalizado
             </div>
 
-            <div className="mt-auto flex flex-wrap justify-center md:justify-end gap-5">
-              <div className=" p-3  border bg-green-900/60 shadow-md transition-all duration-200 hover:border-green-700 hover:bg-green-700 cursor-pointer font-normal ">
-                Ver todos los productos
+            <div className="mt-auto flex flex-col flex-wrap justify-center md:justify-end gap-5 items-center md:items-end">
+              <div className="px-4 py-2 rounded-sm bg-green-600 ">
+                <p className="text-4xl text-white">
+                  {formatter.format(camaFuncional2Plazas.base_price)}
+                </p>
+                <p className="text-right">Precio base</p>
               </div>
-              <div className=" p-3 border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-600 shadow-md bg-green-700">
-                Realizar pedido
+              <div className="flex gap-5">
+                {" "}
+                <div className=" p-3 md:text-lg text-sm border bg-green-900/60 shadow-md transition-all duration-200 hover:border-green-700 hover:bg-green-700 cursor-pointer font-normal ">
+                  Ver todos los productos
+                </div>
+                <div className=" p-3 border md:text-lg text-sm cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-600 shadow-md bg-green-700">
+                  Ver detalles
+                </div>
               </div>
             </div>
           </div>
 
           <div
-            className="bg-cover backdrop-blur-lg slide-left   bg-center xl:w-[40%] h-[60vh] drop-shadow-[0px_5px_5px_rgba(0,0,0,0.250)]"
+            className="bg-cover backdrop-blur-lg slide-left  bg-center xl:w-[40%] h-[60vh] drop-shadow-[0px_5px_5px_rgba(0,0,0,0.250)]"
             style={{ backgroundImage: `url("${camaFuncional2Plazas.img[0]}")` }}
           ></div>
         </div>
