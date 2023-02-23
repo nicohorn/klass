@@ -81,14 +81,14 @@ function Products({ items }) {
           {" "}
           <div className="uppercase lg:items-end items-center flex flex-col lg:flex-row gap-4 font-bold text-2xl md:text-5xl text-center text-white lg:text-left pb-2 ">
             <p>Nuestros productos</p>
-            <span
+            <button
               onClick={() => {
                 setSearch(!search);
               }}
-              className="cursor-pointer"
+              className="cursor-pointer p-5"
             >
               <Search className="hover:fill-green-500 scale-125 hover:scale-150 transition-all duration-150"></Search>
-            </span>
+            </button>
             <div className="flex-1 relative lg:w-[26vw] w-full">
               <input
                 onChange={(e) => {
@@ -96,7 +96,7 @@ function Products({ items }) {
                   setActive(null);
                 }}
                 id="input-search"
-                className={`text-primary lg:-translate-y-[110%] -translate-y-[160%] -translate-x-[50%] lg:translate-x-0 absolute px-2 outline-none text-lg opacity-100 transition-all duration-200 ${
+                className={`text-primary lg:-translate-y-[110%] -top-5  -translate-x-[50%] lg:translate-x-0 absolute px-2 outline-none text-lg opacity-100 transition-all duration-200 ${
                   search ? "width-animation" : "width-animation-reverse"
                 } `}
                 placeholder="Ingresá el nombre del producto que estás buscando"
