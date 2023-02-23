@@ -55,23 +55,23 @@ export default function Home({ products }) {
   });
 
   return (
-    <main className="w-full relative text-white ">
+    <main className="w-full  text-white ">
       <div
         id="product-container"
-        className=" bg-center bg-cover opacity-animation  md:mx-20 p-8 px-4 md:px-16 rounded-sm  shadow-lg"
+        className=" bg-center bg-cover opacity-animation md:mx-20 py-8 px-4 md:px-16 rounded-sm  shadow-lg"
         style={{
           backgroundImage: `url("${camaFuncional2Plazas.img[0]}")`,
         }}
       >
-        <div className="flex gap-4 flex-col xl:flex-row">
+        <div className="flex gap-4 flex-col xl:flex-row lg:my-16">
           <div
             id="container-left"
             className="flex-1 justify-items-stretch self-stretch flex flex-col text-lg  opacity-animation  text-justify  text-white font-semibold"
           >
-            <p className="uppercase slide-bottom  text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] xl:text-5xl lg:text-4xl  lg:text-left">
+            <p className="uppercase slide-bottom  2xl:text-4xl text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] xl:text-4xl lg:text-4xl  lg:text-right">
               Cama funcional de dos plazas
             </p>
-            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem] md:text-lg rounded-sm bg-black/50  py-5 px-4 md:px-8">
+            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem] rounded-sm bg-black/50  py-5 px-4 md:px-8">
               {camaFuncional2Plazas.description}
             </div>
             <div className="cursor-pointer hover:bg-green-600 px-3 py-2 mx-8 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700 md:self-start self-center font-normal text-sm transition-all duration-200">
@@ -110,7 +110,7 @@ export default function Home({ products }) {
           <h1 className="font-bold text-3xl text-left">{cajoneraAster.name}</h1>{" "}
           <div className="flex flex-col sm:flex-row gap-4">
             <img
-              className="sm:w-1/2 object-cover object-center aspect-[4/5]"
+              className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
               src={`${cajoneraAster.img[0]}`}
             ></img>
             <div className="flex flex-col">
@@ -138,7 +138,7 @@ export default function Home({ products }) {
           <h1 className="font-bold text-3xl text-left">{rackBrezo.name}</h1>{" "}
           <div className="flex flex-col sm:flex-row gap-4">
             <img
-              className="sm:w-1/2 object-cover object-center aspect-[4/5]"
+              className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
               src={`${rackBrezo.img[0]}`}
             ></img>
             <div className="flex flex-col">
@@ -167,7 +167,7 @@ export default function Home({ products }) {
           </h1>{" "}
           <div className="flex flex-col sm:flex-row gap-4">
             <img
-              className="sm:w-1/2 object-cover object-center aspect-[4/5]"
+              className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
               src={`${escritorioKlassic.img[0]}`}
             ></img>
             <div className="flex flex-col">
@@ -198,7 +198,7 @@ export default function Home({ products }) {
           </h1>{" "}
           <div className="flex flex-col sm:flex-row gap-4">
             <img
-              className="sm:w-1/2 object-cover object-center aspect-[4/5]"
+              className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
               src={`${estanteriaKlassic.img[0]}`}
             ></img>
             <div className="flex flex-col">
