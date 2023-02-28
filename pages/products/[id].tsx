@@ -1,5 +1,4 @@
 import React, { useEffect, useState, Fragment } from "react";
-
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useProducts } from "../../zustand";
@@ -41,7 +40,6 @@ export default function Id({ item }) {
   ];
 
   //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
-  const [selected, setSelected] = useState(item[0].price[0]);
   const [selectedSize, setSelectedSize] = useState(
     productOptions().size_options[0]
   );
@@ -144,11 +142,11 @@ export default function Id({ item }) {
     return (
       <div className="flex gap-5 flex-col  ">
         {selectedSize.value == "none" ? null : (
-          <div className="w-full">
+          <div className="">
             <p className="italic text-sm">Tamaño (en metros)</p>
             <Listbox value={selectedSize} onChange={setSelectedSize}>
               <div className="relative mt-1 flex-auto">
-                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-green-50 py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                   <span className="block truncate">{selectedSize.value}</span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <ChevronUpDownIcon
@@ -163,14 +161,14 @@ export default function Id({ item }) {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute mt-1 z-50 max-h-60 bg-green-50 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {productOptions().size_options.map((size, i) => (
                       <Listbox.Option
                         key={i}
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? "bg-amber-100 text-amber-900"
+                              ? "bg-green-300 text-amber-900"
                               : "text-gray-900"
                           }`
                         }
@@ -188,7 +186,7 @@ export default function Id({ item }) {
                               </div>
                             </span>
                             {selected ? (
-                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
                                 <CheckIcon
                                   className="h-5 w-5"
                                   aria-hidden="true"
@@ -210,7 +208,7 @@ export default function Id({ item }) {
             <p className="italic text-sm">Color 1</p>
             <Listbox value={selectedColor_1} onChange={setSelectedColor_1}>
               <div className="relative mt-1 flex-auto">
-                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-green-50 py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                   <span className="block truncate">
                     {selectedColor_1.value}
                   </span>
@@ -227,14 +225,14 @@ export default function Id({ item }) {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute mt-1 bg-green-50 z-50 max-h-60 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {productOptions().color_1_options.map((color_1, i) => (
                       <Listbox.Option
                         key={i}
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? "bg-amber-100 text-amber-900"
+                              ? "bg-green-300 text-amber-900"
                               : "text-gray-900"
                           }`
                         }
@@ -267,7 +265,7 @@ export default function Id({ item }) {
                               </div>
                             </span>
                             {selected ? (
-                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
                                 <CheckIcon
                                   className="h-5 w-5"
                                   aria-hidden="true"
@@ -290,7 +288,7 @@ export default function Id({ item }) {
             <p className="italic text-sm">Color 2</p>
             <Listbox value={selectedColor_2} onChange={setSelectedColor_2}>
               <div className="relative mt-1 flex-auto">
-                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-green-50 py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                   <span className="block truncate">
                     {selectedColor_2.value}
                   </span>
@@ -307,14 +305,14 @@ export default function Id({ item }) {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute mt-1 bg-green-50 z-50 max-h-60 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {productOptions().color_2_options.map((color_2, i) => (
                       <Listbox.Option
                         key={i}
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? "bg-amber-100 text-amber-900"
+                              ? "bg-green-300 text-amber-900"
                               : "text-gray-900"
                           }`
                         }
@@ -349,7 +347,7 @@ export default function Id({ item }) {
                               </div>
                             </span>
                             {selected ? (
-                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
                                 <CheckIcon
                                   className="h-5 w-5"
                                   aria-hidden="true"
@@ -371,7 +369,7 @@ export default function Id({ item }) {
             <p className="italic text-sm">Estilo</p>
             <Listbox value={selectedStyle} onChange={setSelectedStyle}>
               <div className="relative mt-1 flex-auto">
-                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-green-50 py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                   <span className="block truncate">{selectedStyle.value}</span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <ChevronUpDownIcon
@@ -386,14 +384,14 @@ export default function Id({ item }) {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute mt-1 bg-green-50 z-50 max-h-60 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {productOptions().style_options.map((style, i) => (
                       <Listbox.Option
                         key={i}
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? "bg-amber-100 text-amber-900"
+                              ? "bg-green-300 text-amber-900"
                               : "text-gray-900"
                           }`
                         }
@@ -411,7 +409,7 @@ export default function Id({ item }) {
                               </div>
                             </span>
                             {selected ? (
-                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
                                 <CheckIcon
                                   className="h-5 w-5"
                                   aria-hidden="true"
@@ -433,7 +431,7 @@ export default function Id({ item }) {
             <p className="italic text-sm">Modelo</p>
             <Listbox value={selectedModel} onChange={setSelectedModel}>
               <div className="relative mt-1 flex-auto">
-                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-green-50 py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                   <span className="block truncate">{selectedModel.value}</span>
                   <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <ChevronUpDownIcon
@@ -448,14 +446,14 @@ export default function Id({ item }) {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute mt-1 z-50 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                  <Listbox.Options className="absolute mt-1 z-50 bg-green-50 max-h-60 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                     {productOptions().model_options.map((model, i) => (
                       <Listbox.Option
                         key={i}
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? "bg-amber-100 text-amber-900"
+                              ? "bg-green-300 text-amber-900"
                               : "text-gray-900"
                           }`
                         }
@@ -473,7 +471,7 @@ export default function Id({ item }) {
                               </div>
                             </span>
                             {selected ? (
-                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
                                 <CheckIcon
                                   className="h-5 w-5"
                                   aria-hidden="true"
@@ -517,7 +515,7 @@ export default function Id({ item }) {
                 ? setImageIndex(0)
                 : setImageIndex(imageIndex + 1);
             }}
-            className="heartbeat absolute transition-all duration-150 p-6 cursor-pointer active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-neutral-900 bg-neutral-900/70 text-white top-[45%] sm:right-5 right-2 "
+            className="heartbeat absolute transition-all duration-150 p-6 cursor-pointer active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-primary bg-primary/70 text-white top-[45%] sm:right-5 right-2 "
           >
             {">"}
           </div>
@@ -529,7 +527,7 @@ export default function Id({ item }) {
                 ? setImageIndex(product.img.length - 1)
                 : setImageIndex(imageIndex - 1);
             }}
-            className="heartbeat absolute transition-all duration-150 cursor-pointer p-6 active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-neutral-900 bg-neutral-900/70 text-white top-[45%] sm:left-5 left-2"
+            className="heartbeat absolute transition-all duration-150 cursor-pointer p-6 active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-primary bg-primary/70 text-white top-[45%] sm:left-5 left-2"
           >
             {"<"}
           </div>
@@ -567,17 +565,17 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="py-12 flex justify-center xl:w-[80%] mx-auto items-center   p-5  xl:flex-row flex-col  gap-5 ">
-        <div className="relative aspect-[4/5]  xl:mx-0 mx-auto  group text-xl ">
+      <section className="flex  justify-center h-full lg:mx-20 items-center rounded-sm shadow-inner bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
+        <div className="relative aspect-[4/5] h-full  xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
-        <div className="h-full min-w-[40vw] lg:max-w-[40vw] z-50">
-          <div className=" flex flex-col gap-5   mr-0 shadow-lg p-5 lg:p-10">
+        <div className="self-center xl:self-stretch flex-1 z-40 bg-white rounded-sm">
+          <div className=" flex flex-col gap-5   mr-0 shadow-lg h-full p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 
             <h2
               key={totalPrice()}
-              className="text-2xl text-lime-700 font-bold tilt-in-fwd-tr"
+              className="text-2xl text-lime-700 font-bold tilt-in-fwd-tr text-green-600"
             >
               {product.base_price === 1
                 ? "Presupuestar"
@@ -592,7 +590,7 @@ export default function Id({ item }) {
 
             {product.base_price !== 1 && (
               <button
-                className="bg-green-600 p-3 font-semibold rounded-sm w-[100%]  self-center  text-white active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-green-500 "
+                className="bg-green-600 p-3 font-semibold rounded-sm w-[100%] mt-auto  text-white active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-green-500 "
                 onClick={() => {
                   addToCart(
                     product._id,

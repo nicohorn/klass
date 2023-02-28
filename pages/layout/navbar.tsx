@@ -27,7 +27,7 @@ export default function Navbar(props) {
         { title: "Inicio", url: "/" },
         { title: "Productos", url: "/products" },
         { title: "Nosotros", url: "/us" },
-        { title: "Panel de administrador", url: "/adminpanel/1" },
+        { title: "Panel de administrador", url: "/adminpanel" },
       ];
     } else {
       return [
@@ -98,7 +98,7 @@ export default function Navbar(props) {
   const desktopNav = () => {
     return (
       <nav className="hidden md:block">
-        <div className="w-full flex py-5 px-20 bg-neutral-900 gap-10 items-center justify-between">
+        <div className="w-full flex py-5 px-20 bg-primary gap-10 items-center justify-between">
           <div className="text-4xl font-bold text-white ">
             <img className="h-16" src="/logos-03.png"></img>
           </div>
@@ -119,7 +119,7 @@ export default function Navbar(props) {
                   <title>
                     {" "}
                     {getTotalCount() != 0
-                      ? "Hay " + getTotalCount() + " items en el carrito"
+                      ? "Hay " + getTotalCount() + " item/s en el carrito"
                       : "Carrito vacío"}
                   </title>
                   <path
@@ -168,7 +168,7 @@ export default function Navbar(props) {
           </div>
         </div>
         {/* Navbar routes / páginas, segunda mitad */}
-        <div className="text-md text-white grow capitalize flex gap-5 bg-neutral-900 px-20 pb-5">
+        <div className="text-md text-white grow capitalize flex gap-5 bg-primary px-20 pb-5">
           {content().map((item, i) => (
             <div
               key={i}
@@ -194,8 +194,8 @@ export default function Navbar(props) {
 
   const mobileNav = () => {
     return (
-      <div className="block md:hidden">
-        <div className="w-full flex py-5 px-20 bg-neutral-900 sm:gap-10 gap-5 items-center justify-between flex-col sm:flex-row">
+      <div className=" w-full md:hidden">
+        <div className="w-full flex py-5 px-20 bg-primary sm:gap-10 gap-5 items-center justify-between flex-col sm:flex-row">
           <div className="text-4xl font-bold text-white ">
             <img className="h-10 sm:h-16" src="/logos-03.png"></img>
           </div>
@@ -220,7 +220,19 @@ export default function Navbar(props) {
                   id="cart-icon"
                   className="text-xs -translate-x-[29px] -translate-y-[5px] text-center"
                 >
-                  {products == "undefined" ? "Carrito vacío" : getTotalCount()}
+                  {products.length != 0 ? (
+                    <div
+                      id="cart-number"
+                      className="h-3 w-3 translate-x-4  transition-all duration-200 -translate-y-1 rounded-full bg-green-500"
+                    >
+                      {" "}
+                    </div>
+                  ) : (
+                    <div
+                      id="cart-number"
+                      className="h-3 w-3 opacity-0 transition-all duration-200 -translate-x-3 -translate-y-2 rounded-full bg-green-500"
+                    ></div>
+                  )}
                 </div>
               </div>
             </Link>
@@ -240,7 +252,7 @@ export default function Navbar(props) {
               </svg>
             </a>
             <a
-              href="https://www.instagram.com/klass.rosario/"
+              href="https://www.instagram.com/klass.arg/"
               target="_blank"
               rel="noreferrer"
             >
@@ -257,7 +269,7 @@ export default function Navbar(props) {
           </div>
         </div>
         {/* Navbar routes / páginas, segunda mitad */}
-        <div className="text-md text-white grow capitalize flex gap-5 bg-neutral-900 px-20 pb-5 justify-center sm:justify-start">
+        <div className="text-md text-white grow capitalize flex gap-5 bg-primary px-20 pb-5 justify-center sm:justify-start">
           {content().map((item, i) => (
             <div
               key={i}

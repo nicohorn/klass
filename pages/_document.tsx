@@ -34,7 +34,7 @@ class MyDocument extends Document {
           />
           {/* End Facebook Pixel Code */}
         </Head>
-        <body className="overflow-visible overflow-y-scroll">
+        <body className=" overflow-y-scroll">
           <Main />
           <NextScript />
         </body>
