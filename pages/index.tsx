@@ -9,7 +9,7 @@ import Modal from "./components/modal";
 import supabase from "../supabase";
 import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
