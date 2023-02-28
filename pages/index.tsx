@@ -6,7 +6,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import ProductContainer from "./components/productContainer";
 import Link from "next/link";
 import Modal from "./components/modal";
-import supabase from "../supabase";
+import { supabase } from "../supabase";
 import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast, ToastContainer } from "react-toastify";
