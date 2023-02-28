@@ -1,10 +1,9 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import clientPromise from "../../mongodb";
+import clientPromise from "../../../mongodb";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
-import { ProductJsonLd } from "next-seo";
 
 export default function Orders({ items, totalDocuments }) {
   const router = useRouter();
@@ -24,7 +23,7 @@ export default function Orders({ items, totalDocuments }) {
   let [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    router.push(`/adminpanel/${page}`);
+    router.push(`/adminpanel/orders/${page}`);
   }, [page]);
 
   function openModal() {
@@ -46,8 +45,8 @@ export default function Orders({ items, totalDocuments }) {
           onClick={() => setPage(i + 1)}
           className={
             i + 1 == page
-              ? "p-1 px-3 cursor-pointer bg-primary scale-110 rounded-md text-white transition-all duration-150"
-              : "p-1 px-3 cursor-pointer hover:bg-primary rounded-md  hover:text-white transition-all duration-150"
+              ? "p-1 px-3 cursor-pointer bg-primary scale-110 rounded-sm text-white transition-all duration-150"
+              : "p-1 px-3 cursor-pointer hover:bg-primary rounded-sm  hover:text-white transition-all duration-150"
           }
         >
           {i + 1}
@@ -94,21 +93,21 @@ export default function Orders({ items, totalDocuments }) {
           <div className="relative">
             <Listbox.Button>
               {order.state === "pending" ? (
-                <div className="bg-amber-400  rounded-lg font-bold text-white px-3 py-1">
+                <div className="bg-amber-400  rounded-sm font-bold text-white px-3 py-1">
                   Pendiente
                 </div>
               ) : order.state === "confirmed" ? (
-                <div className="bg-green-400 rounded-lg font-bold text-white px-3 py-1">
+                <div className="bg-green-400 rounded-sm font-bold text-white px-3 py-1">
                   Confirmado
                 </div>
               ) : order.state === "sent" ? (
-                <div className="bg-green-700 rounded-lg font-bold text-white px-3 py-1">
+                <div className="bg-green-700 rounded-sm font-bold text-white px-3 py-1">
                   Enviado
                 </div>
               ) : null}
             </Listbox.Button>
             <Listbox.Options>
-              <div className="absolute w-40 bg-white z-50 shadow-lg p-2  rounded-lg mt-2 -translate-x-[50%] inset-x-[50%]">
+              <div className="absolute w-40 bg-white z-50 shadow-lg p-2  rounded-sm mt-2 -translate-x-[50%] inset-x-[50%]">
                 {states.map((state, stateIdx) => (
                   <span key={stateIdx} className="flex flex-col ">
                     <Listbox.Option
@@ -154,9 +153,9 @@ export default function Orders({ items, totalDocuments }) {
       {user.sub == "google-oauth2|102747183325371068763" ||
       user.sub == "google-oauth2|101977740947109023372" ? (
         <div>
-          <div className="2xl:w-[60%] bg-white lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
+          <div className="2xl:w-[60%] min-h-[60vh] bg-white lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-sm shadow-md">
             <h1 className="text-3xl font-semibold mb-5">
-              Estos son todos pedidos:{" "}
+              Estos son todos los pedidos:{" "}
             </h1>
 
             <div className="flex flex-col gap-3 mt-2 mb-2 z-0">
@@ -171,7 +170,7 @@ export default function Orders({ items, totalDocuments }) {
                   >
                     <div
                       key={i}
-                      className="z-0 flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2 rounded-md hover:shadow-md
+                      className="z-0 flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2 rounded-sm hover:shadow-md
                       hover:bg-emerald-100
                       transition-all duration-150"
                     >
@@ -235,7 +234,7 @@ export default function Orders({ items, totalDocuments }) {
                       leaveFrom="opacity-100 scale-100"
                       leaveTo="opacity-0 scale-95"
                     >
-                      <Dialog.Panel className=" transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                      <Dialog.Panel className=" transform rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
                         <Dialog.Title
                           as="h3"
                           className="text-xl font-medium leading-6 text-black"
@@ -379,7 +378,7 @@ export default function Orders({ items, totalDocuments }) {
                         <div className="mt-4 self-end">
                           <button
                             type="button"
-                            className="inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-teal-300 focus:outline-none bg-red-500"
+                            className="inline-flex justify-center border hover:border-red-800 border-red-400 border-transparent  text-red-400 bg-white px-4 py-1 text-sm font-medium hover:text-white hover:bg-red-800 transition-all duration-200 focus:outline-none"
                             onClick={closeModal}
                           >
                             Cerrar

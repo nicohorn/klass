@@ -8,21 +8,6 @@ import React, { useEffect } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// function FacebookPixel() {
-//   React.useEffect(() => {
-//     import("react-facebook-pixel")
-//       .then((x) => x.default)
-//       .then((ReactPixel) => {
-//         ReactPixel.init("908343633688942");
-//         ReactPixel.pageView();
-
-//         Router.events.on("routeChangeComplete", () => {
-//           ReactPixel.pageView();
-//         });
-//       });
-//   });
-//   return null;
-// }
 
 function MyApp({ Component, pageProps }) {
   const path = useRouter().pathname;
@@ -47,6 +32,7 @@ function MyApp({ Component, pageProps }) {
       <main className=" bg-primary">
         <ToastContainer position="top-center" />
         <Navbar path={path} />
+
         <Component {...pageProps} />
         <Footer />
       </main>

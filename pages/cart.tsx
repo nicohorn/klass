@@ -78,8 +78,6 @@ export default function Cart({ items }) {
 
   let transformedProducts = filteredProducts();
 
-  console.log("trans products", transformedProducts);
-
   const totalCartPrice = () => {
     //Gets the corresponding individual price (meaning that if the product has an option selected, it will get the price for that option) of each product in cart and then sums them all up to get the total price of the cart using the reduce function.
     let sum = 0;
@@ -124,10 +122,8 @@ export default function Cart({ items }) {
       })
       .then((json) => {
         router.push(`/orders`);
-        console.log("El pedido es el siguiente: ", json);
       });
 
-    console.log("delete cart");
     deleteCart();
     localStorage.clear();
   };
@@ -148,7 +144,7 @@ export default function Cart({ items }) {
 
   return (
     <main className="mx-auto  sm:my-10   sm:px-2 flex-grow w-full sm:w-auto h-screen">
-      <div className="md:w-[40rem] mx-auto p-5 border bg-white rounded-md shadow-md drop-shadow-[1px_1px_3px_rgba(0,0,0,0.90)]">
+      <div className="md:w-[40rem] mx-auto p-5 border bg-white rounded-sm shadow-md drop-shadow-[1px_1px_3px_rgba(0,0,0,0.90)]">
         <div className="pb-4 text-2xl font-bold justify-between flex items-center">
           <div>Mi carrito</div>
           <div>
@@ -177,8 +173,6 @@ export default function Cart({ items }) {
         {getTotalCount() != 0 ? (
           <>
             {transformedProducts.map((product, i) => {
-              console.log(product.color_1);
-              //let categories = product.categories.toString().split("/");
               return (
                 <Disclosure key={i}>
                   {({ open }) => (

@@ -77,17 +77,17 @@ function Products({ items }) {
   return (
     <div className="w-full flex-grow bg-primary p-5 lg:p-0">
       <div className="md:mx-20 py-5">
-        <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 items-center border-b-2 border-white">
+        <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 w-full items-center border-0 lg:border-b border-white">
           {" "}
-          <div className="uppercase lg:items-end items-center flex flex-col lg:flex-row gap-4 font-bold text-2xl md:text-5xl text-center text-white lg:text-left pb-2 ">
+          <div className="uppercase lg:items-end items-center flex flex-col lg:flex-row gap-4 font-bold text-2xl md:text-5xl text-center text-white lg:text-left pb-2 lg:border-none border-b">
             <p>Nuestros productos</p>
             <button
               onClick={() => {
                 setSearch(!search);
               }}
-              className="cursor-pointer p-5"
+              className="cursor-pointer"
             >
-              <Search className="hover:fill-green-500 scale-125 hover:scale-150 transition-all duration-150"></Search>
+              <Search className="hover:fill-green-500 mb-5 md:mb-0  scale-125 hover:scale-150 transition-all duration-150"></Search>
             </button>
             <div className="flex-1 relative lg:w-[26vw] w-full">
               <input
@@ -96,7 +96,7 @@ function Products({ items }) {
                   setActive(null);
                 }}
                 id="input-search"
-                className={`text-primary lg:-translate-y-[110%] -top-5  -translate-x-[50%] lg:translate-x-0 absolute px-2 outline-none text-lg opacity-100 transition-all duration-200 ${
+                className={`text-primary lg:-translate-y-[110%]  -top-5 md:-top-0  -translate-x-[50%] lg:translate-x-0 absolute px-2 outline-none text-lg opacity-100 transition-all duration-200 ${
                   search ? "width-animation" : "width-animation-reverse"
                 } `}
                 placeholder="Ingresá el nombre del producto que estás buscando"
@@ -151,18 +151,18 @@ function Products({ items }) {
         </div>
 
         {getItemsBySearch(searchString).length >= 0 && (
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2  auto-rows-auto 2xl:grid-cols-4 gap-8">
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 auto-rows-auto 2xl:grid-cols-4 gap-5 sm:gap-8">
             {getItemsBySearch(searchString).map((item, i) => (
               <span id="product" key={i}>
-                <div className="delay-150 border-opacity-0  transition-all duration-150 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
+                <div className="delay-150 border-opacity-0 w-[80%] sm:w-full mx-auto transition-all duration-150 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
                   <a href={`/products/` + item._id}>
                     <div className="flex flex-col ">
                       <div
-                        className="rounded-sm  aspect-[4/5] group-hover:scale-105 bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm "
+                        className="rounded-sm  aspect-[4/5] md:group-hover:scale-105 bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm "
                         style={{ backgroundImage: `url(${item.img[0]})` }}
                       >
                         <div className="absolute w-full bottom-0  transition-all duration-300 delay-300">
-                          <p className=" px-4 my-3 uppercase font-bold group-hover:text-2xl transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
+                          <p className=" px-4 my-3 uppercase font-bold md:group-hover:text-2xl transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
                             {item.name}
                           </p>
                           <p className="px-4 max-w-fit mb-2 py-1 font-bold bg-green-600  text-white drop-shadow-[0px_0px_6px_rgba(0,0,0,0.25)] ">
@@ -171,7 +171,7 @@ function Products({ items }) {
                               Precio base
                             </span>
                           </p>
-                          <span className="text-sm p-4 bg-black/60 text-white transition-all delay-500 duration-200  absolute bottom-full pointer-events-none opacity-0 group-hover:opacity-100">
+                          <span className="text-sm p-4 md:block hidden bg-black/60 text-white transition-all delay-500 duration-200  absolute bottom-full pointer-events-none opacity-0 group-hover:opacity-100">
                             {item.description}
                           </span>
                         </div>

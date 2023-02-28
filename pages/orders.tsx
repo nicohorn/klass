@@ -35,7 +35,7 @@ export default function Orders({ items }) {
 
     return (
       <main className="flex-grow ">
-        <div className="2xl:w-[60%] lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
+        <div className="2xl:w-[60%] min-h-[60vh] md:w-[80%] mx-auto p-5 my-10 border bg-white rounded-sm shadow-md">
           <h1 className="text-3xl font-semibold">Hola {user.name}! </h1>
           <p className="p-2">Estos son tus pedidos:</p>
 
@@ -52,7 +52,7 @@ export default function Orders({ items }) {
                 >
                   <div
                     key={i}
-                    className=" flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2 rounded-md hover:shadow-md
+                    className=" flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2 rounded-sm hover:shadow-md
                       hover:bg-emerald-100
                       transition-all duration-150"
                   >
@@ -75,8 +75,8 @@ export default function Orders({ items }) {
                         return (
                           <div key={i}>
                             <img
-                              className="rounded-full aspect-square object-cover  object-center w-10 h-10"
-                              src={product.img}
+                              className="rounded-full aspect-square object-cover mx-2  object-center w-10 h-10"
+                              src={product.img[0]}
                               title={`${product.name} `}
                             ></img>
                           </div>
@@ -86,15 +86,15 @@ export default function Orders({ items }) {
 
                     <div className="py-2 flex gap-3 items-center md:w-[25%] ">
                       {item.state == "pending" ? (
-                        <h2 className="bg-amber-400 text-white text-sm px-2 rounded-lg">
+                        <h2 className="bg-amber-400 text-white text-sm px-2 rounded-md">
                           Pendiente
                         </h2>
                       ) : item.state == "confirmed" ? (
-                        <h2 className="bg-green-500 text-white text-sm px-2 rounded-lg">
+                        <h2 className="bg-green-500 text-white text-sm px-2 rounded-md">
                           Confirmado
                         </h2>
                       ) : item.state == "sent" ? (
-                        <h2 className="bg-green-700 text-white text-sm px-2 rounded-lg flex gap-2 items-center">
+                        <h2 className="bg-green-700 text-white text-sm px-2 rounded-md flex gap-2 items-center">
                           Enviado{" "}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@ export default function Orders({ items }) {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <Dialog.Panel className=" transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                    <Dialog.Panel className=" transform rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
                       <Dialog.Title
                         as="h3"
                         className="text-xl font-medium leading-6 text-black"
@@ -169,15 +169,15 @@ export default function Orders({ items }) {
                           </div>
                           <div>
                             {selected?.state == "pending" ? (
-                              <h2 className="bg-amber-400 text-white text-sm px-2 rounded-lg">
+                              <h2 className="bg-amber-400 text-white text-sm px-2 rounded-md">
                                 Pendiente
                               </h2>
                             ) : selected?.state == "confirmed" ? (
-                              <h2 className="bg-green-500 text-white text-sm px-2 rounded-lg">
+                              <h2 className="bg-green-500 text-white text-sm px-2 rounded-md">
                                 Confirmado
                               </h2>
                             ) : selected?.state == "sent" ? (
-                              <h2 className="bg-green-700 text-white text-sm px-2 rounded-lg">
+                              <h2 className="bg-green-700 text-white text-sm px-2 rounded-md">
                                 Enviado
                               </h2>
                             ) : null}
@@ -264,7 +264,7 @@ export default function Orders({ items }) {
                       <div className="mt-4">
                         <button
                           type="button"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-teal-300 focus:outline-none"
+                          className="inline-flex justify-center border hover:border-red-800 border-red-400 border-transparent  text-red-400 bg-white px-4 py-1 text-sm font-medium hover:text-white hover:bg-red-800 transition-all duration-200 focus:outline-none"
                           onClick={closeModal}
                         >
                           Cerrar
@@ -292,6 +292,7 @@ export async function getServerSideProps({ req, res }) {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
     const collection = db.collection("orders");
+    const collection2 = db.collection("custom_orders");
 
     const session = getSession(req, res);
     const at = session.accessToken;
@@ -307,9 +308,12 @@ export async function getServerSideProps({ req, res }) {
       return response.json();
     });
 
-    console.log(userInfo);
+    const [items, custom_orders] = await Promise.all([
+      await collection.find({ userId: userInfo.sub }).toArray(),
+      await collection2.find({ userId: userInfo.sub }).toArray(),
+    ]);
 
-    return await collection.find({ userId: userInfo.sub }).toArray();
+    return items;
   }
 
   const response = await handler();

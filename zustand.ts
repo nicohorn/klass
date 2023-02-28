@@ -39,11 +39,9 @@ export const useProducts = create((set) => ({
           product.style == style &&
           product.model == model
       );
-      console.log(state.cart);
 
       //Si el producto no existe, devuelve el carrito con el producto adentro y un count = 1;
       if (!isInCart) {
-        //console.log("Console log desde useProducts", ...state);
         return {
           ...state,
           cart: [

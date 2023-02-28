@@ -5,7 +5,7 @@ export default function ProductContainer(props) {
   const { ref, inView, entry } = useInView({
     threshold: 0,
   });
-  console.log(inView);
+
   return (
     <div
       className={`md:mx-20 flex transition-all duration-200 ${

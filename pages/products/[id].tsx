@@ -1,5 +1,4 @@
 import React, { useEffect, useState, Fragment } from "react";
-
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useProducts } from "../../zustand";
@@ -41,7 +40,6 @@ export default function Id({ item }) {
   ];
 
   //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
-  const [selected, setSelected] = useState(item[0].price[0]);
   const [selectedSize, setSelectedSize] = useState(
     productOptions().size_options[0]
   );
@@ -567,11 +565,11 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="flex justify-center h-full lg:mx-20 items-center rounded-sm shadow-inner bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
+      <section className="flex  justify-center h-full lg:mx-20 items-center rounded-sm shadow-inner bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
         <div className="relative aspect-[4/5] h-full  xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
-        <div className="self-center xl:self-stretch flex-1 z-50 bg-white rounded-sm">
+        <div className="self-center xl:self-stretch flex-1 z-40 bg-white rounded-sm">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg h-full p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 

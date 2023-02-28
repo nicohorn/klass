@@ -10,7 +10,6 @@ export default async function handler(req, res) {
       .find({})
       .sort({ categories: 1 })
       .toArray();
-    //console.log("Found documents =>", findResult);
 
     return res.status(200).json(findResult);
   } else if (req.method === "POST") {
