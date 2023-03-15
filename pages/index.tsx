@@ -10,6 +10,7 @@ import { supabase } from "../supabase";
 import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast, ToastContainer } from "react-toastify";
+import Message from "./components/message";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -36,6 +37,8 @@ export default function Home({ products }) {
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
   const [imageLoading, setImageLoading] = useState("nada");
+  const [open, setOpen] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -51,6 +54,10 @@ export default function Home({ products }) {
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);
     }
+
+    setTimeout(() => {
+      setShowMessage(true);
+    }, 1500);
   }, []);
 
   useEffect(() => {
@@ -78,8 +85,6 @@ export default function Home({ products }) {
   const product5 = products.find((product) => {
     return product.name === "Estantería Klassic";
   });
-
-  const [open, setOpen] = useState(false);
 
   const notify = () =>
     toast.success(
@@ -115,6 +120,15 @@ export default function Home({ products }) {
 
   return (
     <main className="w-full  text-white">
+      <Message closeModal={setShowMessage} openModal={showMessage}>
+        <h1 className="font-bold text-2xl mb-2">Hola!</h1>{" "}
+        <p className="p-2">
+          Te queremos comentar que estás usando nuestra versión{" "}
+          <b className="font-semibold">BETA</b> de nuestro sitio web, podés
+          presupuestar pedidos y dejarnos un pedido hecho, pero aun no se pueden
+          pagar a través de nuestro sitio.
+        </p>
+      </Message>
       <Modal
         imageLoadingState={setImageLoading}
         loading={loading}

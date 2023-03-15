@@ -132,10 +132,10 @@ export default function Cart({ items }) {
   const notify = () =>
     toast.success(
       <p className="">
-        <b>Genial! Ya recibimos tu pedido. </b>
+        <b>¡Gracias por usar nuestra versión BETA!</b>
         <br />
-        En las próximas horas nos estaremos contactando a tu <b>email</b> para
-        coordinar el <i>pago y el envío.</i>
+        en breve vas a recibir un <b>email</b> para coordinar el <i>pago </i> y
+        demás detalles.
       </p>,
       {
         autoClose: 8000,
