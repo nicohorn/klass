@@ -2,8 +2,24 @@ import React, { useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import gsap from "gsap";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Message(props) {
+  const messageBanner = () => {
+    toast.info(
+      "¡Fabricamos a medida! tu mueble va a estar listo 25 días después de la recepción de la seña.",
+      {
+        position: "bottom-right",
+        autoClose: 7500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      }
+    );
+  };
   useEffect(() => {
     gsap.fromTo("#loading-icon", { rotate: 0 }, { rotate: 180, repeat: -1 });
   });
@@ -51,6 +67,7 @@ export default function Message(props) {
                   <button
                     onClick={() => {
                       props.closeModal(false);
+                      messageBanner();
                     }}
                     type="button"
                     className=" border  hover:border-green-800 bg-green-700 border-green-700 border-transparent  text-white px-4 py-1 text-sm font-medium hover:text-white hover:bg-green-800 transition-all duration-200 focus:outline-none flex-[0.25] "

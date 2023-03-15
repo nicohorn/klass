@@ -47,6 +47,17 @@ export default function Home({ products }) {
     //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
     //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
   });
+  const notify = () =>
+    toast.success(
+      <p className="">
+        <b>Genial! Ya recibimos tu pedido. </b>
+        <br />
+        En las próximas horas nos estaremos contactando a tu <b>email</b>.
+      </p>,
+      {
+        autoClose: 8000,
+      }
+    );
 
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
@@ -85,18 +96,6 @@ export default function Home({ products }) {
   const product5 = products.find((product) => {
     return product.name === "Estantería Klassic";
   });
-
-  const notify = () =>
-    toast.success(
-      <p className="">
-        <b>Genial! Ya recibimos tu pedido. </b>
-        <br />
-        En las próximas horas nos estaremos contactando a tu <b>email</b>.
-      </p>,
-      {
-        autoClose: 8000,
-      }
-    );
 
   const createCustomOrder = async (order: Custom_Order) => {
     //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
