@@ -67,7 +67,7 @@ export default function Us() {
               <p>Fábrica:</p>
               <a href="https://goo.gl/maps/2FtsgEF26J1z1FJj8">
                 <p className="font-semibold hover:text-gray-700">
-                  Los Lapachos 1536, Crespo, ER
+                  Francisco Sagemuller n°590, Parque Industrial , Crespo, ER
                 </p>
               </a>
               <svg
