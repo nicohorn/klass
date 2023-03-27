@@ -426,14 +426,6 @@ export default function Home({ products }) {
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  async function profileHandler() {
-    const client = await clientPromise;
-    const db = client.db("klass_ecommerce");
-    const collection = db.collection("profiles");
-    const prods = await collection.find({}).toArray();
-
-    return await collection.find({}).toArray();
-  }
 
   async function productsHandler() {
     const client = await clientPromise;
@@ -442,8 +434,6 @@ export async function getStaticProps() {
 
     return await collection.find({}).toArray();
   }
-
-  const profileResponse = await profileHandler();
 
   const productsResponse = await productsHandler();
 
@@ -455,12 +445,6 @@ export async function getStaticProps() {
         return {
           ...product,
           _id: product._id.toString(),
-        };
-      }),
-      profiles: profileResponse.map((profile) => {
-        return {
-          ...profile,
-          _id: profile._id.toString(),
         };
       }),
     },

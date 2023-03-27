@@ -399,12 +399,14 @@ export async function getServerSideProps(context) {
   let currentPage = parseInt(context.query.n);
   const ordersPerPage = 8;
 
+  // .skip((currentPage - 1) * ordersPerPage)
+  // .limit(ordersPerPage)
+
   const [totalDocuments, ordersResponse] = await Promise.all([
     await collection.countDocuments(),
     await collection
       .find({})
-      .skip((currentPage - 1) * ordersPerPage)
-      .limit(ordersPerPage)
+
       .toArray(),
   ]);
 
