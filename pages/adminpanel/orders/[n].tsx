@@ -393,23 +393,23 @@ export default function Orders({ items, totalDocuments }) {
 }
 
 export async function getServerSideProps(context) {
+  console.time("adminpanelFunction");
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");
   const collection = db.collection("orders");
   let currentPage = parseInt(context.query.n);
   const ordersPerPage = 8;
 
-  // .skip((currentPage - 1) * ordersPerPage)
-  // .limit(ordersPerPage)
-
   const [totalDocuments, ordersResponse] = await Promise.all([
     await collection.countDocuments(),
     await collection
       .find({})
-
+      .skip((currentPage - 1) * ordersPerPage)
+      .limit(ordersPerPage)
       .toArray(),
   ]);
 
+  console.timeEnd("adminpanelFunction");
   return {
     props: {
       items: ordersResponse.map((item) => {
