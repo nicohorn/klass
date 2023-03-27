@@ -9,30 +9,18 @@ import Modal from "./components/modal";
 import { supabase } from "../supabase";
 import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import Message from "./components/message";
+import { formatter } from "utils";
+import { Custom_Order } from "types";
+import { supabase_images_url } from "utils";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
   const router = useRouter();
 
-  type Custom_Order = {
-    userId: string;
-    clientName: string;
-    clientEmail: string;
-    clientNumber: number;
-    clientAddress: string;
-    message: string;
-    images: string[];
-    createdAt: string;
-    state: string;
-  };
-
-  const supabase_images_url =
-    "https://wwhqpgatccjocygubiey.supabase.co/storage/v1/object/public/personalized-projects-images/public/";
-
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
 
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
@@ -40,16 +28,9 @@ export default function Home({ products }) {
   const [open, setOpen] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-  });
   const notify = () =>
     toast.success(
-      <p className="">
+      <p>
         <b>Genial! Ya recibimos tu pedido. </b>
         <br />
         En las próximas horas nos estaremos contactando a tu <b>email</b>.
@@ -135,9 +116,8 @@ export default function Home({ products }) {
           const clientNumber = (
               document.getElementById("celular") as HTMLInputElement
             ).value,
-            clientAddress = (
-              document.getElementById("direccion") as HTMLInputElement
-            ).value,
+            address = (document.getElementById("direccion") as HTMLInputElement)
+              .value,
             message = (document.getElementById("mensaje") as HTMLInputElement)
               .value;
 
@@ -170,11 +150,12 @@ export default function Home({ products }) {
                 clientName: user?.name,
                 clientEmail: user?.email,
                 clientNumber: parseInt(clientNumber),
-                clientAddress: clientAddress,
+                address: address,
                 message: message,
                 images: pictures(),
                 createdAt: new Date().toISOString(),
                 state: "pending",
+                isProject: false,
               }).then(() => {
                 notify();
               });

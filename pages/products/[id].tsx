@@ -3,6 +3,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useProducts } from "../../zustand";
 import Head from "next/head";
+import { formatter, colorsMap as colors } from "utils";
 
 var ObjectId = require("mongodb").ObjectId;
 
@@ -13,31 +14,6 @@ export default function Id({ item }) {
   let productsCart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
   const product = item[0];
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-  });
-
-  //Kinda dictionary to map names of colors to their respective image.
-  const colors = [
-    { name: "Enchapado Paraíso", img: "/images/colores_enchapadoparaiso.jpg" },
-    { name: "Negro", img: "/images/colores_negro.jpg" },
-    { name: "Blanco", img: "/images/colores_blanco.jpg" },
-    { name: "Grafito", img: "/images/colores_grafito.jpg" },
-    { name: "Himalaya", img: "/images/colores_himalaya.jpg" },
-    { name: "Tribal", img: "/images/colores_tribal.jpg" },
-    { name: "Safari", img: "/images/colores_safari.jpg" },
-    { name: "Tuareg", img: "/images/colores_tuareg.jpg" },
-    { name: "Helsinki", img: "/images/colores_helsinki.jpg" },
-    { name: "Roble Escandinavo", img: "/images/colores_robleescandinavo.jpg" },
-    { name: "Teka Oslo", img: "/images/colores_tekaoslo.jpg" },
-    { name: "Seda Giorno", img: "/images/colores_sedagiorno.jpg" },
-    { name: "Seda Notte", img: "/images/colores_sedanotte.jpg" },
-    { name: "Lino Chiaro", img: "/images/colores_linochiaro.jpg" },
-  ];
 
   //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
   const [selectedSize, setSelectedSize] = useState(

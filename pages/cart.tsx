@@ -8,35 +8,18 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import gsap from "gsap";
-import { ToastContainer, toast } from "react-toastify";
-
-type Order = {
-  userId: string;
-  clientName: string;
-  clientEmail: string;
-  products: object[];
-  total: number;
-  createdAt: string;
-  state: string;
-};
+import { toast } from "react-toastify";
+import { formatter } from "utils";
+import { Order } from "types";
 
 export default function Cart({ items }) {
   const productsCart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
   const removeFromCart = useProducts((state: any) => state.removeFromCart);
   const deleteCart = useProducts((state: any) => state.deleteCart);
-  const { user, error, isLoading } = useUser();
+  const { user, isLoading } = useUser();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const formatter = new Intl.NumberFormat("en-US", {
-    //To give the price field (number type in js, double in mongodb) a US currency format.
-    style: "currency",
-    currency: "USD",
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-  });
 
   useEffect(() => {
     //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.

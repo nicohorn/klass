@@ -1,21 +1,13 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import clientPromise from "../mongodb";
-
+import { formatter } from "utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { getSession } from "@auth0/nextjs-auth0";
 
 export default function Orders({ items }) {
   const { user, error, isLoading } = useUser();
   const [selected, setSelected] = useState(items[0]);
-  const formatter = new Intl.NumberFormat("en-US", {
-    //To give the price field (number type in js, double in mongodb) a US currency format.
-    style: "currency",
-    currency: "USD",
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-  });
 
   let [isOpen, setIsOpen] = useState(false);
 
@@ -34,7 +26,7 @@ export default function Orders({ items }) {
     //This try catch is to ensure that the logged user can only see his orders and not the orders of other users.
 
     return (
-      <main className="flex-grow ">
+      <main className="w-full ">
         <div className="2xl:w-[60%] min-h-[60vh] md:w-[80%] mx-auto p-5 my-10 border bg-white rounded-sm shadow-md">
           <h1 className="text-3xl font-semibold">Hola {user.name}! </h1>
           <p className="p-2">Estos son tus pedidos:</p>

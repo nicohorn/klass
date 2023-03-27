@@ -5,6 +5,7 @@ import clientPromise from "@clientPromise";
 import gsap from "gsap";
 import { Search } from "@mui/icons-material";
 import fuzzysort from "fuzzysort";
+import { formatter } from "utils";
 
 function Products({ items }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -13,14 +14,6 @@ function Products({ items }) {
   const [active, setActive] = useState(null);
   const [search, setSearch] = useState(false);
   const [searchString, setSearchString] = useState("");
-
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-  });
 
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));

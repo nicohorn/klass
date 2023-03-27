@@ -23,8 +23,8 @@ export default function Us() {
           </b>{" "}
         </p>
         <p>
-          Entendiendo que lo único constante es el cambio, nuestra idea de
-          negocio se basa en que{" "}
+          Entendiendo que lo único constante es el <i>cambio</i>, nuestra idea
+          de negocio se basa en que{" "}
           <b>
             los objetos puedan cumplir el ciclo necesario en la vida de cada
             cliente

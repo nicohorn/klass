@@ -4,6 +4,7 @@ import clientPromise from "../../../mongodb";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
+import { formatter } from "utils";
 
 export default function Orders({ items, totalDocuments }) {
   const router = useRouter();
@@ -11,14 +12,6 @@ export default function Orders({ items, totalDocuments }) {
   const [selected, setSelected] = useState(items[0]);
 
   const [page, setPage] = useState(1);
-  /**Formats price field (number type in js, double in mongodb) to a US currency format. */
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-  });
 
   let [isOpen, setIsOpen] = useState(false);
 
