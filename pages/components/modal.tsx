@@ -27,7 +27,7 @@ export default function Modal(props) {
           <div className="fixed inset-0 bg-black bg-opacity-25" />
         </Transition.Child>
 
-        <div className="fixed 2xl:mx-[35rem] xl:mx-[20rem] lg:mx-40 sm:mx-8 inset-0">
+        <div className="fixed z-50 2xl:mx-[35rem] xl:mx-[20rem] lg:mx-40 sm:mx-8 inset-0">
           <div className="flex min-h-full  items-center justify-center text-center">
             <Transition.Child
               as={Fragment}
