@@ -28,7 +28,7 @@ export default function Custom_orders() {
       target.style.setProperty("--mouse-y", `${y}px`);
     };
 
-    for (const card of document.querySelectorAll(".card")) {
+    for (const card of document.querySelectorAll(".card") as any) {
       card.onmousemove = (e) => {
         handleOnMouseMove(e);
       };
