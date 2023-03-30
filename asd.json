@@ -44,11 +44,11 @@
                         Pendiente
                       </h2>
                     ) : selected?.state == "confirmed" ? (
-                      <h2 className="bg-green-500 text-white text-sm px-2 rounded-lg">
+                      <h2 className="bg-yellow-500 text-white text-sm px-2 rounded-lg">
                         Confirmado
                       </h2>
                     ) : selected?.state == "sent" ? (
-                      <h2 className="bg-green-700 text-white text-sm px-2 rounded-lg">
+                      <h2 className="bg-yellow-700 text-white text-sm px-2 rounded-lg">
                         Enviado
                       </h2>
                     ) : null}
@@ -124,7 +124,7 @@
                     </div>
                   );
                 })}
-                <span className="text-green-600 font-semibold self-end mt-4">
+                <span className="text-yellow-600 font-semibold self-end mt-4">
                   Total: {formatter.format(selected?.total)}
                 </span>
                 <div className="flex flex-col gap-2">

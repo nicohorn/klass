@@ -5,6 +5,7 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
 import { formatter } from "utils";
+import Link from "next/link";
 
 export default function Orders({ items, totalDocuments }) {
   const router = useRouter();
@@ -14,10 +15,6 @@ export default function Orders({ items, totalDocuments }) {
   const [page, setPage] = useState(1);
 
   let [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    router.push(`/adminpanel/orders/${page}`);
-  }, [page]);
 
   function openModal() {
     setIsOpen(true);
@@ -32,25 +29,28 @@ export default function Orders({ items, totalDocuments }) {
   function pagination() {
     let buttons = [];
     for (let i = 0; i < Math.ceil(totalDocuments / 8); i++) {
-      buttons.push(
-        <div
-          key={i + 1}
-          onClick={() => setPage(i + 1)}
-          className={
-            i + 1 == page
-              ? "p-1 px-3 cursor-pointer bg-primary scale-110 rounded-sm text-white transition-all duration-150"
-              : "p-1 px-3 cursor-pointer hover:bg-primary rounded-sm  hover:text-white transition-all duration-150"
-          }
-        >
-          {i + 1}
-        </div>
-      );
+      buttons.push(i + 1);
     }
 
     return (
       <div className="flex justify-center gap-2 my-5">
         {buttons.map((button) => {
-          return button;
+          return (
+            <div
+              key={button}
+              onClick={() => {
+                setPage(button);
+                router.push(`/adminpanel/orders/view?page=${button}`);
+              }}
+              className={
+                button === page
+                  ? "p-1 px-3 cursor-pointer bg-primary scale-110 rounded-sm text-white transition-all duration-150"
+                  : "p-1 px-3 cursor-pointer hover:bg-primary rounded-sm  hover:text-white transition-all duration-150"
+              }
+            >
+              {button.toString()}
+            </div>
+          );
         })}
       </div>
     );
@@ -90,11 +90,11 @@ export default function Orders({ items, totalDocuments }) {
                   Pendiente
                 </div>
               ) : order.state === "confirmed" ? (
-                <div className="bg-green-400 rounded-sm font-bold text-white px-3 py-1">
+                <div className="bg-yellow-400 rounded-sm font-bold text-white px-3 py-1">
                   Confirmado
                 </div>
               ) : order.state === "sent" ? (
-                <div className="bg-green-700 rounded-sm font-bold text-white px-3 py-1">
+                <div className="bg-yellow-700 rounded-sm font-bold text-white px-3 py-1">
                   Enviado
                 </div>
               ) : null}
@@ -183,7 +183,7 @@ export default function Orders({ items, totalDocuments }) {
                       </span>
                       {selectState(item)}
                       <div className="py-2 flex gap-3 items-center md:w-[25%] ">
-                        <span className="text-sm font-semibold text-green-600 basis-4/5">
+                        <span className="text-sm font-semibold text-yellow-600 basis-4/5">
                           Total: {formatter.format(item.total)}
                         </span>
                         <div
@@ -252,11 +252,11 @@ export default function Orders({ items, totalDocuments }) {
                                   Pendiente
                                 </h2>
                               ) : selected?.state == "confirmed" ? (
-                                <h2 className="bg-green-500 text-white text-sm px-2 rounded-lg">
+                                <h2 className="bg-yellow-500 text-white text-sm px-2 rounded-lg">
                                   Confirmado
                                 </h2>
                               ) : selected?.state == "sent" ? (
-                                <h2 className="bg-green-700 text-white text-sm px-2 rounded-lg">
+                                <h2 className="bg-yellow-700 text-white text-sm px-2 rounded-lg">
                                   Enviado
                                 </h2>
                               ) : null}
@@ -344,7 +344,7 @@ export default function Orders({ items, totalDocuments }) {
                               </div>
                             );
                           })}
-                          <span className="text-green-600 font-semibold self-end mt-4">
+                          <span className="text-yellow-600 font-semibold self-end mt-4">
                             Total: {formatter.format(selected?.total)}
                           </span>
                           <div className="flex flex-col gap-2">
@@ -391,14 +391,36 @@ export default function Orders({ items, totalDocuments }) {
     </main>
   );
 }
+// export async function getStaticPaths() {
+//   const client = await clientPromise;
+//   const db = client.db("klass_ecommerce");
+//   const collection = db.collection("orders");
+//   const totalDocuments = await collection.countDocuments();
 
-export async function getServerSideProps(context) {
-  console.time("adminpanelFunction");
+//   let pages = [];
+
+//   for (let i = 1; i < Math.ceil(totalDocuments / 8); i++) {
+//     pages.push(i);
+//   }
+
+//   const paths = pages.map((page) => {
+//     return { params: { n: page.toString() } };
+//   });
+
+//   return {
+//     paths,
+//     fallback: false, // See the "fallback" section below
+//   };
+// }
+
+export async function getServerSideProps(searchParams) {
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");
   const collection = db.collection("orders");
-  let currentPage = parseInt(context.query.n);
+  let currentPage = Number(searchParams.page);
   const ordersPerPage = 8;
+
+  console.log("currentPage", currentPage);
 
   const [totalDocuments, ordersResponse] = await Promise.all([
     await collection.countDocuments(),
@@ -409,7 +431,6 @@ export async function getServerSideProps(context) {
       .toArray(),
   ]);
 
-  console.timeEnd("adminpanelFunction");
   return {
     props: {
       items: ordersResponse.map((item) => {

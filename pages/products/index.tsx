@@ -80,7 +80,7 @@ function Products({ items }) {
               }}
               className="cursor-pointer"
             >
-              <Search className="hover:fill-green-500 mb-5 md:mb-0  scale-125 hover:scale-150 transition-all duration-150"></Search>
+              <Search className="hover:fill-yellow-500 mb-5 md:mb-0  scale-125 hover:scale-150 transition-all duration-150"></Search>
             </button>
             <div className="flex-1 relative lg:w-[26vw] w-full">
               <input
@@ -110,8 +110,8 @@ function Products({ items }) {
                   }}
                   className={
                     active == i
-                      ? "cursor-pointer  font-semibold  text-white px-3 py-1  bg-green-600 transition-all duration-100 shadow-md"
-                      : "cursor-pointer  font-semibold  text-white px-3 py-1  transition-all duration-100   border border-white hover:border-green-600 "
+                      ? "cursor-pointer  font-semibold  text-white px-3 py-1  bg-yellow-600 transition-all duration-100 shadow-md"
+                      : "cursor-pointer  font-semibold  text-white px-3 py-1  transition-all duration-100   border border-white hover:border-yellow-600 "
                   }
                 >
                   {cat}
@@ -158,7 +158,7 @@ function Products({ items }) {
                           <p className=" px-4 my-3 uppercase font-bold md:group-hover:text-2xl transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
                             {item.name}
                           </p>
-                          <p className="px-4 max-w-fit mb-2 py-1 font-bold bg-green-600  text-white drop-shadow-[0px_0px_6px_rgba(0,0,0,0.25)] ">
+                          <p className="px-4 max-w-fit mb-2 py-1 font-bold bg-yellow-300  text-black drop-shadow-[0px_0px_6px_rgba(0,0,0,0.25)] ">
                             {formatter.format(item.base_price)}
                             <span className="text-xs font-normal ml-2">
                               Precio base

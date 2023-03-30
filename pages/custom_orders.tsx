@@ -169,25 +169,25 @@ export default function Custom_orders() {
             <input
               value={user && `${user.name}`}
               id="nombre-apellido"
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Nombre y apellido"
             />
             <input
               value={user && `${user.email}`}
               id="email"
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Tu email"
             />
 
             <input
               id="celular"
               type="number"
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Tu número de celular"
             />
             <input
               id="direccion"
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder={
                 isProject ? "Dirección del proyecto" : "Tu dirección"
               }
@@ -199,7 +199,7 @@ export default function Custom_orders() {
                   ? "Descripción del proyecto"
                   : "Contanos lo que estás buscando, necesidades a cubrir, materiales, colores, medidas, etc."
               }
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
             />
             <div className="flex flex-col">
               {" "}
@@ -219,7 +219,7 @@ export default function Custom_orders() {
                     <p className="mx-3 rotate-center text-center w-1 h-3 mt-2 bg-black/60"></p>
                   </div>
                 ) : imageLoading == "finalizado" ? (
-                  <p className="text-sm flex gap-1 text-green-500">
+                  <p className="text-sm flex gap-1 text-yellow-500">
                     Imágenes cargadas correctamente{" "}
                     <CheckBadgeIcon className="w-5"></CheckBadgeIcon>
                   </p>

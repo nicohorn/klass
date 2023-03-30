@@ -88,11 +88,11 @@ export default function Orders({ items, totalDocuments }) {
                   Pendiente
                 </div>
               ) : order.state === "confirmed" ? (
-                <div className="bg-green-400 rounded-sm font-bold text-white px-3 py-1">
+                <div className="bg-yellow-400 rounded-sm font-bold text-white px-3 py-1">
                   Confirmado
                 </div>
               ) : order.state === "sent" ? (
-                <div className="bg-green-700 rounded-sm font-bold text-white px-3 py-1">
+                <div className="bg-yellow-700 rounded-sm font-bold text-white px-3 py-1">
                   Enviado
                 </div>
               ) : null}

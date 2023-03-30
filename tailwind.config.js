@@ -18,7 +18,7 @@ module.exports = {
       primary: "#090f0f",
       white: "#e9e9e9",
       black: "#181818",
-      green: {
+      yellow: {
         50: "#f1fcf2",
         100: "#dff9e4",
         200: "#c1f1cb",
@@ -29,6 +29,18 @@ module.exports = {
         700: "#207533",
         800: "#1e5d2c",
         900: "#1a4d26",
+      },
+      yellow: {
+        50: "#fffceb",
+        100: "#fdf5c8",
+        200: "#fcea8b",
+        300: "#fad84b",
+        400: "#f9c626",
+        500: "#f2a60e",
+        600: "#d77f08",
+        700: "#b25a0b",
+        800: "#91450f",
+        900: "#773910",
       },
       red: {
         50: "#ffefee",

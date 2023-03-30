@@ -171,31 +171,31 @@ export default function Home({ products }) {
             <input
               value={user && `${user.name}`}
               id="nombre-apellido"
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Nombre y apellido"
             />
             <input
               value={user && `${user.email}`}
               id="email"
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Tu email"
             />
 
             <input
               id="celular"
               type="number"
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Tu número de celular"
             />
             <input
               id="direccion"
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Tu dirección"
             />
             <textarea
               id="mensaje"
               placeholder="Contanos lo que estás buscando, necesidades a cubrir, materiales, colores, medidas, etc."
-              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-green-400 outline-none focus:bg-green-100 transition-all duration-200"
+              className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
             />
             <div className="flex flex-col">
               {" "}
@@ -213,7 +213,7 @@ export default function Home({ products }) {
                     <p className="mx-3 rotate-center text-center w-1 h-3 mt-2 bg-black/60"></p>
                   </div>
                 ) : imageLoading == "finalizado" ? (
-                  <p className="text-sm flex gap-1 text-green-500">
+                  <p className="text-sm flex gap-1 text-yellow-500">
                     Imágenes cargadas correctamente{" "}
                     <CheckBadgeIcon className="w-5"></CheckBadgeIcon>
                   </p>
@@ -260,7 +260,7 @@ export default function Home({ products }) {
                   router.push("/api/auth/login?returnTo=/");
                 }
               }}
-              className="cursor-pointer hover:bg-green-600 px-3 py-2 mx-8 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] flex flex-col items-center bg-green-700 md:self-start self-center font-normal text-sm transition-all duration-200"
+              className="cursor-pointer hover:bg-yellow-600 px-3 py-2 mx-8 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] flex flex-col items-center bg-yellow-700 md:self-start self-center font-normal text-sm transition-all duration-200"
             >
               Presupuesto personalizado
               {!user && (
@@ -269,7 +269,7 @@ export default function Home({ products }) {
             </div>
 
             <div className="mt-auto flex flex-col flex-wrap justify-center text-white md:justify-end gap-5 items-center md:items-end">
-              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)]">
+              <div className="px-4 py-4 rounded-sm text-yellow-600  flex items-end gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)]">
                 <p className="md:text-4xl text-3xl font-bold  ">
                   {formatter.format(product1.base_price)}
                 </p>
@@ -277,10 +277,10 @@ export default function Home({ products }) {
               </div>
               <div className="flex gap-5">
                 {" "}
-                <div className=" p-3 md:text-lg text-sm border  drop-shadow-[1px_1px_1px_rgba(0,0,0,0.60)] transition-all duration-200 hover:border-green-700 hover:bg-green-700  cursor-pointer  ">
+                <div className=" p-3 md:text-lg text-sm border  drop-shadow-[1px_1px_1px_rgba(0,0,0,0.60)] transition-all duration-200 hover:border-yellow-700 hover:bg-yellow-700  cursor-pointer  ">
                   <Link href="/products">Ver todos los productos</Link>
                 </div>
-                <div className=" p-3 border md:text-lg text-sm cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)]  bg-green-700">
+                <div className=" p-3 border md:text-lg text-sm cursor-pointer border-yellow-700 transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)]  bg-yellow-700">
                   <Link href={`/products/${product1._id}`}>Ver detalles</Link>
                 </div>
               </div>
@@ -307,17 +307,17 @@ export default function Home({ products }) {
                 onClick={() => {
                   setOpen(true);
                 }}
-                className="cursor-pointer self-start hover:bg-green-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700  font-normal text-sm transition-all duration-200"
+                className="cursor-pointer self-start hover:bg-yellow-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-yellow-700  font-normal text-sm transition-all duration-200"
               >
                 Presupuesto personalizado
               </div>
-              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+              <div className="px-4 py-4 rounded-sm text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
                 <p className="md:text-2xl text-xl font-bold">
                   {formatter.format(product2.base_price)}
                 </p>
                 <p className="text-right font-normal text-xs">Precio base</p>
               </div>
-              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
+              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-yellow-700 transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-700">
                 <Link href={`/products/${product2._id}`}>Ver detalles</Link>
               </div>
             </div>
@@ -338,17 +338,17 @@ export default function Home({ products }) {
                 onClick={() => {
                   setOpen(true);
                 }}
-                className="cursor-pointer self-start hover:bg-green-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700  font-normal text-sm transition-all duration-200"
+                className="cursor-pointer self-start hover:bg-yellow-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-yellow-700  font-normal text-sm transition-all duration-200"
               >
                 Presupuesto personalizado
               </div>
-              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+              <div className="px-4 py-4 rounded-sm text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
                 <p className="md:text-2xl text-xl font-bold">
                   {formatter.format(product3.base_price)}
                 </p>
                 <p className="text-right font-normal text-xs">Precio base</p>
               </div>
-              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
+              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-yellow-700 transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-700">
                 <Link href={`/products/${product3._id}`}>Ver detalles</Link>
               </div>
             </div>
@@ -370,17 +370,17 @@ export default function Home({ products }) {
                 onClick={() => {
                   setOpen(true);
                 }}
-                className="cursor-pointer self-start hover:bg-green-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700  font-normal text-sm transition-all duration-200"
+                className="cursor-pointer self-start hover:bg-yellow-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-yellow-700  font-normal text-sm transition-all duration-200"
               >
                 Presupuesto personalizado
               </div>
-              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+              <div className="px-4 py-4 rounded-sm text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
                 <p className="md:text-2xl text-xl font-bold">
                   {formatter.format(product4.base_price)}
                 </p>
                 <p className="text-right font-normal text-xs">Precio base</p>
               </div>
-              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
+              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-yellow-700 transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-700">
                 <Link href={`/products/${product4._id}`}>Ver detalles</Link>
               </div>
             </div>
@@ -402,17 +402,17 @@ export default function Home({ products }) {
                 onClick={() => {
                   setOpen(true);
                 }}
-                className="cursor-pointer self-start hover:bg-green-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-green-700  font-normal text-sm transition-all duration-200"
+                className="cursor-pointer self-start hover:bg-yellow-600 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] bg-yellow-700  font-normal text-sm transition-all duration-200"
               >
                 Presupuesto personalizado
               </div>
-              <div className="px-4 py-4 rounded-sm text-green-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+              <div className="px-4 py-4 rounded-sm text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
                 <p className="md:text-2xl text-xl font-bold">
                   {formatter.format(product5.base_price)}
                 </p>
                 <p className="text-right font-normal text-xs">Precio base</p>
               </div>
-              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-green-700 transition-all duration-200 hover:bg-green-500 hover:border-green-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-green-700">
+              <div className=" p-3 sm:self-end text-center mt-auto rounded-sm border cursor-pointer border-yellow-700 transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-700">
                 <Link href={`/products/${product5._id}`}>Ver detalles</Link>
               </div>
             </div>

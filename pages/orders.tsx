@@ -82,11 +82,11 @@ export default function Orders({ items }) {
                           Pendiente
                         </h2>
                       ) : item.state == "confirmed" ? (
-                        <h2 className="bg-green-500 text-white text-sm px-2 rounded-md">
+                        <h2 className="bg-yellow-500 text-white text-sm px-2 rounded-md">
                           Confirmado
                         </h2>
                       ) : item.state == "sent" ? (
-                        <h2 className="bg-green-700 text-white text-sm px-2 rounded-md flex gap-2 items-center">
+                        <h2 className="bg-yellow-700 text-white text-sm px-2 rounded-md flex gap-2 items-center">
                           Enviado{" "}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -165,11 +165,11 @@ export default function Orders({ items }) {
                                 Pendiente
                               </h2>
                             ) : selected?.state == "confirmed" ? (
-                              <h2 className="bg-green-500 text-white text-sm px-2 rounded-md">
+                              <h2 className="bg-yellow-500 text-white text-sm px-2 rounded-md">
                                 Confirmado
                               </h2>
                             ) : selected?.state == "sent" ? (
-                              <h2 className="bg-green-700 text-white text-sm px-2 rounded-md">
+                              <h2 className="bg-yellow-700 text-white text-sm px-2 rounded-md">
                                 Enviado
                               </h2>
                             ) : null}

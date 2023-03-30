@@ -134,14 +134,14 @@ export default function Navbar(props) {
                 {products.length != 0 ? (
                   <div
                     id="cart-number"
-                    className="h-3 w-3 -translate-x-3  transition-all duration-200 -translate-y-2 rounded-full bg-green-500"
+                    className="h-3 w-3 -translate-x-3  transition-all duration-200 -translate-y-2 rounded-full bg-yellow-500"
                   >
                     {" "}
                   </div>
                 ) : (
                   <div
                     id="cart-number"
-                    className="h-3 w-3 opacity-0 transition-all duration-200 -translate-x-3 -translate-y-2 rounded-full bg-green-500"
+                    className="h-3 w-3 opacity-0 transition-all duration-200 -translate-x-3 -translate-y-2 rounded-full bg-yellow-500"
                   ></div>
                 )}
               </div>
@@ -264,14 +264,14 @@ export default function Navbar(props) {
                     {products.length != 0 ? (
                       <div
                         id="cart-number"
-                        className="h-3 w-3 translate-x-7  transition-all duration-200 -translate-y-9 rounded-full bg-green-500"
+                        className="h-3 w-3 translate-x-7  transition-all duration-200 -translate-y-9 rounded-full bg-yellow-500"
                       >
                         {" "}
                       </div>
                     ) : (
                       <div
                         id="cart-number"
-                        className="h-3 w-3 opacity-0 transition-all duration-200 -translate-x-3 -translate-y-2 rounded-full bg-green-500"
+                        className="h-3 w-3 opacity-0 transition-all duration-200 -translate-x-3 -translate-y-2 rounded-full bg-yellow-500"
                       ></div>
                     )}
                   </div>

@@ -189,7 +189,7 @@ export default function Cart({ items }) {
                         <ChevronUpIcon
                           className={`${
                             open ? "" : "rotate-180 transform"
-                          } h-5 w-5 text-green-500`}
+                          } h-5 w-5 text-yellow-500`}
                         />
                       </Disclosure.Button>
                       <Transition
@@ -272,7 +272,7 @@ export default function Cart({ items }) {
               );
             })}
             <div className="flex flex-col">
-              <div className="flex justify-end text-lg mr-2 mt-5 font-bold text-green-500">
+              <div className="flex justify-end text-lg mr-2 mt-5 font-bold text-yellow-500">
                 <span className="mr-3">Total:</span>
                 <span>{formatter.format(totalCartPrice())}</span>
               </div>

@@ -61,7 +61,7 @@ export default function Modal(props) {
                   <button
                     onClick={props.buttonFunction}
                     type="button"
-                    className=" border hover:border-green-800 bg-green-700 border-green-700 border-transparent  text-white px-4 py-1 text-sm font-medium hover:text-white hover:bg-green-800 transition-all duration-200 focus:outline-none flex-[0.25]  items-center flex justify-center"
+                    className=" border hover:border-yellow-800 bg-yellow-700 border-yellow-700 border-transparent  text-white px-4 py-1 text-sm font-medium hover:text-white hover:bg-yellow-800 transition-all duration-200 focus:outline-none flex-[0.25]  items-center flex justify-center"
                   >
                     {props.loading ? (
                       <svg
