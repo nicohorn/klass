@@ -54,7 +54,7 @@ export default function Message(props) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className=" transform rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className=" transform rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-xl font-medium leading-6 text-black"
@@ -70,7 +70,7 @@ export default function Message(props) {
                       messageBanner();
                     }}
                     type="button"
-                    className=" border  hover:border-yellow-800 bg-yellow-700 border-yellow-700 border-transparent  text-white px-4 py-1 text-sm font-medium hover:text-white hover:bg-yellow-800 transition-all duration-200 focus:outline-none flex-[0.25] "
+                    className=" border  hover:border-yellow-500 bg-yellow-300 border-yellow-300 border-transparent  text-black rounded-md px-4 py-1 text-sm font-medium hover:text-black hover:bg-yellow-500 transition-all duration-200 focus:outline-none flex-[0.25] "
                   >
                     {props.loading ? (
                       <svg

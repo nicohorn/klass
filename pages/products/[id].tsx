@@ -474,7 +474,7 @@ export default function Id({ item }) {
         <img
           id="productImage"
           key={imageIndex}
-          className="z-30 max-h-[70vh] object-cover transition-all duration-200 object-center rounded-sm drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
+          className="z-30 max-h-[70vh] object-cover transition-all duration-200 object-center rounded-md drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
           src={`${product.img[imageIndex]}`}
           style={{ opacity: "0" }} // Set initial opacity to 0
           onLoad={(e) => {
@@ -541,11 +541,11 @@ export default function Id({ item }) {
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <section className="flex  justify-center h-full lg:mx-20 items-center rounded-sm shadow-inner bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
+      <section className="flex  justify-center h-full lg:mx-20 items-center rounded-md shadow-inner bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
         <div className="relative aspect-[4/5] h-full  xl:mx-0 mx-auto  group text-xl ">
           {imageContainer()}
         </div>
-        <div className="self-center xl:self-stretch flex-1 z-40 bg-white rounded-sm">
+        <div className="self-center xl:self-stretch flex-1 z-40 bg-white rounded-md">
           <div className=" flex flex-col gap-5   mr-0 shadow-lg h-full p-5 lg:p-10">
             <h1 className="font-bold text-3xl lg:text-3xl ">{product.name}</h1>
 
@@ -566,7 +566,7 @@ export default function Id({ item }) {
 
             {product.base_price !== 1 && (
               <button
-                className="bg-yellow-600 p-3 font-semibold rounded-sm w-[100%] mt-auto  text-white active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-500 "
+                className="bg-yellow-300 p-3 font-semibold rounded-md w-[100%] mt-auto  text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 "
                 onClick={() => {
                   addToCart(
                     product._id,

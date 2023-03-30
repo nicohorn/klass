@@ -27,7 +27,7 @@ export default function Orders({ items }) {
 
     return (
       <main className="w-full ">
-        <div className="2xl:w-[60%] min-h-[60vh] md:w-[80%] mx-auto p-5 my-10 border bg-white rounded-sm shadow-md">
+        <div className="2xl:w-[60%] min-h-[60vh] md:w-[80%] mx-auto p-5 my-10 border bg-white rounded-md shadow-md">
           <h1 className="text-3xl font-semibold">Hola {user.name}! </h1>
           <p className="p-2">Estos son tus pedidos:</p>
 
@@ -44,7 +44,7 @@ export default function Orders({ items }) {
                 >
                   <div
                     key={i}
-                    className=" flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2 rounded-sm hover:shadow-md
+                    className=" flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2 rounded-md hover:shadow-md
                       hover:bg-emerald-100
                       transition-all duration-150"
                   >
@@ -140,7 +140,7 @@ export default function Orders({ items }) {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <Dialog.Panel className=" transform rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all">
+                    <Dialog.Panel className=" transform rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
                       <Dialog.Title
                         as="h3"
                         className="text-xl font-medium leading-6 text-black"
