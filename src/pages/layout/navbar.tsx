@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useProducts } from "../../zustand";
+import { useProducts } from "../../utils/zustand";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
 import Dropdown from "../components/dropdown";
 import { Popover, Transition } from "@headlessui/react";
 
 export default function Navbar(props) {
-  const setCart = useProducts((state: any) => state.setCart);
   const { user, error, isLoading } = useUser();
+  const setCart = useProducts((state: any) => state.setCart);
   const products = useProducts((state: any) => state.cart);
 
   useEffect(() => {
@@ -118,12 +118,12 @@ export default function Navbar(props) {
                   stroke="currentColor"
                   className="w-10 h-10 "
                 >
-                  <title>
+                  {/* <title>
                     {" "}
                     {getTotalCount() != 0
                       ? "Hay " + getTotalCount() + " item/s en el carrito"
                       : "Carrito vacío"}
-                  </title>
+                  </title> */}
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"

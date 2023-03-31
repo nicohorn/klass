@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 
 export const useProducts = create((set) => ({
   //Zustand is a state management solution. I've used it in order to make the cart available throughout all components of the page.

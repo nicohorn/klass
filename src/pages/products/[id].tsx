@@ -1,13 +1,13 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { useProducts } from "../../zustand";
+import { useProducts } from "zustand";
 import Head from "next/head";
 import { formatter, colorsMap as colors } from "utils";
 
 var ObjectId = require("mongodb").ObjectId;
 
-import clientPromise from "../../mongodb";
+import clientPromise from "mongodb.js";
 
 export default function Id({ item }) {
   const addToCart = useProducts((state: any) => state.addToCart);

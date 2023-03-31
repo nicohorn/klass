@@ -1,5 +1,4 @@
 import "tailwindcss/tailwind.css";
-import "../styles/globals.css";
 import { useRouter } from "next/router";
 import Navbar from "./layout/navbar";
 import Footer from "./layout/footer";
@@ -8,6 +7,7 @@ import React, { useEffect } from "react";
 import { UserProvider } from "@auth0/nextjs-auth0";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../app/global.css";
 
 function MyApp({ Component, pageProps }) {
   const path = useRouter().pathname;
@@ -27,8 +27,6 @@ function MyApp({ Component, pageProps }) {
           href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,900;1,300&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,400&display=swap"
         />
       </Head>
-
-      {/* <FacebookPixel /> */}
 
       <main className=" bg-primary">
         <Navbar path={path} />

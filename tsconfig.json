@@ -15,8 +15,22 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
-    "paths": { "@clientPromise": ["./mongodb.js"] }
+    "paths": {
+      "@clientPromise": ["mongodb.js"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/context.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/context.jsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import clientPromise from "../../../mongodb";
+import clientPromise from "../../../../mongodb";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
 import { formatter } from "utils";
-import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function Orders({ items, totalDocuments }) {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function Orders({ items, totalDocuments }) {
               key={button}
               onClick={() => {
                 setPage(button);
-                router.push(`/adminpanel/orders/view?page=${button}`);
+                router.push(`/adminpanel/orders?page=${button}`);
               }}
               className={
                 button === page
@@ -413,14 +413,14 @@ export default function Orders({ items, totalDocuments }) {
 //   };
 // }
 
-export async function getServerSideProps(searchParams) {
+export async function getServerSideProps(context) {
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");
   const collection = db.collection("orders");
-  let currentPage = Number(searchParams.page);
+  let currentPage = Number(context.query.page) || 1;
   const ordersPerPage = 8;
 
-  console.log("currentPage", currentPage);
+  console.log("currentPage", context.query.page);
 
   const [totalDocuments, ordersResponse] = await Promise.all([
     await collection.countDocuments(),

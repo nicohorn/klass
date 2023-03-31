@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import clientPromise from "../../../mongodb";
+import clientPromise from "../../../../mongodb";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
@@ -12,10 +12,6 @@ export default function Orders({ items, totalDocuments }) {
 
   const [page, setPage] = useState(1);
   let [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    router.push(`/adminpanel/custom_orders/${page}`);
-  }, [page]);
 
   function openModal() {
     setIsOpen(true);
@@ -141,8 +137,8 @@ export default function Orders({ items, totalDocuments }) {
 
   return (
     <main className="flex-grow ">
-      {user.sub == "google-oauth2|102747183325371068763" ||
-      user.sub == "google-oauth2|101977740947109023372" ? (
+      {user?.sub == "google-oauth2|102747183325371068763" ||
+      user?.sub == "google-oauth2|101977740947109023372" ? (
         <div>
           <div className="2xl:w-[60%] min-h-[60vh] bg-white lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
             <h1 className="text-3xl font-semibold mb-5">
@@ -287,7 +283,7 @@ export async function getServerSideProps(context) {
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");
   const collection = db.collection("custom_orders");
-  let currentPage = parseInt(context.query.n);
+  let currentPage = parseInt(context.searchParams.page);
   const ordersPerPage = 8;
 
   const [totalDocuments, ordersResponse] = await Promise.all([

@@ -1,12 +1,12 @@
 import React from "react";
 import { useEffect, useState, useLayoutEffect } from "react";
-import { useProducts } from "../zustand";
-import clientPromise from "@clientPromise";
+import { useProducts } from "../utils/zustand";
+import clientPromise from "../../mongodb";
 import { useUser } from "@auth0/nextjs-auth0";
 import ProductContainer from "./components/productContainer";
 import Link from "next/link";
 import Modal from "./components/modal";
-import { supabase } from "../supabase";
+import { supabase } from "supabase.js";
 import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
@@ -41,7 +41,9 @@ export default function Home({ products }) {
     );
 
   useEffect(() => {
-    let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
+    let retrieveLocalStorage = JSON.parse(
+      localStorage.getItem("my-cart") || ""
+    );
 
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);

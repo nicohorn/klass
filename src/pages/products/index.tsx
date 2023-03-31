@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
-import { useProducts } from "../../zustand";
-import clientPromise from "@clientPromise";
+import { useProducts } from "../../utils/zustand";
+import clientPromise from "mongodb";
 import gsap from "gsap";
 import { Search } from "@mui/icons-material";
 import fuzzysort from "fuzzysort";

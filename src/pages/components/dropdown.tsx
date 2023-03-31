@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import gsap from "gsap";
 import Link from "next/link";
-import { useDropdown } from "../../zustand";
+import { useDropdown } from "../../utils/zustand";
 
 export default function Dropdown(props) {
   const dropdownState = useDropdown((state: any) => state.dropdownState);
