@@ -82,7 +82,7 @@ export default function Dropdown(props) {
           return (
             <div className="cursor-pointer" key={i}>
               <Link href={option.href}>
-                <div className=" p-2 rounded-md border bg-white border-white shadow-sm  my-2 hover:border-gray-400 transition-all duration-150 flex justify-between h-full">
+                <div className=" p-2 rounded-md border bg-white border-white  shadow-sm  my-2 hover:border-gray-400 transition-all duration-150 flex justify-between h-full">
                   <span>{option.title}</span>
                   <span>{option.icon}</span>
                 </div>

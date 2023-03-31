@@ -41,9 +41,7 @@ export default function Home({ products }) {
     );
 
   useEffect(() => {
-    let retrieveLocalStorage = JSON.parse(
-      localStorage.getItem("my-cart") || ""
-    );
+    let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
 
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);
