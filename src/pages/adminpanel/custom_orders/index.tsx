@@ -283,7 +283,7 @@ export async function getServerSideProps(context) {
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");
   const collection = db.collection("custom_orders");
-  let currentPage = parseInt(context.searchParams.page);
+  let currentPage = parseInt(context.query.page) || 1;
   const ordersPerPage = 8;
 
   const [totalDocuments, ordersResponse] = await Promise.all([
