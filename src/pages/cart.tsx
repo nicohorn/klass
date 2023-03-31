@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useProducts } from "../utils/zustand";
-import clientPromise from "mongodb";
+import clientPromise from "../../mongodb";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
