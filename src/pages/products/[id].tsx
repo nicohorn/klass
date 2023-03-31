@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { useProducts } from "zustand";
+import { useProducts } from "../../utils/zustand";
 import Head from "next/head";
 import { formatter, colorsMap as colors } from "utils";
 
