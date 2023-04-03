@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     switch (req.method) {
       case "GET":
         return res.status(401).json("Forbidden access");
-        break;
+
       case "POST":
         result = await collection.insertOne({ ...req.body });
         result = await collection.findOne({ _id: result.insertedId });
