@@ -616,6 +616,7 @@ export async function getStaticProps(context) {
         };
       }),
     },
+    revalidate: 300,
   };
 }
 export async function getStaticPaths() {
