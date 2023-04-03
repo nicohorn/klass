@@ -57,11 +57,12 @@ export default function Orders({ items, totalDocuments }) {
   }
 
   const updateOrder = async (orderToBeUpdated) => {
-    const res = await fetch("https://www.klass.com/api/orders", {
+    const res = await fetch("/api/orders", {
       method: "PUT",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(orderToBeUpdated),
     })
