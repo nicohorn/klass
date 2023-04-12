@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   try {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
-    const collection = db.collection("products2");
+    const collection = db.collection("products");
     let result;
 
     const products = await collection.find({ steel: true }).toArray();
