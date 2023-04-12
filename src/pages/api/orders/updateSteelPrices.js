@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const collection = db.collection("products");
     let result;
 
-    const products = await collection.find({}).toArray();
+    const products = await collection.find({ steel: true }).toArray();
     const promiseAll = products.map(async (product) => {
       await collection.findOneAndUpdate(
         { _id: product._id },
@@ -28,10 +28,10 @@ export default async function handler(req, res) {
         },
       }
     );
-    console.log(req.body);
+    console.log(products);
     result = await Promise.all(promiseAll);
 
-    return res.status(200).json(result);
+    return res.status(200).json(products);
   } catch (err) {
     console.error(err);
     return res.status(500).json("Server error");
