@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   try {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
-    const collection = db.collection("products");
+    const collection = db.collection("products2");
     let result;
 
     const products = await collection.find({ steel: true }).toArray();
@@ -20,14 +20,14 @@ export default async function handler(req, res) {
         }
       );
     });
-    const rackCeibo = await collection.findOneAndUpdate(
-      { name: "Rack Ceibo" },
-      {
-        $set: {
-          base_price: 1,
-        },
-      }
-    );
+    // const rackCeibo = await collection.findOneAndUpdate(
+    //   { name: "Rack Ceibo" },
+    //   {
+    //     $set: {
+    //       base_price: 1,
+    //     },
+    //   }
+    // );
     console.log(products);
     result = await Promise.all(promiseAll);
 

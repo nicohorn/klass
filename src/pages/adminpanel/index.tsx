@@ -88,7 +88,7 @@ export default function Page() {
           Actualizar precios de productos con hierro{" "}
           <span>
             <input
-              id="multiplier"
+              id="multiplier2"
               maxLength={3}
               className="w-14 text-black px-2 text-center"
             />{" "}
@@ -99,7 +99,7 @@ export default function Page() {
             onClick={() => {
               const percentage =
                 Number(
-                  (document.getElementById("multiplier") as HTMLInputElement)
+                  (document.getElementById("multiplier2") as HTMLInputElement)
                     .value
                 ) / 10;
 
