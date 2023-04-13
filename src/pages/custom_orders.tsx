@@ -7,6 +7,8 @@ import { supabase_images_url } from "utils";
 import { supabase } from "supabase";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
+import Image from "next/image";
+import SimpleImageSlider from "react-simple-image-slider";
 
 export default function Custom_orders() {
   const { user } = useUser();
@@ -15,6 +17,18 @@ export default function Custom_orders() {
   const [imageLoading, setImageLoading] = useState("nada");
   const [open, setOpen] = useState(false);
   const [isProject, setIsProject] = useState(false);
+
+  let carouselImages = [
+    "/carousel/1.jpeg",
+    "/carousel/2.jpg",
+    "/carousel/3.jpg",
+    "/carousel/4.jpeg",
+    "/carousel/5.jpeg",
+    "/carousel/6.jpeg",
+    "/carousel/7.jpeg",
+    "/carousel/8.jpeg",
+    "/carousel/9.jpeg",
+  ];
 
   useEffect(() => {
     const handleOnMouseMove = (e) => {
@@ -68,7 +82,7 @@ export default function Custom_orders() {
     );
 
   return (
-    <main className="w-full min-h-[60vh] text-white">
+    <main className="w-full text-white flex xl:flex-row flex-col justify-between xl:min-h-screen">
       <div className="md:p-0 p-5  md:mx-20 xl:w-[30%]">
         <div className="mb-6">
           Contamos con fábrica y estudio propio para realizar trabajos
@@ -102,6 +116,34 @@ export default function Custom_orders() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="md:block hidden mx-20 xl:self-auto  self-center xl:mt-0 mt-10 relative">
+        <SimpleImageSlider
+          width={500}
+          height={700}
+          images={carouselImages}
+          showBullets={true}
+          showNavs={true}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
+      </div>
+      <div className="md:hidden block mx-20 xl:self-auto  self-center xl:mt-0 mt-10 relative">
+        <SimpleImageSlider
+          width={300}
+          height={400}
+          images={carouselImages}
+          showBullets={true}
+          showNavs={true}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
       </div>
       <Modal
         imageLoadingState={setImageLoading}
