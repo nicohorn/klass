@@ -184,7 +184,7 @@ export default function Orders({ items, totalDocuments }) {
                       </span>
                       {selectState(item)}
                       <div className="py-2 flex gap-3 items-center md:w-[25%] ">
-                        <span className="text-sm font-semibold text-yellow-600 basis-4/5">
+                        <span className="text-sm font-semibold text-green-600 basis-4/5">
                           Total: {formatter.format(item.total)}
                         </span>
                         <div
@@ -247,7 +247,7 @@ export default function Orders({ items, totalDocuments }) {
                                 ).toLocaleTimeString()}
                               </p>
                               <div className="text-sm mt-1 text-gray-500">
-                                Código: <p>{selected._id}</p>
+                                ID: <p>{selected._id}</p>
                               </div>
                             </div>
                             <div>
@@ -348,7 +348,7 @@ export default function Orders({ items, totalDocuments }) {
                               </div>
                             );
                           })}
-                          <span className="text-yellow-600 font-semibold self-end mt-4">
+                          <span className="text-green-600 font-semibold self-end mt-4">
                             Total: {formatter.format(selected?.total)}
                           </span>
                           <div className="flex flex-col gap-2">
