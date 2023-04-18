@@ -87,15 +87,15 @@ export default function Orders({ items, totalDocuments }) {
           <div className="relative">
             <Listbox.Button>
               {order.state === "pending" ? (
-                <div className="bg-amber-400  rounded-md font-bold text-white px-3 py-1">
+                <div className="bg-gray-200  rounded-md font-bold text-white px-3 py-1">
                   Pendiente
                 </div>
               ) : order.state === "confirmed" ? (
-                <div className="bg-yellow-400 rounded-md font-bold text-white px-3 py-1">
+                <div className="bg-green-400 rounded-md font-bold text-white px-3 py-1">
                   Confirmado
                 </div>
               ) : order.state === "sent" ? (
-                <div className="bg-yellow-700 rounded-md font-bold text-white px-3 py-1">
+                <div className="bg-green-700 rounded-md font-bold text-white px-3 py-1">
                   Enviado
                 </div>
               ) : null}
@@ -169,7 +169,7 @@ export default function Orders({ items, totalDocuments }) {
                       transition-all duration-150"
                     >
                       <div className="font-semibold flex gap-4 xl:w-[30%] text-gray-500 break-words  break-all ">
-                        Código: {item._id}
+                        Fecha: {new Date(item.createdAt).toLocaleString()}
                       </div>
 
                       <span className="font-semibold ">
@@ -236,7 +236,7 @@ export default function Orders({ items, totalDocuments }) {
                           <div className="flex justify-between items-baseline">
                             <div>
                               <span>Detalles del pedido</span>
-                              <p className="text-sm mt-1 text-gray-500">
+                              <p className="text-sm mt-1 text-gray-500 font-bold">
                                 Realizado el:{" "}
                                 {new Date(
                                   selected?.createdAt
@@ -246,18 +246,21 @@ export default function Orders({ items, totalDocuments }) {
                                   selected?.createdAt
                                 ).toLocaleTimeString()}
                               </p>
+                              <div className="text-sm mt-1 text-gray-500">
+                                Código: <p>{selected._id}</p>
+                              </div>
                             </div>
                             <div>
                               {selected?.state == "pending" ? (
-                                <h2 className="bg-amber-400 text-white text-sm px-2 rounded-lg">
+                                <h2 className="bg-gray-200 text-white text-sm px-2 rounded-lg">
                                   Pendiente
                                 </h2>
                               ) : selected?.state == "confirmed" ? (
-                                <h2 className="bg-yellow-500 text-white text-sm px-2 rounded-lg">
+                                <h2 className="bg-green-400 text-white text-sm px-2 rounded-lg">
                                   Confirmado
                                 </h2>
                               ) : selected?.state == "sent" ? (
-                                <h2 className="bg-yellow-700 text-white text-sm px-2 rounded-lg">
+                                <h2 className="bg-green-700 text-white text-sm px-2 rounded-lg">
                                   Enviado
                                 </h2>
                               ) : null}
@@ -392,27 +395,6 @@ export default function Orders({ items, totalDocuments }) {
     </main>
   );
 }
-// export async function getStaticPaths() {
-//   const client = await clientPromise;
-//   const db = client.db("klass_ecommerce");
-//   const collection = db.collection("orders");
-//   const totalDocuments = await collection.countDocuments();
-
-//   let pages = [];
-
-//   for (let i = 1; i < Math.ceil(totalDocuments / 8); i++) {
-//     pages.push(i);
-//   }
-
-//   const paths = pages.map((page) => {
-//     return { params: { n: page.toString() } };
-//   });
-
-//   return {
-//     paths,
-//     fallback: false, // See the "fallback" section below
-//   };
-// }
 
 export async function getServerSideProps(context) {
   const client = await clientPromise;
@@ -427,6 +409,7 @@ export async function getServerSideProps(context) {
     await collection.countDocuments(),
     await collection
       .find({})
+      .sort({ createdAt: -1 })
       .skip((currentPage - 1) * ordersPerPage)
       .limit(ordersPerPage)
       .toArray(),
