@@ -10,7 +10,6 @@ import { formatter } from "utils";
 function Products({ items }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
-  const [category, setCategory] = useState("");
   const [active, setActive] = useState(null);
   const [search, setSearch] = useState(false);
   const [searchString, setSearchString] = useState("");
@@ -21,14 +20,6 @@ function Products({ items }) {
       setCart(retrieveLocalStorage);
     }
   }, []);
-
-  useEffect(() => {
-    gsap.fromTo(
-      "#product",
-      { opacity: 0 },
-      { opacity: 1, duration: 0.3, delay: 0.3, ease: "power1.out" }
-    );
-  }, [category]);
 
   useEffect(() => {
     if (JSON.stringify(productsCart) != "[]") {

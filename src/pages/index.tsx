@@ -14,6 +14,7 @@ import Message from "./components/message";
 import { formatter } from "utils";
 import { Custom_Order } from "types";
 import { supabase_images_url } from "utils";
+import { Cookie } from "@mui/icons-material";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -46,9 +47,24 @@ export default function Home({ products }) {
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);
     }
+    let difference = 0;
+    if (document.cookie) {
+      const cookieDate = new Date(document.cookie.split("date=")[1]);
+      const today = new Date();
+      difference = today.getTime() - cookieDate.getTime();
+      console.log(cookieDate);
+    }
 
     setTimeout(() => {
-      setShowMessage(true);
+      if (
+        difference > 86400000 ||
+        !document.cookie.toString().includes("date")
+      ) {
+        setShowMessage(true);
+        document.cookie = `date=${new Date().toISOString()}`;
+      } else {
+        setShowMessage(false);
+      }
     }, 1500);
   }, []);
 
