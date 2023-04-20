@@ -5,7 +5,6 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
 import { formatter } from "utils";
-import { useSearchParams } from "next/navigation";
 
 export default function Orders({ items, totalDocuments }) {
   const router = useRouter();

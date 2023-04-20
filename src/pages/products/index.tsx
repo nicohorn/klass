@@ -2,10 +2,10 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useProducts } from "../../utils/zustand";
 import clientPromise from "../../../mongodb";
-import gsap from "gsap";
 import { Search } from "@mui/icons-material";
 import fuzzysort from "fuzzysort";
 import { formatter } from "utils";
+import Image from "next/image";
 
 function Products({ items }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -64,7 +64,7 @@ function Products({ items }) {
         <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 w-full items-center border-0 lg:border-b border-white">
           {" "}
           <div className="uppercase lg:items-end items-center flex flex-col lg:flex-row gap-4 font-bold text-2xl md:text-5xl text-center text-white lg:text-left pb-2 lg:border-none border-b">
-            <p>Nuestros productos</p>
+            <p id="Título">Nuestros productos</p>
             <button
               onClick={() => {
                 setSearch(!search);
@@ -143,8 +143,15 @@ function Products({ items }) {
                     <div className="flex flex-col ">
                       <div
                         className="rounded-md  aspect-[4/5] md:group-hover:scale-105 bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm "
-                        style={{ backgroundImage: `url(${item.img[0]})` }}
+                        // style={{ backgroundImage: `url(${item.img[0]})` }}
                       >
+                        <Image
+                          className="rounded-md  aspect-[4/5] md:group-hover:scale-105 bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm"
+                          width={500}
+                          height={500}
+                          alt="Imagen del producto"
+                          src={item.img[0]}
+                        ></Image>
                         <div className="absolute w-full bottom-0  transition-all duration-300 delay-300">
                           <p className=" px-4 my-3 uppercase font-bold md:group-hover:text-2xl transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
                             {item.name}
