@@ -14,6 +14,7 @@ function Products({ items }) {
   const [search, setSearch] = useState(false);
   const [searchString, setSearchString] = useState("");
 
+  //This useEffect is used to retrieve the cart from the local storage if it exists, and then set it in the cart state (zustand).
   useEffect(() => {
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
     if (retrieveLocalStorage) {
@@ -21,12 +22,14 @@ function Products({ items }) {
     }
   }, []);
 
+  //This useEffect is used to save the cart in the local storage if the cart is not empty.
   useEffect(() => {
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
 
+  //Helper function that retrieves the categories from the items array.
   function getCategories() {
     const categories = items.map((item) => {
       let categories = item.categories.toString().split("/");
@@ -71,7 +74,7 @@ function Products({ items }) {
               }}
               className="cursor-pointer"
             >
-              <Search className="hover:fill-yellow-500 mb-5 md:mb-0  scale-125 hover:scale-150 transition-all duration-150"></Search>
+              <Search className="hover:fill-yellow-400 mb-5 md:mb-0  scale-125 hover:scale-150 transition-all duration-150"></Search>
             </button>
             <div className="flex-1 relative lg:w-[26vw] w-full">
               <input
@@ -83,7 +86,7 @@ function Products({ items }) {
                 className={`text-primary lg:-translate-y-[110%]  -top-5 md:-top-0  -translate-x-[50%] lg:translate-x-0 absolute px-2 outline-none text-lg opacity-100 transition-all duration-200 ${
                   search ? "width-animation" : "width-animation-reverse"
                 } `}
-                placeholder="Ingresá el nombre del producto que estás buscando"
+                placeholder="Ingresá el nombre del producto que buscás"
               />
             </div>
           </div>
@@ -101,8 +104,8 @@ function Products({ items }) {
                   }}
                   className={
                     active == i
-                      ? "cursor-pointer  font-semibold  text-white px-3 py-1  bg-yellow-600 transition-all duration-100 shadow-md"
-                      : "cursor-pointer  font-semibold  text-white px-3 py-1  transition-all duration-100   border border-white hover:border-yellow-600 "
+                      ? "cursor-pointer  font-semibold  text-black px-3 py-1  bg-yellow-400 transition-all duration-100 shadow-md"
+                      : "cursor-pointer  font-semibold  text-white px-3 py-1  transition-all duration-100   border border-white hover:border-yellow-400 "
                   }
                 >
                   {cat}
@@ -141,19 +144,16 @@ function Products({ items }) {
                 <div className="delay-150 border-opacity-0 w-[80%] sm:w-full mx-auto transition-all duration-150 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
                   <a href={`/products/` + item._id}>
                     <div className="flex flex-col ">
-                      <div
-                        className="rounded-md  aspect-[4/5] md:group-hover:scale-105 bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm "
-                        // style={{ backgroundImage: `url(${item.img[0]})` }}
-                      >
+                      <div className="rounded-md  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm">
                         <Image
-                          className="rounded-md  aspect-[4/5] md:group-hover:scale-105 bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm"
+                          className="rounded-md  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm"
                           width={500}
                           height={500}
                           alt="Imagen del producto"
                           src={item.img[0]}
                         ></Image>
                         <div className="absolute w-full bottom-0  transition-all duration-300 delay-300">
-                          <p className=" px-4 my-3 uppercase font-bold md:group-hover:text-2xl transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
+                          <p className=" px-4 my-3 uppercase font-bold transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
                             {item.name}
                           </p>
                           <p className="px-5 -translate-x-1 max-w-fit mb-2 py-1 font-bold bg-yellow-300  text-black drop-shadow-[0px_0px_6px_rgba(0,0,0,0.25)] flex items-center rounded-md">
@@ -168,7 +168,7 @@ function Products({ items }) {
                               </span>
                             </div>
                           </p>
-                          <span className="text-sm p-4 md:block hidden bg-black/60 text-white transition-all delay-500 duration-200  absolute bottom-full pointer-events-none opacity-0 group-hover:opacity-100">
+                          <span className="text-sm p-4 md:block hidden bg-black/60 text-white transition-all delay-500 duration-200  absolute bottom-full group-hover:scale-[1.02] pointer-events-none opacity-0 group-hover:opacity-100">
                             {item.description}
                           </span>
                         </div>

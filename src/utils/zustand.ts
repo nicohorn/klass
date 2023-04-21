@@ -29,7 +29,7 @@ export const useProducts = create((set) => ({
     model: any
   ) => {
     set((state) => {
-      //Función para chequear si el producto ya existe en el carrito
+      //Función para chequear si el producto ya existe en el carrito (por id, size, color, style y model).
       const isInCart = state.cart.find(
         (product) =>
           product.id == id &&
