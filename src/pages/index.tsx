@@ -14,7 +14,6 @@ import Message from "./components/message";
 import { formatter } from "utils";
 import { Custom_Order } from "types";
 import { supabase_images_url } from "utils";
-import { Cookie } from "@mui/icons-material";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -47,6 +46,7 @@ export default function Home({ products }) {
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);
     }
+
     let difference = 0;
     if (document.cookie) {
       const cookieDate = new Date(document.cookie.split("date=")[1]);
@@ -54,7 +54,7 @@ export default function Home({ products }) {
       difference = today.getTime() - cookieDate.getTime();
       console.log(cookieDate);
     }
-
+    //Check if the cookie is older than 24 hours, if it is, show the message again.
     setTimeout(() => {
       if (
         difference > 86400000 ||
@@ -285,7 +285,7 @@ export default function Home({ products }) {
             </div>
 
             <div className="mt-auto flex flex-col flex-wrap justify-center text-white md:justify-end gap-5 items-center md:items-end">
-              <div className="px-4 py-4 rounded-md text-green-600  flex items-end gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)]">
+              <div className="px-4 py-4 rounded-md text-yellow-500  flex items-end gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)]">
                 <p className="md:text-4xl text-3xl font-bold  ">
                   {formatter.format(product1.base_price)}
                 </p>
