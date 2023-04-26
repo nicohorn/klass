@@ -28,7 +28,6 @@ export default async function handler(req, res) {
         },
       }
     );
-    console.log(req.body);
     result = await Promise.all(promiseAll);
 
     return res.status(200).json(result);
