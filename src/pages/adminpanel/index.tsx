@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Page() {
   const updateAllPrices = async (multiplier: number) => {
-    await fetch("/api/orders/updateAllPrices", {
+    await fetch("/api/products/updateAllPrices", {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -24,7 +24,7 @@ export default function Page() {
   };
 
   const updateSteelPrices = async (multiplier: number) => {
-    await fetch("/api/orders/updateSteelPrices", {
+    await fetch("/api/products/updateSteelPrices", {
       method: "PUT",
       mode: "cors",
       headers: {
@@ -109,8 +109,6 @@ export default function Page() {
                   : percentage < 1
                   ? Number(1 + ".0" + percentage * 10)
                   : percentage / 10 + 1;
-              console.log(percentage);
-              console.log(multiplier);
 
               updateSteelPrices(multiplier);
             }}
