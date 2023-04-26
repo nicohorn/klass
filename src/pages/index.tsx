@@ -464,5 +464,6 @@ export async function getStaticProps() {
         };
       }),
     },
+    revalidate: 100,
   };
 }
