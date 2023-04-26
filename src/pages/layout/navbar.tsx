@@ -20,6 +20,7 @@ export default function Navbar(props) {
 
   const content = () => {
     if (
+      //Admins: Michelle, Nicolas.
       user?.sub == "google-oauth2|102747183325371068763" ||
       user?.sub == "google-oauth2|101977740947109023372"
     ) {
@@ -118,12 +119,6 @@ export default function Navbar(props) {
                   stroke="currentColor"
                   className="w-10 h-10 "
                 >
-                  {/* <title>
-                    {" "}
-                    {getTotalCount() != 0
-                      ? "Hay " + getTotalCount() + " item/s en el carrito"
-                      : "Carrito vacío"}
-                  </title> */}
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -181,9 +176,9 @@ export default function Navbar(props) {
                   {item.title}
 
                   {props.path == item.url ? (
-                    <div className="h-[1px] bg-white w-full transition-all duration-150"></div>
+                    <div className="h-[1px] bg-yellow-400 w-full transition-all duration-150"></div>
                   ) : (
-                    <div className="w-0 h-[1px] bg-white group-hover:w-full transition-all duration-150"></div>
+                    <div className="w-0 h-[1px] bg-yellow-400 group-hover:w-full transition-all duration-150"></div>
                   )}
                 </div>
               </a>

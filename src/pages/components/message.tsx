@@ -29,6 +29,7 @@ export default function Message(props) {
         as="div"
         onClose={() => {
           props.closeModal(false);
+          messageBanner();
         }}
       >
         <Transition.Child
