@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import clientPromise from "../../mongodb";
-import { formatter } from "utils";
+import { formatter } from "src/utils/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { getSession } from "@auth0/nextjs-auth0";
 

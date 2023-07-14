@@ -4,10 +4,11 @@ import { useProducts } from "../../utils/zustand";
 import clientPromise from "../../../mongodb";
 import { Search } from "@mui/icons-material";
 import fuzzysort from "fuzzysort";
-import { formatter } from "utils";
+import { formatter } from "src/utils/utils";
+import type { ProductType } from "src/utils/types";
 import Image from "next/image";
 
-function Products({ items }) {
+function Products({ items }: { items: ProductType[] }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
   const [active, setActive] = useState(null);
@@ -20,7 +21,7 @@ function Products({ items }) {
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);
     }
-  }, []);
+  }, [setCart]);
 
   //This useEffect is used to save the cart in the local storage if the cart is not empty.
   useEffect(() => {
@@ -156,7 +157,7 @@ function Products({ items }) {
                           <p className=" px-4 my-3 uppercase font-bold transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
                             {item.name}
                           </p>
-                          <p className="px-5 -translate-x-1 max-w-fit mb-2 py-1 font-bold bg-yellow-300  text-black drop-shadow-[0px_0px_6px_rgba(0,0,0,0.25)] flex items-center rounded-md">
+                          <span className="px-5 -translate-x-1 max-w-fit mb-2 py-1 font-bold bg-yellow-300  text-black drop-shadow-[0px_0px_6px_rgba(0,0,0,0.25)] flex items-center rounded-md">
                             {formatter.format(item.base_price)}
                             <div className=" flex flex-col">
                               {" "}
@@ -167,7 +168,7 @@ function Products({ items }) {
                                 base
                               </span>
                             </div>
-                          </p>
+                          </span>
                           <span className="text-sm p-4 md:block hidden bg-black/60 text-white transition-all delay-500 duration-200  absolute bottom-full group-hover:scale-[1.02] pointer-events-none opacity-0 group-hover:opacity-100">
                             {item.description}
                           </span>

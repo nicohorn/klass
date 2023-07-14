@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useProducts } from "../../utils/zustand";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-import Dropdown from "../components/dropdown";
+import Dropdown from "../components/Dropdown";
 import { Popover, Transition } from "@headlessui/react";
 
 export default function Navbar(props) {

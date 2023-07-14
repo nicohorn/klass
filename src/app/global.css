@@ -500,8 +500,8 @@ body {
 .card {
   background-color: rgb(15, 15, 15);
 
-  border: solid 1px;
-  border-color: rgb(78, 78, 78);
+  border: solid 0.5px;
+  border-color: rgb(249 198 38);
   cursor: pointer;
   position: relative;
   transition: all 0.2s;

@@ -20,3 +20,14 @@ export type Order = {
   createdAt: string;
   state: string;
 };
+
+export type ProductType = {
+  _id?: string;
+  name: string;
+  base_price: number;
+  img: Array<string>;
+  categories: string;
+  options: Array<object>;
+  description: string;
+  tags: string;
+};

@@ -3,17 +3,19 @@ import { useEffect, useState, useLayoutEffect } from "react";
 import { useProducts } from "../utils/zustand";
 import clientPromise from "../../mongodb";
 import { useUser } from "@auth0/nextjs-auth0";
-import ProductContainer from "./components/productContainer";
+import ProductSlider from "./components/ProductSlider";
 import Link from "next/link";
-import Modal from "./components/modal";
+import Modal from "./components/Modal";
 import { supabase } from "supabase.js";
 import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
-import Message from "./components/message";
-import { formatter } from "utils";
-import { Custom_Order } from "types";
-import { supabase_images_url } from "utils";
+import Message from "./components/Message";
+import { formatter } from "src/utils/utils";
+import { Custom_Order } from "src/utils/types";
+import { supabase_images_url } from "src/utils/utils";
+import crypto from "crypto";
+const jose = require("jose");
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -52,7 +54,6 @@ export default function Home({ products }) {
       const cookieDate = new Date(document.cookie.split("date=")[1]);
       const today = new Date();
       difference = today.getTime() - cookieDate.getTime();
-      console.log(cookieDate);
     }
     //Check if the cookie is older than 24 hours, if it is, show the message again.
     setTimeout(() => {
@@ -72,27 +73,30 @@ export default function Home({ products }) {
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
+    if (user) {
+      document.cookie = `userId=${user.sub}`;
+    } else {
+      document.cookie = `userId=null`;
+    }
   });
 
-  const product1 = products.find((product) => {
-    return product.name === "Cama Funcional - 2 plazas";
-  });
-
-  const product2 = products.find((product) => {
-    return product.name === "Cajonera Aster";
-  });
-
-  const product3 = products.find((product) => {
-    return product.name === "Rack Brezo";
-  });
-
-  const product4 = products.find((product) => {
-    return product.name === "Escritorio Klassic";
-  });
-
-  const product5 = products.find((product) => {
-    return product.name === "Estantería Klassic";
-  });
+  const frontPageProducts = [
+    products.find((product) => {
+      return product.name === "Cama Funcional - 2 plazas";
+    }),
+    products.find((product) => {
+      return product.name === "Cajonera Aster";
+    }),
+    products.find((product) => {
+      return product.name === "Rack Brezo";
+    }),
+    products.find((product) => {
+      return product.name === "Escritorio Klassic";
+    }),
+    products.find((product) => {
+      return product.name === "Estantería Klassic";
+    }),
+  ];
 
   const createCustomOrder = async (order: Custom_Order) => {
     //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
@@ -116,15 +120,20 @@ export default function Home({ products }) {
 
   return (
     <main className="w-full  text-white">
-      <Message closeModal={setShowMessage} openModal={showMessage}>
-        <h1 className="font-bold text-2xl mb-2">Hola!</h1>{" "}
-        <p className="p-2">
-          Te queremos comentar que estás usando nuestra versión{" "}
-          <b className="font-semibold">BETA</b> de nuestro sitio web, podés
-          presupuestar pedidos y dejarnos un pedido hecho, pero aun no se pueden
-          pagar a través de nuestro sitio.
-        </p>
-      </Message>
+      <Message
+        title="Hola!"
+        bannerMessage="¡Fabricamos a medida! tu mueble va a estar listo 25 días después de la recepción de la seña."
+        closeModal={setShowMessage}
+        openModal={showMessage}
+        content={
+          <p className="p-2">
+            Te queremos comentar que estás usando nuestra versión{" "}
+            <b className="font-semibold">BETA</b> de nuestro sitio web, podés
+            presupuestar pedidos y dejarnos un pedido hecho, pero aun no se
+            pueden pagar a través de nuestro sitio.
+          </p>
+        }
+      />
       <Modal
         imageLoadingState={setImageLoading}
         loading={loading}
@@ -254,7 +263,7 @@ export default function Home({ products }) {
         id="product-container"
         className=" bg-center bg-cover opacity-animation md:mx-20 py-8 px-4 md:px-16 rounded-md  shadow-lg"
         style={{
-          backgroundImage: `url("${product1.img[0]}")`,
+          backgroundImage: `url("${frontPageProducts[0].img[0]}")`,
         }}
       >
         <div className="flex gap-4 flex-col xl:flex-row lg:my-16">
@@ -266,7 +275,7 @@ export default function Home({ products }) {
               Cama funcional de dos plazas
             </p>
             <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem] rounded-md bg-black/50  py-5 px-4 md:px-8">
-              {product1.description}
+              {frontPageProducts[0].description}
             </div>
             <div
               onClick={() => {
@@ -287,17 +296,19 @@ export default function Home({ products }) {
             <div className="mt-auto flex flex-col flex-wrap justify-center text-white md:justify-end gap-5 items-center md:items-end">
               <div className="px-4 py-4 rounded-md text-yellow-500  flex items-end gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)]">
                 <p className="md:text-4xl text-3xl font-bold  ">
-                  {formatter.format(product1.base_price)}
+                  {formatter.format(frontPageProducts[0].base_price)}
                 </p>
                 <p className="text-right font-normal">Precio base</p>
               </div>
               <div className="flex gap-5">
                 {" "}
-                <div className=" p-3 md:text-lg text-sm border  drop-shadow-[1px_1px_1px_rgba(0,0,0,0.60)] transition-all duration-200 hover:border-yellow-500 bg-yellow-200/50 text-white hover:bg-yellow-500 rounded-md cursor-pointer  ">
+                <div className=" p-3 md:text-lg text-sm border font-[400]  drop-shadow-[1px_1px_1px_rgba(0,0,0,0.60)] transition-all duration-200 hover:border-yellow-500 bg-yellow-300 hover:text-white text-black hover:bg-yellow-500 rounded-md cursor-pointer  ">
                   <Link href="/products">Ver todos los productos</Link>
                 </div>
                 <div className=" p-3 border md:text-lg text-sm cursor-pointer border-yellow-300 transition-all duration-200 hover:bg-yellow-500  drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)]  bg-yellow-300 rounded-md hover:text-white text-black hover:border-yellow-500">
-                  <Link href={`/products/${product1._id}`}>Ver detalles</Link>
+                  <Link href={`/products/${frontPageProducts[0]._id}`}>
+                    Ver detalles
+                  </Link>
                 </div>
               </div>
             </div>
@@ -305,136 +316,47 @@ export default function Home({ products }) {
 
           <div
             className="bg-cover backdrop-blur-lg slide-left  bg-center xl:w-[40%] h-[60vh] drop-shadow-[0px_5px_5px_rgba(0,0,0,0.250)]"
-            style={{ backgroundImage: `url("${product1.img[0]}")` }}
+            style={{ backgroundImage: `url("${frontPageProducts[0].img[0]}")` }}
           ></div>
         </div>
       </div>
-      <ProductContainer odd={false}>
-        <div className="px-8 flex flex-col gap-4">
-          <h1 className="font-bold text-3xl text-left">{product2.name}</h1>{" "}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <img
-              className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
-              src={`${product2.img[0]}`}
-            ></img>
-            <div className="flex flex-col">
-              <p>{product2.description}</p>{" "}
-              <div
-                onClick={() => {
-                  setOpen(true);
-                }}
-                className="cursor-pointer self-start hover:bg-yellow-500 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] rounded-md bg-yellow-300 text-black font-normal text-sm transition-all duration-200"
-              >
-                Presupuesto personalizado
-              </div>
-              <div className="px-4 py-4 rounded-md text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
-                <p className="md:text-2xl text-xl font-bold">
-                  {formatter.format(product2.base_price)}
-                </p>
-                <p className="text-right font-normal text-xs">Precio base</p>
-              </div>
-              <div className=" p-3 sm:self-end text-center mt-auto rounded-md border cursor-pointer border-yellow-300 text-black transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-300">
-                <Link href={`/products/${product2._id}`}>Ver detalles</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ProductContainer>
-      <ProductContainer odd={true}>
-        <div className="px-8 flex flex-col gap-4">
-          <h1 className="font-bold text-3xl text-left">{product3.name}</h1>{" "}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <img
-              className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
-              src={`${product3.img[0]}`}
-            ></img>
-            <div className="flex flex-col">
-              <p>{product3.description}</p>{" "}
-              <div
-                onClick={() => {
-                  setOpen(true);
-                }}
-                className="cursor-pointer self-start hover:bg-yellow-500 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] rounded-md bg-yellow-300 text-black font-normal text-sm transition-all duration-200"
-              >
-                Presupuesto personalizado
-              </div>
-              <div className="px-4 py-4 rounded-md text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
-                <p className="md:text-2xl text-xl font-bold">
-                  {formatter.format(product3.base_price)}
-                </p>
-                <p className="text-right font-normal text-xs">Precio base</p>
-              </div>
-              <div className=" p-3 sm:self-end text-center mt-auto rounded-md border cursor-pointer border-yellow-300 text-black transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-300">
-                <Link href={`/products/${product3._id}`}>Ver detalles</Link>
+      {frontPageProducts.slice(1).map((p, key) => {
+        return (
+          <ProductSlider odd={key % 2 == 0 ? false : true} key={key}>
+            <div className="px-8 flex flex-col gap-4">
+              <h1 className="font-bold text-3xl text-left">{p.name}</h1>{" "}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <img
+                  className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
+                  src={`${p.img[0]}`}
+                ></img>
+                <div className="flex flex-col">
+                  <p>{p.description}</p>{" "}
+                  <div
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                    className="cursor-pointer self-start hover:bg-yellow-500 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] rounded-md bg-yellow-300 text-black font-normal text-sm transition-all duration-200"
+                  >
+                    Presupuesto personalizado
+                  </div>
+                  <div className="px-4 py-4 rounded-md text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+                    <p className="md:text-2xl text-xl font-bold">
+                      {formatter.format(p.base_price)}
+                    </p>
+                    <p className="text-right font-normal text-xs">
+                      Precio base
+                    </p>
+                  </div>
+                  <div className=" p-3 sm:self-end text-center mt-auto rounded-md border cursor-pointer border-yellow-300 text-black transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-300">
+                    <Link href={`/products/${p._id}`}>Ver detalles</Link>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </ProductContainer>
-      <ProductContainer odd={false}>
-        {" "}
-        <div className="px-8 flex flex-col gap-4">
-          <h1 className="font-bold text-3xl text-left">{product4.name}</h1>{" "}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <img
-              className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
-              src={`${product4.img[0]}`}
-            ></img>
-            <div className="flex flex-col">
-              <p>{product4.description}</p>{" "}
-              <div
-                onClick={() => {
-                  setOpen(true);
-                }}
-                className="cursor-pointer self-start hover:bg-yellow-500 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] rounded-md bg-yellow-300 text-black font-normal text-sm transition-all duration-200"
-              >
-                Presupuesto personalizado
-              </div>
-              <div className="px-4 py-4 rounded-md text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
-                <p className="md:text-2xl text-xl font-bold">
-                  {formatter.format(product4.base_price)}
-                </p>
-                <p className="text-right font-normal text-xs">Precio base</p>
-              </div>
-              <div className=" p-3 sm:self-end text-center mt-auto rounded-md border cursor-pointer border-yellow-300 text-black transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-300">
-                <Link href={`/products/${product4._id}`}>Ver detalles</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ProductContainer>
-      <ProductContainer odd={true}>
-        {" "}
-        <div className="px-8 flex flex-col gap-4">
-          <h1 className="font-bold text-3xl text-left">{product5.name}</h1>{" "}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <img
-              className="sm:w-[35%] w-[70%]  object-cover object-center mx-auto sm:aspect-[4/5]"
-              src={`${product5.img[0]}`}
-            ></img>
-            <div className="flex flex-col">
-              <p>{product5.description}</p>{" "}
-              <div
-                onClick={() => {
-                  setOpen(true);
-                }}
-                className="cursor-pointer self-start hover:bg-yellow-500 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] rounded-md bg-yellow-300 text-black font-normal text-sm transition-all duration-200"
-              >
-                Presupuesto personalizado
-              </div>
-              <div className="px-4 py-4 rounded-md text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
-                <p className="md:text-2xl text-xl font-bold">
-                  {formatter.format(product5.base_price)}
-                </p>
-                <p className="text-right font-normal text-xs">Precio base</p>
-              </div>
-              <div className=" p-3 sm:self-end text-center mt-auto rounded-md border cursor-pointer border-yellow-300 text-black transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-300">
-                <Link href={`/products/${product5._id}`}>Ver detalles</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ProductContainer>
+          </ProductSlider>
+        );
+      })}
     </main>
   );
 }

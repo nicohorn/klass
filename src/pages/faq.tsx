@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FaqComponent from "./components/faq";
+import FaqComponent from "./components/Faq";
 
 export default function Faq() {
   const content = [

@@ -24,10 +24,10 @@ export default function Modal(props) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed bg-black bg-opacity-25" />
         </Transition.Child>
 
-        <div className="fixed z-50 2xl:mx-[35rem] xl:mx-[20rem] lg:mx-40 sm:mx-8 inset-0">
+        <div className="fixed z-50 inset-0">
           <div className="flex min-h-full  items-center justify-center text-center">
             <Transition.Child
               as={Fragment}
@@ -61,7 +61,7 @@ export default function Modal(props) {
                   <button
                     onClick={props.buttonFunction}
                     type="button"
-                    className=" border hover:border-yellow-800 bg-yellow-700 border-yellow-700 border-transparent  text-white px-4 py-1 text-sm font-medium hover:text-white hover:bg-yellow-800 transition-all duration-200 focus:outline-none flex-[0.25]  items-center flex justify-center"
+                    className=" border hover:border-yellow-600 bg-yellow-400 border-yellow-400 border-transparent  text-black px-4 py-1 text-sm font-medium hover:text-white hover:bg-yellow-600 transition-all duration-200 focus:outline-none flex-[0.25]  items-center flex justify-center"
                   >
                     {props.loading ? (
                       <svg

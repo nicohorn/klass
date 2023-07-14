@@ -9,8 +9,8 @@ import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import gsap from "gsap";
 import { toast } from "react-toastify";
-import { formatter } from "utils";
-import { Order } from "types";
+import { formatter } from "src/utils/utils";
+import { Order } from "src/utils/types";
 
 export default function Cart({ items }) {
   const productsCart = useProducts((state: any) => state.cart);

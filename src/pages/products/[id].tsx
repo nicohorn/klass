@@ -1,71 +1,19 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState, Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useProducts } from "../../utils/zustand";
 import Head from "next/head";
-import { formatter, colorsMap as colors } from "utils";
-
+import { formatter, colorsMap as colors } from "src/utils/utils";
 var ObjectId = require("mongodb").ObjectId;
-
 import clientPromise from "mongodb.js";
+import SimpleImageSlider from "react-simple-image-slider";
 
 export default function Id({ item }) {
   const addToCart = useProducts((state: any) => state.addToCart);
   let productsCart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
   const product = item[0];
-
-  //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
-  const [selectedSize, setSelectedSize] = useState(
-    productOptions().size_options[0]
-  );
-  const [selectedColor_1, setSelectedColor_1] = useState(
-    productOptions().color_1_options[0]
-  );
-  const [selectedColor_2, setSelectedColor_2] = useState(
-    productOptions().color_2_options[0]
-  );
-
-  const [selectedStyle, setSelectedStyle] = useState({
-    value: "none",
-    multiplier: 1,
-  });
-
-  const [selectedModel, setSelectedModel] = useState({
-    value: "none",
-    multiplier: 1,
-  });
-
-  const [imageIndex, setImageIndex] = useState(-1);
-
-  useEffect(() => {
-    //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
-    let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
-
-    if (retrieveLocalStorage) {
-      setCart(retrieveLocalStorage);
-    }
-
-    if (product.options[3]) {
-      if (product.options[3]["style"]) {
-        setSelectedStyle(productOptions().style_options[0]);
-      } else if (product.options[3]["model"]) {
-        setSelectedModel(productOptions().model_options[0]);
-      }
-    }
-
-    setImageIndex(0);
-  }, []);
-
-  useEffect(() => {
-    //For some reason, the client "loads" two times. The first time, the productsCart holds an empty array, thus replacing the localStorage "my-cart" for an empty array. To wait for the second load where the productsCart gets populated by the setCart (which is called in the usedEffect above with an empty dependecy array) method defined in useProducts I use this if condition.
-    if (JSON.stringify(productsCart) != "[]") {
-      localStorage.setItem("my-cart", JSON.stringify(productsCart));
-    }
-
-    console.log("re render");
-  });
-
   /**This functions retrieves an object with 3 properties: size options, color 1 options and color 2 options. It's a helper function to easily access and use the product options */
   function productOptions() {
     const size_options = product.options[0]["size"];
@@ -97,6 +45,53 @@ export default function Id({ item }) {
       };
     }
   }
+
+  //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
+  const [selectedSize, setSelectedSize] = useState(
+    productOptions().size_options[0]
+  );
+  const [selectedColor_1, setSelectedColor_1] = useState(
+    productOptions().color_1_options[0]
+  );
+  const [selectedColor_2, setSelectedColor_2] = useState(
+    productOptions().color_2_options[0]
+  );
+
+  const [selectedStyle, setSelectedStyle] = useState({
+    value: "none",
+    multiplier: 1,
+  });
+
+  const [selectedModel, setSelectedModel] = useState({
+    value: "none",
+    multiplier: 1,
+  });
+
+  useEffect(() => {
+    //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
+    let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
+
+    if (retrieveLocalStorage) {
+      setCart(retrieveLocalStorage);
+    }
+
+    if (product.options[3]) {
+      if (product.options[3]["style"]) {
+        setSelectedStyle(productOptions().style_options[0]);
+      } else if (product.options[3]["model"]) {
+        setSelectedModel(productOptions().model_options[0]);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    //For some reason, the client "loads" two times. The first time, the productsCart holds an empty array, thus replacing the localStorage "my-cart" for an empty array. To wait for the second load where the productsCart gets populated by the setCart (which is called in the usedEffect above with an empty dependecy array) method defined in useProducts I use this if condition.
+    if (JSON.stringify(productsCart) != "[]") {
+      localStorage.setItem("my-cart", JSON.stringify(productsCart));
+    }
+
+    console.log("re render");
+  });
 
   /**Helper function to calculate the total price of a product with its selected options */
   function totalPrice() {
@@ -471,43 +466,35 @@ export default function Id({ item }) {
   function imageContainer() {
     return (
       <>
-        <img
-          id="productImage"
-          key={imageIndex}
-          className="z-30 max-h-[70vh] object-cover transition-all duration-200 object-center rounded-md drop-shadow-[5px_5px_5px_rgba(0,0,0,0.10)]"
-          src={`${product.img[imageIndex]}`}
-          style={{ opacity: "0" }} // Set initial opacity to 0
-          onLoad={(e) => {
-            const img = e.target as HTMLImageElement; // Use type assertion to cast to HTMLImageElement
-            e.preventDefault();
-            img.style.opacity = "1"; // Set opacity to 1 after image is loaded
-          }}
-        ></img>
-
-        {product.img.length > 1 && (
-          <div
-            onClick={() => {
-              product.img.length - 1 === imageIndex
-                ? setImageIndex(0)
-                : setImageIndex(imageIndex + 1);
+        <div className="sm:block hidden">
+          <SimpleImageSlider
+            width={500}
+            height={650}
+            images={product.img}
+            showBullets={true}
+            showNavs={true}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginLeft: "auto",
             }}
-            className="heartbeat absolute transition-all duration-150 p-6 cursor-pointer active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-primary bg-primary/70 text-white top-[45%] sm:right-5 right-2 "
-          >
-            {">"}
-          </div>
-        )}
-        {product.img.length > 1 && (
-          <div
-            onClick={() => {
-              imageIndex === 0
-                ? setImageIndex(product.img.length - 1)
-                : setImageIndex(imageIndex - 1);
+          />
+        </div>
+        <div className="sm:hidden block">
+          <SimpleImageSlider
+            width={320}
+            height={400}
+            images={product.img}
+            showBullets={true}
+            showNavs={true}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            className="heartbeat absolute transition-all duration-150 cursor-pointer p-6 active:scale-95 hover:scale-105 group-hover:opacity-100 opacity-30 rounded hover:bg-primary bg-primary/70 text-white top-[45%] sm:left-5 left-2"
-          >
-            {"<"}
-          </div>
-        )}
+          />
+        </div>
       </>
     );
   }
@@ -542,7 +529,7 @@ export default function Id({ item }) {
       </Head>
 
       <section className="flex  justify-center h-full lg:mx-20 items-center rounded-md shadow-inner bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
-        <div className="relative aspect-[4/5] h-full  xl:mx-0 mx-auto  group text-xl ">
+        <div className="relative aspect-[4/5] h-full  xl:mx-0  group text-xl ">
           {imageContainer()}
         </div>
         <div className="self-center xl:self-stretch flex-1 z-40 bg-white rounded-md">

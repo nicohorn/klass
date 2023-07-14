@@ -4,7 +4,7 @@ import clientPromise from "../../../../mongodb";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
-import { formatter } from "utils";
+import { formatter } from "src/utils/utils";
 
 export default function Orders({ items, totalDocuments }) {
   const router = useRouter();
@@ -143,8 +143,8 @@ export default function Orders({ items, totalDocuments }) {
 
   return (
     <main className="flex-grow ">
-      {user.sub == "google-oauth2|102747183325371068763" ||
-      user.sub == "google-oauth2|101977740947109023372" ? (
+      {user.sub == process.env.NEXT_PUBLIC_ADMIN1 ||
+      user.sub == process.env.NEXT_PUBLIC_ADMIN2 ? (
         <div>
           <div className="2xl:w-[60%] min-h-[60vh] bg-white lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
             <h1 className="text-3xl font-semibold mb-5">
