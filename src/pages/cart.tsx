@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -9,8 +10,8 @@ import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import gsap from "gsap";
 import { toast } from "react-toastify";
-import { formatter } from "utils";
-import { Order } from "types";
+import { formatter } from "src/utils/utils";
+import { CartItemType, OrderType } from "src/utils/types";
 
 export default function Cart({ items }) {
   const productsCart = useProducts((state: any) => state.cart);
@@ -86,7 +87,7 @@ export default function Cart({ items }) {
     return sum;
   };
 
-  const createOrder = async (order: Order) => {
+  const createOrder = async (order: OrderType) => {
     //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
     setLoading(true);
 
@@ -210,51 +211,59 @@ export default function Cart({ items }) {
                               {formatter.format(product.price)}
                             </div>
                             <div className="flex gap-1 flex-wrap">
-                              <div className="font-bold">Opciones: </div>
-                              <div>
-                                {product.size == "none" ? null : (
-                                  <span className="flex gap-1">
-                                    <p className="italic">Tamaño:</p>
-                                    {product.size}
-                                  </span>
-                                )}
-                                {product.color_1 == "none" ? null : (
-                                  <span className="flex gap-1">
-                                    <p className="italic">Color 1:</p>
-                                    {product.color_1}
-                                  </span>
-                                )}
-                                {product.color_2 == "none" ? null : (
-                                  <span className="flex gap-1">
-                                    <p className="italic">Color 2:</p>
-                                    {product.color_2}
-                                  </span>
-                                )}
-                                {product.style == "none" ? null : (
-                                  <span className="flex gap-1">
-                                    <p className="italic">Estilo:</p>
-                                    {product.style}
-                                  </span>
-                                )}
-                                {product.model == "none" ? null : (
-                                  <span className="flex gap-1">
-                                    <p className="italic">Modelo:</p>
-                                    {product.model}
-                                  </span>
-                                )}
-                              </div>
+                              {product.size &&
+                              product.color_1 &&
+                              product.color_2 &&
+                              product.style &&
+                              product.model === "none" ? null : (
+                                <>
+                                  <div className="font-bold">Opciones: </div>
+                                  <div>
+                                    {product.size == "none" ? null : (
+                                      <span className="flex gap-1">
+                                        <p className="italic">Tamaño:</p>
+                                        {product.size}
+                                      </span>
+                                    )}
+                                    {product.color_1 == "none" ? null : (
+                                      <span className="flex gap-1">
+                                        <p className="italic">Color 1:</p>
+                                        {product.color_1}
+                                      </span>
+                                    )}
+                                    {product.color_2 == "none" ? null : (
+                                      <span className="flex gap-1">
+                                        <p className="italic">Color 2:</p>
+                                        {product.color_2}
+                                      </span>
+                                    )}
+                                    {product.style == "none" ? null : (
+                                      <span className="flex gap-1">
+                                        <p className="italic">Estilo:</p>
+                                        {product.style}
+                                      </span>
+                                    )}
+                                    {product.model == "none" ? null : (
+                                      <span className="flex gap-1">
+                                        <p className="italic">Modelo:</p>
+                                        {product.model}
+                                      </span>
+                                    )}
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </div>
                           <button
                             onClick={() => {
-                              removeFromCart(
-                                product._id,
-                                product.size,
-                                product.color_1,
-                                product.color_2,
-                                product.style,
-                                product.model
-                              );
+                              removeFromCart({
+                                id: product._id,
+                                size: product.size,
+                                color_1: product.color_1,
+                                color_2: product.color_2,
+                                style: product.style,
+                                model: product.model,
+                              } as CartItemType);
                               localStorage.setItem(
                                 "my-cart",
                                 JSON.stringify("")

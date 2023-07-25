@@ -1,4 +1,23 @@
 import { create } from "zustand";
+import type { ProductType, CartItemType } from "./types";
+
+/** The objectsComparator function checks if the two objects have the same keys and if their corresponding values are equal. It can be used to compare item and productWithoutCount, which will now correctly return true if their contents are the same (I was trying to compare them directly but this cannot be done since JavaScript compares objects by reference and not by their content) */
+function objectsComparator(obj1: Object, obj2: Object): boolean {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    if (obj1[key] !== obj2[key]) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 export const useProducts = create((set) => ({
   //Zustand is a state management solution. I've used it in order to make the cart available throughout all components of the page.
@@ -11,7 +30,7 @@ export const useProducts = create((set) => ({
       };
     });
   },
-  setCart: (items: any) => {
+  setCart: (items: ProductType[]) => {
     set((state) => {
       return {
         ...state,
@@ -19,47 +38,24 @@ export const useProducts = create((set) => ({
       };
     });
   },
-  addToCart: (
-    id: any,
-    price: any,
-    size: any,
-    color_1: any,
-    color_2: any,
-    style: any,
-    model: any
-  ) => {
+  addToCart: (item: CartItemType) => {
     set((state) => {
       //Función para chequear si el producto ya existe en el carrito (por id, size, color, style y model).
-      const isInCart = state.cart.find(
-        (product) =>
-          product.id == id &&
-          product.size == size &&
-          product.color_1 == color_1 &&
-          product.color_2 == color_2 &&
-          product.style == style &&
-          product.model == model
-      );
+      const isInCart = state.cart.find((product) => {
+        const { count, ...prdouctWithoutCount } = product;
+        return objectsComparator(item, prdouctWithoutCount);
+      });
 
       //Si el producto no existe, devuelve el carrito con el producto adentro y un count = 1;
       if (!isInCart) {
         return {
           ...state,
-          cart: [
-            ...state.cart,
-            { id, size, color_1, color_2, style, model, price, count: 1 },
-          ],
+          cart: [...state.cart, { ...item, count: 1 }],
         };
       }
       //Recorre el array de productos para ver si encuentra el producto que se quiere agregar, en caso de encontrarlo, suma +1 a su count, si no, queda solo el producto.
       const updatedCart = state.cart.map((product) =>
-        product.id == id &&
-        product.size == size &&
-        product.color_1 == color_1 &&
-        product.color_2 == color_2 &&
-        product.style == style &&
-        product.model == model
-          ? { ...product, count: product.count + 1 }
-          : product
+        item ? { ...product, count: product.count + 1 } : product
       );
 
       return {
@@ -68,17 +64,19 @@ export const useProducts = create((set) => ({
       };
     });
   },
-  removeFromCart: (id, size, color_1, color_2, style, model) =>
+  removeFromCart: (item: CartItemType) =>
     set((state) => {
-      const isPresent = state.cart.findIndex(
-        (product) =>
-          product.id == id &&
-          product.size == size &&
-          product.color_1 == color_1 &&
-          product.color_2 == color_2 &&
-          product.style == style &&
-          product.model == model
-      );
+      const isPresent = state.cart.findIndex((product) => {
+        const { count, ...productWithoutCount } = product;
+        return (
+          product.id == item.id &&
+          product.size == item.size &&
+          product.color_1 == item.color_1 &&
+          product.color_2 == item.color_2 &&
+          product.style == item.style &&
+          product.model == item.model
+        );
+      });
 
       if (isPresent === -1) {
         return {
@@ -88,12 +86,12 @@ export const useProducts = create((set) => ({
 
       const updatedCart = state.cart
         .map((product) =>
-          product.id == id &&
-          product.size == size &&
-          product.color_1 == color_1 &&
-          product.color_2 == color_2 &&
-          product.style == style &&
-          product.model == model
+          product.id == item.id &&
+          product.size == item.size &&
+          product.color_1 == item.color_1 &&
+          product.color_2 == item.color_2 &&
+          product.style == item.style &&
+          product.model == item.model
             ? { ...product, count: Math.max(product.count - 1, 0) }
             : product
         )

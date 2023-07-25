@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from "react";
 import { useProducts } from "../../utils/zustand";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0";
-import Dropdown from "../components/dropdown";
+import Dropdown from "../components/Dropdown";
 import { Popover, Transition } from "@headlessui/react";
 
 export default function Navbar(props) {
@@ -18,6 +20,8 @@ export default function Navbar(props) {
     }
   }, []);
 
+  const urlRegex = /\/adminpanel(\/.*)*/;
+
   const content = () => {
     if (
       //Admins: Michelle, Nicolas.
@@ -25,7 +29,6 @@ export default function Navbar(props) {
       user?.sub == "google-oauth2|101977740947109023372"
     ) {
       return [
-        { title: "Inicio", url: "/" },
         { title: "Productos", url: "/products" },
         { title: "Nosotros", url: "/us" },
         { title: "Pedidos personalizados", url: "/custom_orders" },
@@ -33,7 +36,6 @@ export default function Navbar(props) {
       ];
     } else {
       return [
-        { title: "Inicio", url: "/" },
         { title: "Productos", url: "/products" },
         { title: "Nosotros", url: "/us" },
         { title: "Pedidos personalizados", url: "/custom_orders" },
@@ -102,9 +104,9 @@ export default function Navbar(props) {
     return (
       <nav className="hidden md:block">
         <div className="w-full flex py-5 px-20 bg-primary gap-10 items-center justify-between">
-          <div className="text-4xl font-bold text-white ">
-            <img className="h-16" src="/logos-03.png"></img>
-          </div>
+          <Link href={"/"} className="text-4xl font-bold text-white ">
+            <img alt="image" className="h-16" src="/logos-03.png"></img>
+          </Link>
           <div className="flex gap-4 items-center ">
             <Link href="/cart">
               <div
@@ -175,7 +177,9 @@ export default function Navbar(props) {
                 <div>
                   {item.title}
 
-                  {props.path == item.url ? (
+                  {props.path &&
+                  (props.path == item.url ||
+                    props.path.startsWith(item.url)) ? (
                     <div className="h-[1px] bg-yellow-400 w-full transition-all duration-150"></div>
                   ) : (
                     <div className="w-0 h-[1px] bg-yellow-400 group-hover:w-full transition-all duration-150"></div>
@@ -193,9 +197,9 @@ export default function Navbar(props) {
     return (
       <div className=" text-white md:hidden">
         {" "}
-        <div className="w-full">
-          <img className="h-12 mx-auto" src="/logos-03.png"></img>
-        </div>
+        <Link href={"/"} className="w-full">
+          <img alt="image" className="h-12 mx-auto" src="/logos-03.png"></img>
+        </Link>
         <Popover className="relative text-center">
           <Popover.Button>
             <div className="flex flex-col gap-1 items-center">

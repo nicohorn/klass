@@ -1,14 +1,13 @@
 import React from "react";
-import { Custom_Order } from "types";
+import { CustomOrderType } from "src/utils/types";
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import Modal from "./components/modal";
-import { supabase_images_url } from "utils";
+import { supabase_images_url } from "src/utils/utils";
 import { supabase } from "supabase";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
-import Image from "next/image";
 import SimpleImageSlider from "react-simple-image-slider";
+import Modal from "./components/Modal";
 
 export default function Custom_orders() {
   const { user } = useUser();
@@ -49,7 +48,7 @@ export default function Custom_orders() {
     }
   });
 
-  const createCustomOrder = async (order: Custom_Order) => {
+  const createCustomOrder = async (order: CustomOrderType) => {
     //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
     setLoading(true);
 
@@ -82,7 +81,7 @@ export default function Custom_orders() {
     );
 
   return (
-    <main className="w-full text-white flex xl:flex-row flex-col justify-between xl:min-h-screen">
+    <main className="w-full text-white flex xl:flex-row flex-col justify-between min-h-screen">
       <div className="md:p-0 p-5  md:mx-20 xl:w-[30%]">
         <div className="mb-6">
           Contamos con fábrica y estudio propio para realizar trabajos
@@ -94,7 +93,7 @@ export default function Custom_orders() {
               setOpen(true);
               setIsProject(false);
             }}
-            className="card  w-full"
+            className="card rounded-md  w-full"
           >
             <div className="p-4">
               <h1 className="font-bold md:text-xl">
@@ -107,7 +106,7 @@ export default function Custom_orders() {
               setOpen(true);
               setIsProject(true);
             }}
-            className="card  w-full"
+            className="card rounded-md w-full"
           >
             <div className="p-4">
               <h1 className="font-bold md:text-xl">
@@ -117,20 +116,7 @@ export default function Custom_orders() {
           </div>
         </div>
       </div>
-      <div className="md:block hidden mx-20 xl:self-auto  self-center xl:mt-0 mt-10 relative">
-        <SimpleImageSlider
-          width={500}
-          height={700}
-          images={carouselImages}
-          showBullets={true}
-          showNavs={true}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        />
-      </div>
+      <Modal></Modal>
       <div className="md:hidden block mx-20 xl:self-auto  self-center xl:mt-0 mt-10 relative">
         <SimpleImageSlider
           width={300}
