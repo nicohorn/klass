@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import gsap from "gsap";
 
-export default function Modal(props) {
+const Modal = (props) => {
   useEffect(() => {
     gsap.fromTo("#loading-icon", { rotate: 0 }, { rotate: 180, repeat: -1 });
   });
@@ -91,4 +91,6 @@ export default function Modal(props) {
       </Dialog>
     </Transition>
   );
-}
+};
+
+export default Modal;
