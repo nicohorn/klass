@@ -14,7 +14,6 @@
     "@emotion/styled": "^11.8.1",
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
-    "@mantine/core": "^6.0.16",
     "@mantine/hooks": "^6.0.16",
     "@mantine/notifications": "^5.10.2",
     "@mantine/tiptap": "^6.0.16",
@@ -35,10 +34,7 @@
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "brfs": "^2.0.2",
-    "cors": "^2.8.5",
-    "embla-carousel": "^7.1.0",
     "fast-glob": "^3.2.12",
-    "fs": "^0.0.1-security",
     "fuzzysort": "^2.0.4",
     "gsap": "^3.11.3",
     "heroicons": "^2.0.13",
@@ -62,7 +58,6 @@
     "request": "^2.88.2",
     "tls": "^0.0.1",
     "typescript": "^4.6.4",
-    "xlsx": "^0.18.5",
     "zustand": "^4.3.6"
   },
   "devDependencies": {
