@@ -90,8 +90,8 @@ export default function ProductForm({
           }`}
           editor={editor}
         >
-          <RichTextEditor.Toolbar className="p-2">
-            <RichTextEditor.ControlsGroup>
+          <RichTextEditor.Toolbar className="p-2 flex">
+            <RichTextEditor.ControlsGroup className="mr-2">
               <RichTextEditor.Bold />
               <RichTextEditor.Italic />
             </RichTextEditor.ControlsGroup>
@@ -104,7 +104,7 @@ export default function ProductForm({
 
           <RichTextEditor.Content
             id="richtext"
-            className="text-sm h-40 overflow-auto"
+            className="text-sm h-full overflow-auto"
           />
         </RichTextEditor>
       </MantineProvider>
