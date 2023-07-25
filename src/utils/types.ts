@@ -1,4 +1,4 @@
-export type Custom_Order = {
+export type CustomOrderType = {
   userId: string;
   clientName: string;
   clientEmail: string;
@@ -11,7 +11,7 @@ export type Custom_Order = {
   isProject: boolean;
 };
 
-export type Order = {
+export type OrderType = {
   userId: string;
   clientName: string;
   clientEmail: string;
@@ -27,7 +27,34 @@ export type ProductType = {
   base_price: number;
   img: Array<string>;
   categories: string;
-  options: Array<object>;
+  options: OptionsListType[];
   description: string;
   tags: string;
+  steel?: boolean;
+};
+
+export type ColorOptionType = {
+  _id: string;
+  name: string;
+  img: string;
+};
+
+export type OptionType = {
+  value: string;
+  multiplier: number;
+};
+
+export type CartItemType = {
+  id: string;
+  price: number;
+  size: string;
+  color_1: string;
+  color_2: string;
+  style: string;
+  model: string;
+};
+
+export type OptionsListType = {
+  name: string;
+  elements: OptionType[];
 };

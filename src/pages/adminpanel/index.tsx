@@ -44,13 +44,13 @@ export default function Page() {
   return (
     <div className="h-[65vh] text-white">
       <div className="mx-20 flex flex-col gap-3 text-xl ">
-        <p className="hover:font-bold transition-all duration-150">
+        <p className="hover:font-bold transition-all duration-150 w-fit">
           <Link href="/adminpanel/newProduct">Crear un producto nuevo</Link>
         </p>
-        <p className="hover:font-bold transition-all duration-150">
+        <p className="hover:font-bold transition-all duration-150 w-fit">
           <Link href="/adminpanel/orders">Pedidos</Link>
         </p>
-        <p className="hover:font-bold transition-all duration-150">
+        <p className="hover:font-bold transition-all duration-150 w-fit">
           <Link href="/adminpanel/custom_orders">Pedidos personalizados</Link>
         </p>
         <div className="flex gap-4 items-center">
@@ -78,8 +78,6 @@ export default function Page() {
                   : percentage < 1
                   ? Number(1 + ".0" + percentage * 10)
                   : percentage / 10 + 1;
-              console.log(percentage);
-              console.log(multiplier);
 
               updateAllPrices(multiplier);
             }}

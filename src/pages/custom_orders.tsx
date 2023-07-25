@@ -1,5 +1,5 @@
 import React from "react";
-import { Custom_Order } from "src/utils/types";
+import { CustomOrderType } from "src/utils/types";
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import Modal from "./components/Modal";
@@ -16,25 +16,6 @@ export default function Custom_orders() {
   const [imageLoading, setImageLoading] = useState("nada");
   const [open, setOpen] = useState(false);
   const [isProject, setIsProject] = useState(false);
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
 
   let carouselImages = [
     "/carousel/1.jpeg",
@@ -67,7 +48,7 @@ export default function Custom_orders() {
     }
   });
 
-  const createCustomOrder = async (order: Custom_Order) => {
+  const createCustomOrder = async (order: CustomOrderType) => {
     //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
     setLoading(true);
 

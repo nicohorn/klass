@@ -7,11 +7,6 @@ import { sign, verify } from "jsonwebtoken";
 import { BufferSource } from "stream/web";
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest, response: NextResponse) {
-  console.log(request.cookies.get("userId").value);
-  console.log(
-    request.cookies.get("userId").value !== process.env.NEXT_PUBLIC_ADMIN1
-  );
-
   if (
     request.cookies.get("userId").value !==
     (process.env.NEXT_PUBLIC_ADMIN1 || process.env.NEXT_PUBLIC_ADMIN2)

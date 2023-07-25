@@ -7,12 +7,12 @@ import fuzzysort from "fuzzysort";
 import { formatter } from "src/utils/utils";
 import type { ProductType } from "src/utils/types";
 import Image from "next/image";
+import { getCategories } from "src/utils/utils";
 
 function Products({ items }: { items: ProductType[] }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
   const [active, setActive] = useState(null);
-  const [search, setSearch] = useState(false);
   const [searchString, setSearchString] = useState("");
 
   //This useEffect is used to retrieve the cart from the local storage if it exists, and then set it in the cart state (zustand).
@@ -29,24 +29,6 @@ function Products({ items }: { items: ProductType[] }) {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
-
-  //Helper function that retrieves the categories from the items array.
-  function getCategories() {
-    const categories = items.map((item) => {
-      let categories = item.categories.toString().split("/");
-      categories.shift();
-      return categories;
-    });
-
-    let finalArray = [].concat.apply([], categories);
-
-    //Remove duplicates from the array
-    finalArray = finalArray.filter(
-      (item, index) => finalArray.indexOf(item) === index
-    );
-
-    return finalArray;
-  }
 
   function getItemsBySearch(search: string) {
     const results = fuzzysort.go(search, items, {
@@ -65,37 +47,37 @@ function Products({ items }: { items: ProductType[] }) {
   return (
     <div className="w-full flex-grow bg-primary p-5 lg:p-0">
       <div className="md:mx-20 py-5">
-        <div className="mb-10 flex justify-between lg:flex-row flex-col gap-4 w-full items-center border-0 lg:border-b border-white">
+        <div className="mb-10 flex flex-col lg:flex-row border-b border-yellow-500 justify-center">
           {" "}
-          <div className="uppercase lg:items-end items-center flex flex-col lg:flex-row gap-4 font-bold text-2xl md:text-5xl text-center text-white lg:text-left pb-2 lg:border-none border-b">
-            <p id="Título">Nuestros productos</p>
+          <div className="uppercase flex flex-col xl:flex-row gap-4 font-bold  text-center text-white pb-2 border-none flex-grow">
+            <p className="text-2xl md:text-5xl" id="Título">
+              Nuestros productos
+            </p>
             <button
               onClick={() => {
-                setSearch(!search);
+                document.getElementById("input-search").focus();
               }}
               className="cursor-pointer"
             >
-              <Search className="hover:fill-yellow-400 mb-5 md:mb-0  scale-125 hover:scale-150 transition-all duration-150"></Search>
+              <Search
+                className={`hover:fill-yellow-400 mb-5 md:mb-0  scale-125 hover:scale-150 transition-all duration-150 `}
+              ></Search>
             </button>
-            <div className="flex-1 relative lg:w-[26vw] w-full">
-              <input
-                onChange={(e) => {
-                  setSearchString(e.target.value);
-                  setActive(null);
-                }}
-                id="input-search"
-                className={`text-primary lg:-translate-y-[110%]  -top-5 md:-top-0  -translate-x-[50%] lg:translate-x-0 absolute px-2 outline-none text-lg opacity-100 transition-all duration-200 ${
-                  search ? "width-animation" : "width-animation-reverse"
-                } `}
-                placeholder="Ingresá el nombre del producto que buscás"
-              />
-            </div>
+            <input
+              onChange={(e) => {
+                setSearchString(e.target.value);
+                setActive(null);
+              }}
+              id="input-search"
+              className="placeholder:pl-1 text-white flex-grow w-auto outline-none text-lg opacity-100 placeholder:transition-all placeholder:duration-150 bg-primary placeholder:opacity-30 focus:placeholder:opacity-90 "
+              placeholder="Ingresá el nombre o categoría del producto que buscás"
+            />
           </div>
         </div>
         <div className="hidden flex-col lg:flex-row justify-between gap-5 md:flex">
           <span className="text-2xl text-white">Categorías:</span>
           <div className="text-center mb-12 flex flex-wrap justify-start gap-5">
-            {getCategories().map((cat, i) => {
+            {getCategories(items).map((cat, i) => {
               return (
                 <span
                   key={i}
@@ -118,7 +100,7 @@ function Products({ items }: { items: ProductType[] }) {
                 setSearchString("");
                 setActive(null);
               }}
-              className="cursor-pointer font-semibold hover:scale-110 self-center text-white  py-1transition-all duration-100 active:scale-100  "
+              className="cursor-pointer font-semibold hover:scale-110 self-center text-white  py-1 transition-all duration-100 active:scale-100  "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

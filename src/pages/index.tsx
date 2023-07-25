@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useEffect, useState, useLayoutEffect } from "react";
 import { useProducts } from "../utils/zustand";
 import clientPromise from "../../mongodb";
 import { useUser } from "@auth0/nextjs-auth0";
-import ProductSlider from "./components/ProductSlider";
+import ProductSlider from "./components/product/ProductSlider";
 import Link from "next/link";
 import Modal from "./components/Modal";
 import { supabase } from "supabase.js";
@@ -11,11 +13,9 @@ import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
 import Message from "./components/Message";
-import { formatter } from "src/utils/utils";
-import { Custom_Order } from "src/utils/types";
+import { formatter, getCategories } from "src/utils/utils";
+import { CustomOrderType } from "src/utils/types";
 import { supabase_images_url } from "src/utils/utils";
-import crypto from "crypto";
-const jose = require("jose");
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -43,6 +43,10 @@ export default function Home({ products }) {
     );
 
   useEffect(() => {
+    localStorage.setItem(
+      "productCategories",
+      JSON.stringify(getCategories(products))
+    );
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
 
     if (retrieveLocalStorage) {
@@ -98,7 +102,7 @@ export default function Home({ products }) {
     }),
   ];
 
-  const createCustomOrder = async (order: Custom_Order) => {
+  const createCustomOrder = async (order: CustomOrderType) => {
     //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
     setLoading(true);
 

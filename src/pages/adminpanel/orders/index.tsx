@@ -402,8 +402,6 @@ export async function getServerSideProps(context) {
   let currentPage = Number(context.query.page) || 1;
   const ordersPerPage = 8;
 
-  console.log("currentPage", context.query.page);
-
   const [totalDocuments, ordersResponse] = await Promise.all([
     await collection.countDocuments(),
     await collection
