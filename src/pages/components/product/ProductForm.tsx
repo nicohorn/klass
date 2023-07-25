@@ -191,7 +191,7 @@ export default function ProductForm({
             {MantineEditor()}
           </div>
         </div>
-        <div className="w-[30rem] max-h-[70vh] overflow-auto px-2">
+        <div className="w-[30rem] overflow-auto px-2">
           <div className="flex flex-col gap-3">
             <MultipleSelector
               items={color_options}
