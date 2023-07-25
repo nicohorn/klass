@@ -7,7 +7,7 @@ import clientPromise from "../../mongodb";
 import { useUser } from "@auth0/nextjs-auth0";
 import ProductSlider from "./components/product/ProductSlider";
 import Link from "next/link";
-import Modal from "./components/Modal";
+import Modal from "./components/modal";
 import { supabase } from "supabase.js";
 import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
