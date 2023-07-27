@@ -22,8 +22,6 @@ export default function ProductForm({
   productCategories: Array<string>;
   setProduct: React.Dispatch<ProductType>;
 }) {
-  const [editorFocus, setEditorFocus] = useState(false);
-  const [anotherP, setanotherP] = useState<ProductType>();
   const [selectedSizeOptions, setSelectedSizeOptions] = useState<OptionType[]>([
     { value: "none", multiplier: 1 },
   ]);
@@ -43,6 +41,8 @@ export default function ProductForm({
   const productName = useRef<HTMLInputElement>();
   const productPrice = useRef<HTMLInputElement>();
   const [selectedCategories, setCategories] = useState([]);
+  const [productDescription, setProductDescription] = useState();
+  const [productSteel, setProductSteel] = useState(false);
   const [productImages, setImages] = useState();
   const [previewImages, setPreviewImages] = useState([]);
 
@@ -152,7 +152,13 @@ export default function ProductForm({
             <label className="text-[.8rem] py-2" htmlFor="richtext">
               Descripción
             </label>
-            <TextEditor />
+            <TextEditor setDescription={setProductDescription} />
+          </div>
+          <div className="flex py-2 items-center gap-3 ">
+            <label className="text-[.8rem] py-2" htmlFor="hasSteel">
+              Producto con acero / hierro
+            </label>
+            <input className="" type="checkbox" />
           </div>
         </div>
         <div className="min-w-[29rem] px-2">
@@ -282,9 +288,9 @@ export default function ProductForm({
               { name: "model", elements: selectedModelOptions },
               { name: "style", elements: selectedStyleOptions },
             ],
-            description: "",
+            description: productDescription,
             tags: "",
-            steel: false,
+            steel: productSteel,
           });
         }}
         className="text-primary absolute -bottom-8 right-0 px-6 py-2 text-xl transition-all duration-100 hover:text-white hover:bg-yellow-600 active:scale-95 bg-yellow-500"
