@@ -543,3 +543,12 @@ body {
   max-height: 200px;
   overflow-y: auto;
 }
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
