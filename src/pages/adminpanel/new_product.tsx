@@ -15,8 +15,12 @@ export default function NewProduct({
 }) {
   const [product, setProduct] = useState<ProductType>();
 
+  useEffect(() => {
+    console.log(product);
+  });
+
   return (
-    <main className="relative min-h-[72vh] mx-20">
+    <main className="relative min-h-[72vh] mx-20 ">
       <ProductForm
         productCategories={getCategories(products)}
         setProduct={setProduct}

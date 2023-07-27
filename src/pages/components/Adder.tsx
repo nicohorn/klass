@@ -51,7 +51,7 @@ export default function Adder({
             type="number"
             step="any"
             placeholder={inputMultiplierPlaceholder}
-            className="text-sm flex-shrink text-center bg-primary outline-none font-semibold focus:border-b-yellow-500 p-1 border-b-white border-b transition-all duration-150 mt-1"
+            className="text-sm text-center bg-primary outline-none font-semibold focus:border-b-yellow-500 p-1 border-b-white border-b transition-all duration-150 mt-1"
           ></input>
         </div>
         <div className="flex flex-col flex-grow">
@@ -79,8 +79,14 @@ export default function Adder({
                   ...selectedOptions,
                   { value: value, multiplier: multiplier },
                 ]);
+              (
+                document.getElementById(inputValueId) as HTMLInputElement
+              ).value = "";
+              (
+                document.getElementById(inputMultiplierId) as HTMLInputElement
+              ).value = "";
             }}
-            className=" basis-2 flex-grow items-end px-2 border font-bold hover:border-yellow-500 transition-all duration-150 active:scale-95"
+            className=" flex-grow items-end px-2 border font-bold hover:border-yellow-500 transition-all duration-150 active:scale-95"
           >
             +
           </button>

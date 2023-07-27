@@ -20,13 +20,11 @@ export default function Navbar(props) {
     }
   }, []);
 
-  const urlRegex = /\/adminpanel(\/.*)*/;
-
   const content = () => {
     if (
       //Admins: Michelle, Nicolas.
-      user?.sub == "google-oauth2|102747183325371068763" ||
-      user?.sub == "google-oauth2|101977740947109023372"
+      user?.sub == process.env.NEXT_PUBLIC_ADMIN1 ||
+      user?.sub == process.env.NEXT_PUBLIC_ADMIN2
     ) {
       return [
         { title: "Productos", url: "/products" },

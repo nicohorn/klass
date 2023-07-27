@@ -521,6 +521,7 @@ body {
     rgba(255, 255, 255, 0.1),
     transparent 50%
   );
+
   border-radius: inherit;
   content: "";
   position: absolute;
@@ -531,4 +532,14 @@ body {
   width: 100%;
   opacity: 0;
   transition: all 0.4s;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror {
+  min-height: 150px;
+  max-height: 200px;
+  overflow-y: auto;
 }

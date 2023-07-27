@@ -1,14 +1,17 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
-import { RichTextEditor, Link } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { MantineProvider } from "@mantine/core";
-import { ColorOptionType, OptionType, ProductType } from "src/utils/types";
+import {
+  ColorOptionType,
+  OptionType,
+  OptionsListType,
+  ProductType,
+} from "src/utils/types";
 import MultipleSelector from "../MultipleSelector";
 import Adder from "../Adder";
 import CurrencyInput from "../CurrencyInput";
 import { parseLocaleNumber } from "src/utils/utils";
+import TextEditor from "../TextEditor";
 
 export default function ProductForm({
   color_options,
@@ -40,13 +43,15 @@ export default function ProductForm({
   const productName = useRef<HTMLInputElement>();
   const productPrice = useRef<HTMLInputElement>();
   const [selectedCategories, setCategories] = useState([]);
+  const [productImages, setImages] = useState();
+  const [previewImages, setPreviewImages] = useState([]);
 
-  const [productOptions, setSelectedOptions] = useState([
-    selectedSizeOptions,
-    selectedColor_1Options,
-    selectedColor_2Options,
-    selectedStyleOptions,
-    selectedModelOptions,
+  const [productOptions, setSelectedOptions] = useState<OptionsListType[]>([
+    { name: "size", elements: selectedSizeOptions },
+    { name: "color_1", elements: selectedColor_1Options },
+    { name: "color_2", elements: selectedColor_2Options },
+    { name: "style", elements: selectedStyleOptions },
+    { name: "model", elements: selectedModelOptions },
   ]);
 
   useEffect(() => {
@@ -54,68 +59,23 @@ export default function ProductForm({
       `${selectedCategories}`.replaceAll(",", "/");
   });
 
-  function MantineEditor() {
-    const editor = useEditor({
-      extensions: [StarterKit, Link],
-    });
-
-    return (
-      <MantineProvider
-        theme={{
-          colorScheme: "dark",
-          colors: {
-            // override dark colors here to change them for all components
-            dark: [
-              "#d5d7e0",
-              "#acaebf",
-              "#8c8fa3",
-              "#666980",
-              "#4d4f66",
-              "#34354a",
-              "#2b2c3d",
-              "#090f0f",
-              "#0c0d21",
-              "#01010a",
-            ],
-          },
-        }}
-      >
-        <RichTextEditor
-          onFocus={() => setEditorFocus(true)}
-          onBlur={() => {
-            setEditorFocus(false);
-          }}
-          className={`rounded-none border transition-all duration-150  ${
-            editorFocus ? "border-yellow-500" : "border-white"
-          }`}
-          editor={editor}
-        >
-          <RichTextEditor.Toolbar className="p-2 flex">
-            <RichTextEditor.ControlsGroup className="mr-2">
-              <RichTextEditor.Bold />
-              <RichTextEditor.Italic />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Link />
-              <RichTextEditor.Unlink />
-            </RichTextEditor.ControlsGroup>
-          </RichTextEditor.Toolbar>
-
-          <RichTextEditor.Content
-            id="richtext"
-            className="text-sm h-full overflow-auto"
-          />
-        </RichTextEditor>
-      </MantineProvider>
-    );
-  }
+  useEffect(() => {
+    let images = [];
+    productImages &&
+      [...productImages].forEach((image) => {
+        images.push(URL.createObjectURL(image));
+      });
+    setPreviewImages(images);
+  }, [productImages]);
 
   return (
     <div className="text-white">
       <h1 className="font-bold text-2xl">Crear nuevo producto</h1>
-      <form className="pt-2 flex gap-10 flex-col lg:flex-row" action="">
-        <div className="w-[30rem]">
+      <form
+        className="mt-2 flex gap-10 flex-col lg:flex-row overflow-x-auto"
+        action=""
+      >
+        <div className="min-w-[29rem]">
           <div className="flex flex-col pb-2">
             <label htmlFor="nombreProducto" className="text-[.8rem]">
               Nombre del producto
@@ -137,7 +97,7 @@ export default function ProductForm({
           <div className="flex flex-col py-2">
             <label htmlFor="categoriaProducto" className="text-[.8rem]">
               Categoría del producto. Si tiene más de una, separar con barra
-              diagonal ( / )
+              diagonal
             </label>
             <div className="flex flex-wrap text-xs mt-1 group">
               {productCategories
@@ -166,9 +126,12 @@ export default function ProductForm({
               onChange={(e) => {
                 const handleChange = (e) => {
                   const inputValue = e.target.value;
-                  const selectedCategories = inputValue
-                    .split("/")
-                    .filter((category) => category.trim() !== "");
+                  const selectedCategories =
+                    inputValue.split("/").length <= 1
+                      ? inputValue
+                          .split("/")
+                          .filter((category) => category.trim() !== "")
+                      : inputValue.split("/");
 
                   if (selectedCategories.length !== 0) {
                     setCategories(selectedCategories);
@@ -178,6 +141,7 @@ export default function ProductForm({
                 };
                 handleChange(e);
               }}
+              value={selectedCategories.join("/")}
               placeholder="Categoría/Subcategoría/Etc"
               className="bg-primary outline-none text-lg font-semibold focus:border-b-yellow-500 p-1 border-b-white border-b transition-all duration-150 mt-1"
               id="categoriaProducto"
@@ -188,10 +152,10 @@ export default function ProductForm({
             <label className="text-[.8rem] py-2" htmlFor="richtext">
               Descripción
             </label>
-            {MantineEditor()}
+            <TextEditor />
           </div>
         </div>
-        <div className="w-[30rem] overflow-auto px-2">
+        <div className="min-w-[29rem] px-2">
           <div className="flex flex-col gap-3">
             <MultipleSelector
               items={color_options}
@@ -242,6 +206,63 @@ export default function ProductForm({
               inputValueLabel={"Estilo"}
               inputMultiplierLabel={"Multiplicador"}
               uppercase={false}
+            />
+          </div>
+        </div>
+        <div className="min-w-[29rem] px-2 mb-10">
+          <div>
+            <p className="mb-4">Imágenes del producto</p>
+            <label
+              htmlFor="imagenesProducto"
+              className="border uppercase px-4 py-2 hover:bg-yellow-500 hover:border-yellow-500 hover:text-black text-sm opacity-100 cursor-pointer transition-all duration-150"
+            >
+              Subir imágenes{" "}
+            </label>
+            {productImages ? (
+              <div className="flex flex-wrap mt-6 gap-3 opacity-animation">
+                {" "}
+                {previewImages.map((i, idx) => {
+                  return (
+                    <img
+                      draggable={true}
+                      className="w-20 h-20 object-cover border p-1 border-yellow-500"
+                      key={idx}
+                      src={`${i}`}
+                      alt=""
+                    />
+                  );
+                })}
+                <span className="text-[.65rem] text-white opacity-50">
+                  Vista previa de las imágenes seleccionadas.
+                  <br />
+                  <br />
+                  La primera imagen será la imagen principal del producto.
+                  <br />
+                  Recordá que el orden de las imágenes está dado por el nombre
+                  del archivo (orden alfabético).
+                  <br />
+                  <br />
+                  Es recomendable nombrar los archivos de la siguiente forma:
+                  <br />
+                  {"=>"} 1_NombreProducto.jpg <br />
+                  {"=>"} 2_NombreProducto.jpg <br />
+                  {"=>"} 3_NombreProducto.jpg <br />
+                  {"=>"} Etc... <br />
+                </span>
+              </div>
+            ) : null}
+
+            <input
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                const imageFiles: FileList | null = e.target.files;
+                setImages(imageFiles as any);
+              }}
+              className="hidden"
+              type="file"
+              id="imagenesProducto"
+              name="img"
+              accept="image/*"
+              multiple
             />
           </div>
         </div>

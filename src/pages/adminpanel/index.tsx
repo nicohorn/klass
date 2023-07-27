@@ -45,7 +45,7 @@ export default function Page() {
     <div className="h-[65vh] text-white">
       <div className="mx-20 flex flex-col gap-3 text-xl ">
         <p className="hover:font-bold transition-all duration-150 w-fit">
-          <Link href="/adminpanel/newProduct">Crear un producto nuevo</Link>
+          <Link href="/adminpanel/new_product">Crear un producto nuevo</Link>
         </p>
         <p className="hover:font-bold transition-all duration-150 w-fit">
           <Link href="/adminpanel/orders">Pedidos</Link>
