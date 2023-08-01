@@ -53,14 +53,6 @@ export default function ProductForm({
   const [productImages, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
 
-  const [productOptions, setSelectedOptions] = useState<OptionsListType[]>([
-    { name: "size", elements: selectedSizeOptions },
-    { name: "color_1", elements: selectedColor_1Options },
-    { name: "color_2", elements: selectedColor_2Options },
-    { name: "style", elements: selectedStyleOptions },
-    { name: "model", elements: selectedModelOptions },
-  ]);
-
   useEffect(() => {
     (document.getElementById("categoriaProducto") as HTMLInputElement).value =
       `${selectedCategories}`.replaceAll(",", "/");
@@ -77,7 +69,6 @@ export default function ProductForm({
 
   const createProduct = async (product: ProductType) => {
     //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
-    setLoading(true);
 
     await fetch("/api/products/create_product", {
       method: "POST",

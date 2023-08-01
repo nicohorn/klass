@@ -9,12 +9,15 @@ import type { ProductType } from "src/utils/types";
 import Image from "next/image";
 import { getCategories } from "src/utils/utils";
 import TextEditor from "../components/TextEditor";
+import { useUser } from "@auth0/nextjs-auth0";
 
 function Products({ items }: { items: ProductType[] }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
   const [active, setActive] = useState(null);
   const [searchString, setSearchString] = useState("");
+
+  const { user, error, isLoading } = useUser();
 
   //This useEffect is used to retrieve the cart from the local storage if it exists, and then set it in the cart state (zustand).
   useEffect(() => {
@@ -44,6 +47,23 @@ function Products({ items }: { items: ProductType[] }) {
       return items;
     }
   }
+
+  const deleteProduct = async (product: ProductType) => {
+    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
+
+    await fetch("/api/products/delete_product", {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {});
+  };
 
   return (
     <div className="w-full flex-grow bg-primary p-5 lg:p-0">
@@ -124,8 +144,34 @@ function Products({ items }: { items: ProductType[] }) {
         {getItemsBySearch(searchString).length >= 0 && (
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 auto-rows-auto 2xl:grid-cols-4 gap-5 sm:gap-8">
             {getItemsBySearch(searchString).map((item, i) => (
-              <span id="product" key={i}>
+              <span className="relative" id="product" key={i}>
                 <div className="delay-150 border-opacity-0 w-[80%] sm:w-full mx-auto transition-all duration-150 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
+                  {user?.sub == process.env.NEXT_PUBLIC_ADMIN1 ||
+                  user?.sub == process.env.NEXT_PUBLIC_ADMIN2 ? (
+                    <button
+                      onClick={() => {
+                        deleteProduct(item);
+                      }}
+                      type="button"
+                      title="Eliminar producto"
+                      className="absolute z-[99] top-2 left-2 "
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.7}
+                        stroke="white"
+                        className="w-8 h-8  md:group-hover:scale-[1.2] drop-shadow-lg hover:bg-black/70 p-1 transition-all duration-300"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                        />
+                      </svg>
+                    </button>
+                  ) : null}
                   <a href={`/products/` + item._id}>
                     <div className="flex flex-col ">
                       <div className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm">
@@ -136,6 +182,7 @@ function Products({ items }: { items: ProductType[] }) {
                           alt="Imagen del producto"
                           src={item.img[0]}
                         ></Image>
+
                         <div className="absolute w-full bottom-0  transition-all duration-300 delay-300">
                           <p className=" px-4 my-3 uppercase font-bold transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
                             {item.name}
@@ -184,7 +231,7 @@ export async function getStaticProps() {
   async function handler() {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
-    const collection = db.collection("products2");
+    const collection = db.collection("products");
 
     return await collection.find({}).sort({ categories: 1 }).toArray();
   }

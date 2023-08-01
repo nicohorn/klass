@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 export default function ModalComponent(props) {
   return (
     <>
-      <Transition appear show={props.isOpen} as={Fragment}>
+      <Transition appear show={props.isOpen || false} as={Fragment}>
         <Dialog as="div" className="relative z-[99]" onClose={props.closeModal}>
           <Transition.Child
             as={Fragment}

@@ -15,29 +15,37 @@ export default function ProductView({
   colors,
   addToCart,
   preview,
-  shadow,
 }: {
   product?: ProductType;
   colors: ColorOptionType[];
   addToCart?: Function;
   preview?: boolean;
-  shadow?: boolean;
 }) {
-  const size_options = product.options.find((optionList) => {
-    return optionList.name === "size";
-  })?.elements;
-  const color_1_options = product.options.find((optionList) => {
-    return optionList.name === "color_1";
-  })?.elements;
-  const color_2_options = product.options.find((optionList) => {
-    return optionList.name === "color_2";
-  })?.elements;
-  const style_options = product.options.find((optionList) => {
-    return optionList.name === "style";
-  })?.elements;
-  const model_options = product.options.find((optionList) => {
-    return optionList.name === "model";
-  })?.elements;
+  const size_options =
+    product &&
+    product.options.find((optionList) => {
+      return optionList.name === "size";
+    })?.elements;
+  const color_1_options =
+    product &&
+    product.options.find((optionList) => {
+      return optionList.name === "color_1";
+    })?.elements;
+  const color_2_options =
+    product &&
+    product.options.find((optionList) => {
+      return optionList.name === "color_2";
+    })?.elements;
+  const style_options =
+    product &&
+    product.options.find((optionList) => {
+      return optionList.name === "style";
+    })?.elements;
+  const model_options =
+    product &&
+    product.options.find((optionList) => {
+      return optionList.name === "model";
+    })?.elements;
 
   //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
   const [selectedSize, setSelectedSize] = useState<OptionType>(
@@ -59,43 +67,47 @@ export default function ProductView({
   );
   function listboxOptions() {
     return (
-      <div className="flex gap-5 flex-col  ">
-        <OptionsListbox
-          title="Tamaño"
-          selectedOption={selectedSize}
-          setSelectedOption={setSelectedSize}
-          options={size_options}
-        />
+      <>
+        {product && (
+          <div className="flex gap-5 flex-col  ">
+            <OptionsListbox
+              title="Tamaño"
+              selectedOption={selectedSize}
+              setSelectedOption={setSelectedSize}
+              options={size_options}
+            />
 
-        <OptionsListbox
-          title="Color 1"
-          selectedOption={selectedColor_1}
-          setSelectedOption={setSelectedColor_1}
-          options={color_1_options}
-          colors={colors}
-        />
+            <OptionsListbox
+              title="Color 1"
+              selectedOption={selectedColor_1}
+              setSelectedOption={setSelectedColor_1}
+              options={color_1_options}
+              colors={colors}
+            />
 
-        <OptionsListbox
-          title="Color 2"
-          selectedOption={selectedColor_2}
-          setSelectedOption={setSelectedColor_2}
-          options={color_2_options}
-          colors={colors}
-        />
+            <OptionsListbox
+              title="Color 2"
+              selectedOption={selectedColor_2}
+              setSelectedOption={setSelectedColor_2}
+              options={color_2_options}
+              colors={colors}
+            />
 
-        <OptionsListbox
-          title="Estilo"
-          selectedOption={selectedStyle}
-          setSelectedOption={setSelectedStyle}
-          options={style_options}
-        />
-        <OptionsListbox
-          title="Modelo"
-          selectedOption={selectedModel}
-          setSelectedOption={setSelectedModel}
-          options={model_options}
-        />
-      </div>
+            <OptionsListbox
+              title="Estilo"
+              selectedOption={selectedStyle}
+              setSelectedOption={setSelectedStyle}
+              options={style_options}
+            />
+            <OptionsListbox
+              title="Modelo"
+              selectedOption={selectedModel}
+              setSelectedOption={setSelectedModel}
+              options={model_options}
+            />
+          </div>
+        )}
+      </>
     );
   }
 

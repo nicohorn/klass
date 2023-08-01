@@ -30,7 +30,8 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/context.jsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/pages/api/products/delete_product.js"
   ],
 
   "exclude": ["node_modules", "build/**/*"]
