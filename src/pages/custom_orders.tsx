@@ -249,7 +249,6 @@ export default function Custom_orders() {
                 ) : imageLoading == "finalizado" ? (
                   <p className="text-sm flex gap-1 text-yellow-500">
                     Imágenes cargadas correctamente{" "}
-                    <CheckBadgeIcon className="w-5"></CheckBadgeIcon>
                   </p>
                 ) : null}
               </label>

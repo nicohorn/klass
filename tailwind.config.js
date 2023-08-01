@@ -76,6 +76,6 @@ module.exports = {
         900: "#83310b",
       },
     },
-    plugins: [],
+    plugins: [require("@tailwindcss/forms")],
   },
 };

@@ -75,7 +75,7 @@ export default function ProductForm({
         className="mt-2 flex gap-10 flex-col lg:flex-row overflow-x-auto"
         action=""
       >
-        <div className="min-w-[29rem]">
+        <div className="w-[29rem] min-w-[29rem]">
           <div className="flex flex-col pb-2">
             <label htmlFor="nombreProducto" className="text-[.8rem]">
               Nombre del producto
@@ -155,13 +155,13 @@ export default function ProductForm({
             <TextEditor setDescription={setProductDescription} />
           </div>
           <div className="flex py-2 items-center gap-3 ">
-            <label className="text-[.8rem] py-2" htmlFor="hasSteel">
+            <label className="text-[.8rem] py-2 " htmlFor="hasSteel">
               Producto con acero / hierro
             </label>
-            <input className="" type="checkbox" />
+            <input type="checkbox" className="h-4 w-4 text-primary" />
           </div>
         </div>
-        <div className="min-w-[29rem] px-2">
+        <div className="w-[29rem] min-w-[29rem] px-2">
           <div className="flex flex-col gap-3">
             <MultipleSelector
               items={color_options}
@@ -215,7 +215,7 @@ export default function ProductForm({
             />
           </div>
         </div>
-        <div className="min-w-[29rem] px-2 mb-10">
+        <div className="w-[29rem] min-w-[29rem] px-2 mb-10">
           <div>
             <p className="mb-4">Imágenes del producto</p>
             <label
