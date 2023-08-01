@@ -159,7 +159,7 @@ export default function ProductView({
   }
 
   return (
-    <section className="flex  justify-center h-full lg:mx-20 items-center  bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
+    <section className="flex  justify-center h-full lg:mx-20 items-center  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
       <div className="relative aspect-[4/5] h-full  xl:mx-0  group text-xl ">
         {imageSlider()}
       </div>

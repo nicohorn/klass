@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 import Message from "./components/Message";
 import { formatter, getCategories } from "src/utils/utils";
 import { CustomOrderType } from "src/utils/types";
-import { supabase_images_url } from "src/utils/utils";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -71,7 +70,7 @@ export default function Home({ products }) {
         setShowMessage(false);
       }
     }, 1500);
-  }, []);
+  }, [products, setCart]);
 
   useEffect(() => {
     if (JSON.stringify(productsCart) != "[]") {
@@ -153,7 +152,11 @@ export default function Home({ products }) {
           const pictures = () => {
             if (images) {
               return [...images].map((img) => {
-                return supabase_images_url + img.name;
+                return (
+                  process.env.NEXT_PUBLIC_SUPABASESTORAGE +
+                  "personalized-projects/" +
+                  img.name
+                );
               });
             }
           };
@@ -162,7 +165,7 @@ export default function Home({ products }) {
             setImageLoading("cargando");
             supabase.storage
               .from("personalized-projects-images")
-              .upload(`public/${image.name}`, image, {
+              .upload(`personalized-projects/${image.name}`, image, {
                 cacheControl: "3600",
                 upsert: false,
               })

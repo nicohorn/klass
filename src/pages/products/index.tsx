@@ -184,7 +184,7 @@ export async function getStaticProps() {
   async function handler() {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
-    const collection = db.collection("products");
+    const collection = db.collection("products2");
 
     return await collection.find({}).sort({ categories: 1 }).toArray();
   }

@@ -49,9 +49,9 @@ export default function ModalComponent(props) {
                     <button
                       type="button"
                       className=" border border-transparent justify-end bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 "
-                      onClick={props.buttonAction}
+                      onClick={props.buttonFunction}
                     >
-                      {props.buttonTitle || "Crear producto"}
+                      {!props.loading ? props.buttonTitle : "Cargando..."}
                     </button>
                   </div>
                 </Dialog.Panel>

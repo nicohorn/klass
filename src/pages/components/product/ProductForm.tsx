@@ -14,6 +14,8 @@ import { parseLocaleNumber } from "src/utils/utils";
 import TextEditor from "../TextEditor";
 import ModalComponent from "../ModalComponent";
 import ProductView from "./ProductView";
+import { supabase } from "supabase";
+import { notify } from "src/utils/utils";
 
 export default function ProductForm({
   color_options,
@@ -48,7 +50,7 @@ export default function ProductForm({
   const [selectedCategories, setCategories] = useState([]);
   const [productDescription, setProductDescription] = useState<string>();
   const productSteel = useRef<HTMLInputElement>();
-  const [productImages, setImages] = useState();
+  const [productImages, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
 
   const [productOptions, setSelectedOptions] = useState<OptionsListType[]>([
@@ -62,8 +64,6 @@ export default function ProductForm({
   useEffect(() => {
     (document.getElementById("categoriaProducto") as HTMLInputElement).value =
       `${selectedCategories}`.replaceAll(",", "/");
-
-    console.log(product);
   });
 
   useEffect(() => {
@@ -95,8 +95,48 @@ export default function ProductForm({
       .then((json) => {});
   };
 
-  function productPreview() {
-    return;
+  async function imagesUpload(images: any[]) {
+    setLoading(true);
+    const pictures = () => {
+      if (images) {
+        return [...images].map((img) => {
+          return (
+            process.env.NEXT_PUBLIC_SUPABASESTORAGE +
+            "product-images/" +
+            img.name
+          );
+        });
+      }
+    };
+
+    const imagesArray = [...images];
+
+    for (const image of imagesArray) {
+      const res = supabase.storage
+        .from("personalized-projects-images")
+        .upload(`product-images/${image.name}`, image, {
+          cacheControl: "3600",
+          upsert: false,
+        })
+        .then((result) => {
+          return result;
+        });
+
+      const response = await res;
+
+      if (response.error) {
+        console.log(response.error);
+        setLoading(false);
+        setModalOpen(false);
+        notify("Las imágenes del producto ya existen en la base de datos");
+        return null;
+      } else {
+        console.log("success");
+        setLoading(false);
+        setModalOpen(false);
+        return pictures();
+      }
+    }
   }
 
   return (
@@ -260,7 +300,7 @@ export default function ProductForm({
             >
               Subir imágenes{" "}
             </label>
-            {productImages ? (
+            {productImages.length !== 0 ? (
               <div className="flex flex-wrap mt-6 gap-3 opacity-animation">
                 {" "}
                 {previewImages.map((i, idx) => {
@@ -329,35 +369,44 @@ export default function ProductForm({
             steel: productSteel.current.checked,
           });
 
-          createProduct({
-            name: productName.current.value,
-            base_price: parseLocaleNumber(productPrice.current.value, "de-DE"),
-            img: [],
-            categories:
-              `/` + selectedCategories.toString().replaceAll(",", "/"),
-            options: [
-              { name: "size", elements: selectedSizeOptions },
-              { name: "color_1", elements: selectedColor_1Options },
-              { name: "color_2", elements: selectedColor_2Options },
-              { name: "model", elements: selectedModelOptions },
-              { name: "style", elements: selectedStyleOptions },
-            ],
-            description: productDescription,
-            tags: "",
-            steel: productSteel.current.checked,
-          });
-
           setModalOpen(true);
         }}
         className="text-primary absolute -bottom-8 right-0 px-6 py-2 text-xl transition-all duration-100 hover:text-white hover:bg-yellow-600 active:scale-95 bg-yellow-500"
       >
         Crear producto
       </button>
-      <button>Vista previa del producto</button>
+
       <ModalComponent
+        buttonTitle="Crear"
         title="Vista previa del producto a crear"
         isOpen={modalOpen}
         closeModal={() => setModalOpen(false)}
+        loading={loading}
+        buttonFunction={async () => {
+          const uploadedImages = await imagesUpload(productImages);
+          uploadedImages
+            ? createProduct({
+                name: productName.current.value,
+                base_price: parseLocaleNumber(
+                  productPrice.current.value,
+                  "de-DE"
+                ),
+                img: uploadedImages,
+                categories:
+                  `/` + selectedCategories.toString().replaceAll(",", "/"),
+                options: [
+                  { name: "size", elements: selectedSizeOptions },
+                  { name: "color_1", elements: selectedColor_1Options },
+                  { name: "color_2", elements: selectedColor_2Options },
+                  { name: "model", elements: selectedModelOptions },
+                  { name: "style", elements: selectedStyleOptions },
+                ],
+                description: productDescription,
+                tags: "",
+                steel: productSteel.current.checked,
+              })
+            : null;
+        }}
       >
         {product && (
           <ProductView
