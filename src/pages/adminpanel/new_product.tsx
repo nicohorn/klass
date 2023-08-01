@@ -13,17 +13,10 @@ export default function NewProduct({
   color_options: ColorOptionType[];
   products: ProductType[];
 }) {
-  const [product, setProduct] = useState<ProductType>();
-
-  useEffect(() => {
-    console.log(product);
-  });
-
   return (
     <main className="relative min-h-[72vh] mx-20 ">
       <ProductForm
         productCategories={getCategories(products)}
-        setProduct={setProduct}
         color_options={color_options}
       />
     </main>

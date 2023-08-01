@@ -61,9 +61,12 @@ export default function Adder({
           <button
             onClick={(e) => {
               e.preventDefault();
-              const value: string = (
-                document.getElementById(inputValueId) as HTMLInputElement
-              ).value;
+              const value: string = uppercase
+                ? (
+                    document.getElementById(inputValueId) as HTMLInputElement
+                  ).value.toUpperCase()
+                : (document.getElementById(inputValueId) as HTMLInputElement)
+                    .value;
               const multiplier: string = (
                 document.getElementById(inputMultiplierId) as HTMLInputElement
               ).value;
@@ -94,7 +97,7 @@ export default function Adder({
       </span>
       <div className="flex gap-2 py-2">
         {selectedOptions &&
-          selectedOptions.slice(1).map((option, i) => {
+          selectedOptions.map((option, i) => {
             return (
               <span
                 title="Click para eliminar"

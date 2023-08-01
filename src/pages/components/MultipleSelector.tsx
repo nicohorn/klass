@@ -70,12 +70,12 @@ export default function MultipleSelector({
                       key={item._id}
                     >
                       <span
-                        className="text-xs"
+                        className="text-xs "
                         onClick={() => {
                           if (!selectedItems.find((e) => e._id === item._id)) {
                             setSelectedItems([
                               ...selectedItems,
-                              { ...item, multiplier },
+                              { ...item, value: item.name, multiplier },
                             ]);
                           } else if (
                             selectedItems.find((e) => e._id === item._id)

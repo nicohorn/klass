@@ -2,20 +2,41 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
-const Tiptap = () => {
-  const [editorFocused, setEditorFocus] = useState(false);
-
+const Tiptap = ({
+  setDescription,
+  editable = true,
+  content = "<p>Descripción del producto</p>",
+}: {
+  setDescription?: React.Dispatch<any>;
+  editable?: boolean;
+  content?: string;
+}) => {
   const editor = useEditor({
-    extensions: [StarterKit, Link.configure({ openOnClick: true })],
+    extensions: [
+      StarterKit,
+      Link.configure({
+        openOnClick: true,
+        HTMLAttributes: {
+          class: "underline cursor-pointer",
+        },
+      }),
+    ],
+    editable: editable,
+    content: content,
+  });
 
-    content: "<p>Hello World!</p>",
+  useEffect(() => {
+    if (editor && setDescription) {
+      const productDescription = editor.getHTML();
+      setDescription(productDescription);
+    }
   });
 
   const setLink = useCallback(() => {
     const previousUrl = editor.getAttributes("link").href;
-    const url = window.prompt("URL", previousUrl);
+    const url = window.prompt("Link", previousUrl);
 
     // cancelled
     if (url === null) {
@@ -24,13 +45,23 @@ const Tiptap = () => {
 
     // empty
     if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .toggleLink({ href: url })
+        .run();
 
       return;
     }
 
     // update link
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+    editor
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .toggleLink({ href: url })
+      .run();
   }, [editor]);
 
   if (!editor) {
@@ -42,15 +73,18 @@ const Tiptap = () => {
       return null;
     }
     return (
-      <div className="flex gap-2 flex-wrap px-2 py-1 mt-1 text-xs ">
+      <div className="flex gap-2 flex-wrap px-2 py-1 my-1 text-xs ">
         <button
           type="button"
-          onClick={() => editor.chain().focus().toggleBold().run()}
+          onClick={() => {
+            editor.chain().focus().toggleBold().run();
+            document.getElementById("text-editor").focus();
+          }}
           disabled={!editor.can().chain().focus().toggleBold().run()}
           className={
             editor.isActive("bold")
-              ? "uppercase font-bold border bg-white text-primary px-1"
-              : "uppercase border px-1"
+              ? "uppercase border bg-white font-bold text-primary px-1"
+              : "uppercase border font-bold px-1"
           }
         >
           bold
@@ -61,8 +95,8 @@ const Tiptap = () => {
           disabled={!editor.can().chain().focus().toggleItalic().run()}
           className={
             editor.isActive("italic")
-              ? "uppercase font-bold border bg-white text-primary px-1"
-              : "uppercase border px-1"
+              ? "uppercase border bg-white italic text-primary px-1"
+              : "uppercase border italic px-1"
           }
         >
           italic
@@ -73,8 +107,8 @@ const Tiptap = () => {
           disabled={!editor.can().chain().focus().toggleStrike().run()}
           className={
             editor.isActive("strike")
-              ? "uppercase font-bold border bg-white text-primary px-1"
-              : "uppercase border px-1"
+              ? "uppercase border line-through bg-white text-primary px-1"
+              : "uppercase border px-1 line-through"
           }
         >
           strike
@@ -84,17 +118,19 @@ const Tiptap = () => {
           onClick={setLink}
           className={
             editor.isActive("link")
-              ? "uppercase font-bold border bg-white text-primary px-1"
+              ? "uppercase border bg-white text-primary px-1"
               : "uppercase border px-1"
           }
         >
-          setLink
+          Link
         </button>
         <button
+          type="button"
+          className="uppercase border px-1 cursor-pointer"
           onClick={() => editor.chain().focus().unsetLink().run()}
           disabled={!editor.isActive("link")}
         >
-          unsetLink
+          Unlink
         </button>
       </div>
     );
@@ -102,17 +138,14 @@ const Tiptap = () => {
 
   return (
     <>
-      <div className={`border ${editorFocused ? "border-yellow-500" : null}`}>
-        <MenuBar editor={editor} />
+      <div className={`${editable && "border"}`}>
+        {editable && <MenuBar editor={editor} />}
         <EditorContent
-          onClick={() => {
-            setEditorFocus(true);
-          }}
-          onBlur={() => {
-            setEditorFocus(false);
-          }}
           id="text-editor"
-          className="py-4 pl-4 text-xs mr-4"
+          className={`${
+            editable &&
+            "py-2 px-3 text-xs focus:border-yellow-500 border-t min-h-[150px]"
+          }`}
           editor={editor}
         />
       </div>

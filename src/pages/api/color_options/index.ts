@@ -12,7 +12,6 @@ export default async function handler(req, res) {
   } else if (req.method === "POST") {
     const insert = await collection.insertOne({ ...req.body });
     const result = await collection.findOne({ _id: insert.insertedId });
-    console.log(result);
 
     return "done";
   }

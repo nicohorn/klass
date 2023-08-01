@@ -1,12 +1,10 @@
 import { ProductType } from "./types";
+import { toast } from "react-toastify";
 
 export const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
 });
-
-export const supabase_images_url =
-  "https://wwhqpgatccjocygubiey.supabase.co/storage/v1/object/public/personalized-projects-images/public/";
 
 /**Helper function that retrieves the categories from the items array.
  */
@@ -41,3 +39,8 @@ export function parseLocaleNumber(stringNumber: string, locale: string) {
       .replace(new RegExp("\\" + decimalSeparator), ".")
   );
 }
+
+export const notify = (message) =>
+  toast.error(message, {
+    autoClose: 8000,
+  });

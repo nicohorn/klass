@@ -2,7 +2,6 @@ import React from "react";
 import { CustomOrderType } from "src/utils/types";
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
-import { supabase_images_url } from "src/utils/utils";
 import { supabase } from "supabase";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
@@ -93,7 +92,7 @@ export default function Custom_orders() {
               setOpen(true);
               setIsProject(false);
             }}
-            className="card rounded-md  w-full"
+            className="card  w-full"
           >
             <div className="p-4">
               <h1 className="font-bold md:text-xl">
@@ -106,7 +105,7 @@ export default function Custom_orders() {
               setOpen(true);
               setIsProject(true);
             }}
-            className="card rounded-md w-full"
+            className="card  w-full"
           >
             <div className="p-4">
               <h1 className="font-bold md:text-xl">
@@ -146,7 +145,11 @@ export default function Custom_orders() {
           const pictures = () => {
             if (images) {
               return [...images].map((img) => {
-                return supabase_images_url + img.name;
+                return (
+                  process.env.NEXT_PUBLIC_SUPABASESTORAGE +
+                  "personalized-projects/" +
+                  img.name
+                );
               });
             }
           };
@@ -155,7 +158,7 @@ export default function Custom_orders() {
             setImageLoading("cargando");
             supabase.storage
               .from("personalized-projects-images")
-              .upload(`public/${image.name}`, image, {
+              .upload(`personalized-projects/${image.name}`, image, {
                 cacheControl: "3600",
                 upsert: false,
               })
@@ -249,7 +252,6 @@ export default function Custom_orders() {
                 ) : imageLoading == "finalizado" ? (
                   <p className="text-sm flex gap-1 text-yellow-500">
                     Imágenes cargadas correctamente{" "}
-                    <CheckBadgeIcon className="w-5"></CheckBadgeIcon>
                   </p>
                 ) : null}
               </label>

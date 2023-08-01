@@ -32,8 +32,8 @@ export default function Orders({ items, totalDocuments }) {
           onClick={() => setPage(i + 1)}
           className={
             i + 1 == page
-              ? "p-1 px-3 cursor-pointer bg-primary scale-110 rounded-md text-white transition-all duration-150"
-              : "p-1 px-3 cursor-pointer hover:bg-primary rounded-md  hover:text-white transition-all duration-150"
+              ? "p-1 px-3 cursor-pointer bg-primary scale-110  text-white transition-all duration-150"
+              : "p-1 px-3 cursor-pointer hover:bg-primary   hover:text-white transition-all duration-150"
           }
         >
           {i + 1}
@@ -81,21 +81,21 @@ export default function Orders({ items, totalDocuments }) {
           <div className="relative">
             <Listbox.Button>
               {order.state === "pending" ? (
-                <div className="bg-amber-400  rounded-md font-bold text-white px-3 py-1">
+                <div className="bg-amber-400   font-bold text-white px-3 py-1">
                   Pendiente
                 </div>
               ) : order.state === "confirmed" ? (
-                <div className="bg-yellow-400 rounded-md font-bold text-white px-3 py-1">
+                <div className="bg-yellow-400  font-bold text-white px-3 py-1">
                   Confirmado
                 </div>
               ) : order.state === "sent" ? (
-                <div className="bg-yellow-700 rounded-md font-bold text-white px-3 py-1">
+                <div className="bg-yellow-700  font-bold text-white px-3 py-1">
                   Enviado
                 </div>
               ) : null}
             </Listbox.Button>
             <Listbox.Options>
-              <div className="absolute w-40 bg-white z-50 shadow-lg p-2  rounded-md mt-2 -translate-x-[50%] inset-x-[50%]">
+              <div className="absolute w-40 bg-white z-50 shadow-lg p-2   mt-2 -translate-x-[50%] inset-x-[50%]">
                 {states.map((state, stateIdx) => (
                   <span key={stateIdx} className="flex flex-col ">
                     <Listbox.Option
@@ -141,7 +141,7 @@ export default function Orders({ items, totalDocuments }) {
       {user?.sub == "google-oauth2|102747183325371068763" ||
       user?.sub == "google-oauth2|101977740947109023372" ? (
         <div>
-          <div className="2xl:w-[60%] min-h-[60vh] bg-white lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100 rounded-md shadow-md">
+          <div className="2xl:w-[60%] min-h-[60vh] bg-white lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100  shadow-md">
             <h1 className="text-3xl font-semibold mb-5">
               Estos son todos los pedidos:{" "}
             </h1>
@@ -158,7 +158,7 @@ export default function Orders({ items, totalDocuments }) {
                   >
                     <div
                       key={i}
-                      className="z-0 flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2 rounded-md hover:shadow-md
+                      className="z-0 flex xl:flex-row flex-col gap-3 items-center justify-between bg-white border px-4 py-2  hover:shadow-md
                       hover:bg-emerald-100
                       transition-all duration-150"
                     >
@@ -211,7 +211,7 @@ export default function Orders({ items, totalDocuments }) {
                       leaveFrom="opacity-100 scale-100"
                       leaveTo="opacity-0 scale-95"
                     >
-                      <Dialog.Panel className=" transform rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all w-[50vw]">
+                      <Dialog.Panel className=" transform  bg-white p-6 text-left align-middle shadow-xl transition-all w-[50vw]">
                         <Dialog.Title
                           as="h3"
                           className="text-xl font-medium leading-6 text-black"

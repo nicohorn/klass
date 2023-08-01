@@ -10,11 +10,9 @@ export default function ProductContainer(props) {
     <div
       className={`md:mx-20 flex transition-all duration-200 ${
         props.odd ? "justify-end" : "justify-start"
-      } rounded-md  md:mt-20 mt-5 ${
-        props.odd && inView ? "slide-left" : null
-      } ${!props.odd && inView ? "slide-right" : null} ${
-        inView ? "opacity-100" : "opacity-out"
-      } transition-all duration-200`}
+      }   md:mt-20 mt-5 ${props.odd && inView ? "slide-left" : null} ${
+        !props.odd && inView ? "slide-right" : null
+      } ${inView ? "opacity-100" : "opacity-out"} transition-all duration-200`}
     >
       <div ref={ref} className="bg-black xl:w-2/3 py-10 text-white">
         {props.children}
