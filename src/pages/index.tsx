@@ -265,7 +265,7 @@ export default function Home({ products }) {
       </Modal>
       <div
         id="product-container"
-        className=" bg-center bg-cover opacity-animation md:mx-20 py-8 px-4 md:px-16 rounded-md  shadow-lg"
+        className=" bg-center bg-cover opacity-animation md:mx-20 py-8 px-4 md:px-16   shadow-lg"
         style={{
           backgroundImage: `url("${frontPageProducts[0].img[0]}")`,
         }}
@@ -278,7 +278,7 @@ export default function Home({ products }) {
             <p className="uppercase slide-bottom  2xl:text-4xl text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] xl:text-4xl lg:text-4xl  lg:text-right">
               Cama funcional de dos plazas
             </p>
-            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem] rounded-md bg-black/50  py-5 px-4 md:px-8">
+            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem]  bg-black/50  py-5 px-4 md:px-8">
               {frontPageProducts[0].description}
             </div>
             <div
@@ -289,7 +289,7 @@ export default function Home({ products }) {
                   router.push("/api/auth/login?returnTo=/");
                 }
               }}
-              className="cursor-pointer hover:bg-yellow-500 px-3 py-2  my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] flex flex-col items-center rounded-md bg-yellow-300 md:self-start self-center font-normal text-sm transition-all duration-200 text-black"
+              className="cursor-pointer hover:bg-yellow-500 px-3 py-2  my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] flex flex-col items-center  bg-yellow-300 md:self-start self-center font-normal text-sm transition-all duration-200 text-black"
             >
               Presupuesto personalizado
               {!user && (
@@ -298,7 +298,7 @@ export default function Home({ products }) {
             </div>
 
             <div className="mt-auto flex flex-col flex-wrap justify-center text-white md:justify-end gap-5 items-center md:items-end">
-              <div className="px-4 py-4 rounded-md text-yellow-500  flex items-end gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)]">
+              <div className="px-4 py-4  text-yellow-500  flex items-end gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)]">
                 <p className="md:text-4xl text-3xl font-bold  ">
                   {formatter.format(frontPageProducts[0].base_price)}
                 </p>
@@ -306,10 +306,10 @@ export default function Home({ products }) {
               </div>
               <div className="flex gap-5">
                 {" "}
-                <div className=" p-3 md:text-lg text-sm border font-[400]  drop-shadow-[1px_1px_1px_rgba(0,0,0,0.60)] transition-all duration-200 hover:border-yellow-500 bg-yellow-300 hover:text-white text-black hover:bg-yellow-500 rounded-md cursor-pointer  ">
+                <div className=" p-3 md:text-lg text-sm border font-[400]  drop-shadow-[1px_1px_1px_rgba(0,0,0,0.60)] transition-all duration-200 hover:border-yellow-500 bg-yellow-300 hover:text-white text-black hover:bg-yellow-500  cursor-pointer  ">
                   <Link href="/products">Ver todos los productos</Link>
                 </div>
-                <div className=" p-3 border md:text-lg text-sm cursor-pointer border-yellow-300 transition-all duration-200 hover:bg-yellow-500  drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)]  bg-yellow-300 rounded-md hover:text-white text-black hover:border-yellow-500">
+                <div className=" p-3 border md:text-lg text-sm cursor-pointer border-yellow-300 transition-all duration-200 hover:bg-yellow-500  drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)]  bg-yellow-300  hover:text-white text-black hover:border-yellow-500">
                   <Link href={`/products/${frontPageProducts[0]._id}`}>
                     Ver detalles
                   </Link>
@@ -340,11 +340,11 @@ export default function Home({ products }) {
                     onClick={() => {
                       setOpen(true);
                     }}
-                    className="cursor-pointer self-start hover:bg-yellow-500 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] rounded-md bg-yellow-300 text-black font-normal text-sm transition-all duration-200"
+                    className="cursor-pointer self-start hover:bg-yellow-500 px-3 py-2 my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)]  bg-yellow-300 text-black font-normal text-sm transition-all duration-200"
                   >
                     Presupuesto personalizado
                   </div>
-                  <div className="px-4 py-4 rounded-md text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
+                  <div className="px-4 py-4  text-yellow-600  flex items-end justify-center sm:self-start gap-2 bg-white drop-shadow-[1px_1px_3px_rgba(0,0,0,0.5)] mb-5">
                     <p className="md:text-2xl text-xl font-bold">
                       {formatter.format(p.base_price)}
                     </p>
@@ -352,7 +352,7 @@ export default function Home({ products }) {
                       Precio base
                     </p>
                   </div>
-                  <div className=" p-3 sm:self-end text-center mt-auto rounded-md border cursor-pointer border-yellow-300 text-black transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-300">
+                  <div className=" p-3 sm:self-end text-center mt-auto  border cursor-pointer border-yellow-300 text-black transition-all duration-200 hover:bg-yellow-500 hover:border-yellow-500 drop-shadow-[1px_1px_3px_rgba(0,0,0,0.60)] bg-yellow-300">
                     <Link href={`/products/${p._id}`}>Ver detalles</Link>
                   </div>
                 </div>

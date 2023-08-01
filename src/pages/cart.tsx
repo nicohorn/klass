@@ -128,7 +128,7 @@ export default function Cart({ items }) {
 
   return (
     <main className="mx-auto  sm:my-10   sm:px-2 flex-grow w-full sm:w-auto h-screen">
-      <div className="md:w-[40rem] mx-auto p-5 border bg-white rounded-md shadow-md drop-shadow-[1px_1px_3px_rgba(0,0,0,0.90)]">
+      <div className="md:w-[40rem] mx-auto p-5 border bg-white shadow-md drop-shadow-[1px_1px_3px_rgba(0,0,0,0.90)]">
         <div className="pb-4 text-2xl font-bold justify-between flex items-center">
           <div>Mi carrito</div>
           <div>
@@ -161,7 +161,7 @@ export default function Cart({ items }) {
                 <Disclosure key={i}>
                   {({ open }) => (
                     <>
-                      <Disclosure.Button className=" rounded-md flex  w-full hover:shadow-md items-center justify-between bg-white px-4 py-2 text-left text-sm font-medium text-black hover:bg-emerald-100 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 border transition-all duration-150 mb-4">
+                      <Disclosure.Button className=" flex  w-full hover:shadow-md items-center justify-between bg-white px-4 py-2 text-left text-sm font-medium text-black hover:bg-emerald-100 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75 border transition-all duration-150 mb-4">
                         <div
                           key={i}
                           className=" flex grow flex-col sm:flex-row gap-5 justify-between items-center"
@@ -269,7 +269,7 @@ export default function Cart({ items }) {
                                 JSON.stringify("")
                               );
                             }}
-                            className="hover:bg-red-500 transition-all duration-150 self-end p-2 mt-4 text-white font-semibold rounded-md bg-red-700"
+                            className="hover:bg-red-500 transition-all duration-150 self-end p-2 mt-4 text-white font-semibold  bg-red-700"
                           >
                             Quitar del carrito
                           </button>
@@ -286,7 +286,7 @@ export default function Cart({ items }) {
                 <span>{formatter.format(totalCartPrice())}</span>
               </div>
 
-              <div className=" bg-yellow-300 p-1 px-3 cursor-pointer mt-3 mr-2 self-end text-center text-black rounded-md hover:shadow-md transition-all duration-150 w-44 flex justify-center">
+              <div className=" bg-yellow-300 p-1 px-3 cursor-pointer mt-3 mr-2 self-end text-center text-black  hover:shadow-md transition-all duration-150 w-44 flex justify-center">
                 <button
                   className="font-semibold"
                   onClick={() => {
@@ -340,7 +340,7 @@ export default function Cart({ items }) {
           <div className="text-center">
             <p>El carrito está vacío</p>
             <Link href={"/products"}>
-              <div className="bg-yellow-300 text-black font-semibold p-1 px-3 cursor-pointer my-6 inline-block  rounded-md hover:drop-shadow-xl transition-all duration-150">
+              <div className="bg-yellow-300 text-black font-semibold p-1 px-3 cursor-pointer my-6 inline-block  hover:shadow-lg transition-all duration-150">
                 Ver productos
               </div>
             </Link>

@@ -1,27 +1,104 @@
-import React from "react";
-import { CartItemType, OptionType, ProductType } from "src/utils/types";
+import React, { useState } from "react";
+import {
+  CartItemType,
+  ColorOptionType,
+  OptionType,
+  ProductType,
+} from "src/utils/types";
 import SimpleImageSlider from "react-simple-image-slider";
 import { formatter } from "src/utils/utils";
+import OptionsListbox from "../OptionsListbox";
+import Tiptap from "../TextEditor";
 
 export default function ProductView({
   product,
-  selectedSize,
-  selectedColor_1,
-  selectedColor_2,
-  selectedStyle,
-  selectedModel,
-  listboxOptions,
+  colors,
   addToCart,
+  preview,
+  shadow,
 }: {
   product?: ProductType;
-  selectedSize: OptionType;
-  selectedColor_1: OptionType;
-  selectedColor_2: OptionType;
-  selectedStyle: OptionType;
-  selectedModel: OptionType;
-  listboxOptions: React.JSX.Element;
-  addToCart: Function;
+  colors: ColorOptionType[];
+  addToCart?: Function;
+  preview?: boolean;
+  shadow?: boolean;
 }) {
+  const size_options = product.options.find((optionList) => {
+    return optionList.name === "size";
+  })?.elements;
+  const color_1_options = product.options.find((optionList) => {
+    return optionList.name === "color_1";
+  })?.elements;
+  const color_2_options = product.options.find((optionList) => {
+    return optionList.name === "color_2";
+  })?.elements;
+  const style_options = product.options.find((optionList) => {
+    return optionList.name === "style";
+  })?.elements;
+  const model_options = product.options.find((optionList) => {
+    return optionList.name === "model";
+  })?.elements;
+
+  //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
+  const [selectedSize, setSelectedSize] = useState<OptionType>(
+    size_options ? size_options[0] : null
+  );
+  const [selectedColor_1, setSelectedColor_1] = useState<OptionType>(
+    color_1_options ? color_1_options[0] : null
+  );
+  const [selectedColor_2, setSelectedColor_2] = useState<OptionType>(
+    color_2_options ? color_2_options[0] : null
+  );
+
+  const [selectedStyle, setSelectedStyle] = useState<OptionType>(
+    style_options ? style_options[0] : null
+  );
+
+  const [selectedModel, setSelectedModel] = useState<OptionType>(
+    model_options ? model_options[0] : null
+  );
+  function listboxOptions() {
+    return (
+      <div className="flex gap-5 flex-col  ">
+        <OptionsListbox
+          title="Tamaño"
+          selectedOption={selectedSize}
+          setSelectedOption={setSelectedSize}
+          options={size_options}
+        />
+
+        <OptionsListbox
+          title="Color 1"
+          selectedOption={selectedColor_1}
+          setSelectedOption={setSelectedColor_1}
+          options={color_1_options}
+          colors={colors}
+        />
+
+        <OptionsListbox
+          title="Color 2"
+          selectedOption={selectedColor_2}
+          setSelectedOption={setSelectedColor_2}
+          options={color_2_options}
+          colors={colors}
+        />
+
+        <OptionsListbox
+          title="Estilo"
+          selectedOption={selectedStyle}
+          setSelectedOption={setSelectedStyle}
+          options={style_options}
+        />
+        <OptionsListbox
+          title="Modelo"
+          selectedOption={selectedModel}
+          setSelectedOption={setSelectedModel}
+          options={model_options}
+        />
+      </div>
+    );
+  }
+
   function imageSlider() {
     return (
       <>
@@ -65,26 +142,40 @@ export default function ProductView({
     const total =
       product &&
       product.base_price +
-        (selectedSize.multiplier * product.base_price - product.base_price) +
-        (selectedColor_1.multiplier * product.base_price - product.base_price) +
-        (selectedColor_2.multiplier * product.base_price - product.base_price) +
-        (selectedStyle.multiplier * product.base_price - product.base_price) +
-        (selectedModel.multiplier * product.base_price - product.base_price);
+        ((selectedSize?.multiplier || 1) * product.base_price -
+          product.base_price) +
+        ((selectedColor_1?.multiplier || 1) * product.base_price -
+          product.base_price) +
+        ((selectedColor_2?.multiplier || 1) * product.base_price -
+          product.base_price) +
+        ((selectedStyle?.multiplier || 1) * product.base_price -
+          product.base_price) +
+        ((selectedModel?.multiplier || 1) * product.base_price -
+          product.base_price);
 
     const totalToNeareastFive = Math.ceil(total / 5) * 5;
 
     return totalToNeareastFive;
   }
+
   return (
-    <section className="flex  justify-center h-full lg:mx-20 items-center rounded-md shadow-inner bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
+    <section className="flex  justify-center h-full lg:mx-20 items-center  bg-primary  p-5 lg:p-0  xl:flex-row flex-col  gap-5 ">
       <div className="relative aspect-[4/5] h-full  xl:mx-0  group text-xl ">
         {imageSlider()}
       </div>
-      <div className="self-center xl:self-stretch flex-1 z-40 bg-white rounded-md">
-        <div className=" flex flex-col gap-5   mr-0 shadow-lg h-full p-5 lg:p-10">
+      <div className="self-center xl:self-stretch flex-1 z-40 bg-white ">
+        <div className=" flex flex-col gap-5   mr-0 h-full p-5 lg:p-10">
           <h1 className="font-bold text-3xl lg:text-3xl ">
             {product && product.name}
+            {product && preview && product.steel ? (
+              <p className="text-xs">Tiene acero/hierro</p>
+            ) : null}
           </h1>
+
+          <h2 className="text-primary/70 font-semibold">
+            {preview && "Categorías: "}
+            {preview && product && product.categories}
+          </h2>
 
           <h2
             key={totalPrice()}
@@ -96,14 +187,16 @@ export default function ProductView({
           </h2>
 
           <p className="text-md whitespace-pre-wrap leading-5 ">
-            {product && product.description}
+            {product && (
+              <Tiptap content={product.description} editable={false} />
+            )}
           </p>
 
-          {listboxOptions}
+          {listboxOptions()}
 
-          {product && product.base_price !== 1 && (
+          {product && product.base_price !== 1 && preview !== true && (
             <button
-              className="bg-yellow-300 p-3 font-semibold rounded-md w-[100%] mt-auto  text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 "
+              className="bg-yellow-300 p-3 font-semibold  w-[100%] mt-auto  text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 "
               onClick={() => {
                 addToCart({
                   id: product._id,

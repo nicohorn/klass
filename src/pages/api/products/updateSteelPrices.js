@@ -20,15 +20,7 @@ export default async function handler(req, res) {
         }
       );
     });
-    // const rackCeibo = await collection.findOneAndUpdate(
-    //   { name: "Rack Ceibo" },
-    //   {
-    //     $set: {
-    //       base_price: 1,
-    //     },
-    //   }
-    // );
-    console.log(products);
+
     result = await Promise.all(promiseAll);
 
     return res.status(200).json(products);

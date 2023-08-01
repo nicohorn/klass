@@ -6,8 +6,12 @@ import React, { useState, useCallback, useEffect } from "react";
 
 const Tiptap = ({
   setDescription,
+  editable = true,
+  content = "<p>Descripción del producto</p>",
 }: {
-  setDescription: React.Dispatch<any>;
+  setDescription?: React.Dispatch<any>;
+  editable?: boolean;
+  content?: string;
 }) => {
   const editor = useEditor({
     extensions: [
@@ -19,20 +23,20 @@ const Tiptap = ({
         },
       }),
     ],
-
-    content: "<p>Descripción del producto</p>",
+    editable: editable,
+    content: content,
   });
 
   useEffect(() => {
-    if (editor) {
-      const productDescription = JSON.stringify(editor.getHTML());
+    if (editor && setDescription) {
+      const productDescription = editor.getHTML();
       setDescription(productDescription);
     }
   });
 
   const setLink = useCallback(() => {
     const previousUrl = editor.getAttributes("link").href;
-    const url = window.prompt("URL", previousUrl);
+    const url = window.prompt("Link", previousUrl);
 
     // cancelled
     if (url === null) {
@@ -134,11 +138,14 @@ const Tiptap = ({
 
   return (
     <>
-      <div className="border">
-        <MenuBar editor={editor} />
+      <div className={`${editable && "border"}`}>
+        {editable && <MenuBar editor={editor} />}
         <EditorContent
           id="text-editor"
-          className="py-2 px-3 text-xs focus:border-yellow-500 border-t"
+          className={`${
+            editable &&
+            "py-2 px-3 text-xs focus:border-yellow-500 border-t min-h-[150px]"
+          }`}
           editor={editor}
         />
       </div>

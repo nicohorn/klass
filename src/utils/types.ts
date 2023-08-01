@@ -39,11 +39,6 @@ export type ColorOptionType = {
   img: string;
 };
 
-export type OptionType = {
-  value: string;
-  multiplier: number;
-};
-
 export type CartItemType = {
   id: string;
   price: number;
@@ -52,6 +47,11 @@ export type CartItemType = {
   color_2: string;
   style: string;
   model: string;
+};
+
+export type OptionType = {
+  value: string;
+  multiplier: number;
 };
 
 export type OptionsListType = {

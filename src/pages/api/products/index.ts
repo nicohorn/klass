@@ -11,6 +11,7 @@ export default async function handler(req, res) {
       .sort({ categories: 1 })
       .toArray();
 
+    console.log(req.cookies);
     return res.status(200).json(findResult);
   } else if (req.method === "POST") {
     const insert = await collection.insertOne({ ...(req.body as ProductType) });
