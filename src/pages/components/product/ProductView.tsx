@@ -9,17 +9,20 @@ import SimpleImageSlider from "react-simple-image-slider";
 import { formatter } from "src/utils/utils";
 import OptionsListbox from "../OptionsListbox";
 import Tiptap from "../TextEditor";
+import { useUser } from "@auth0/nextjs-auth0";
 
 export default function ProductView({
   product,
   colors,
   addToCart,
   preview,
+  editProduct,
 }: {
   product?: ProductType;
   colors: ColorOptionType[];
   addToCart?: Function;
   preview?: boolean;
+  editProduct?: React.Dispatch<boolean>;
 }) {
   const size_options =
     product &&
@@ -65,6 +68,9 @@ export default function ProductView({
   const [selectedModel, setSelectedModel] = useState<OptionType>(
     model_options ? model_options[0] : null
   );
+
+  const { user } = useUser();
+
   function listboxOptions() {
     return (
       <>
@@ -207,22 +213,36 @@ export default function ProductView({
           {listboxOptions()}
 
           {product && product.base_price !== 1 && preview !== true && (
-            <button
-              className="bg-yellow-300 p-3 font-semibold  w-[100%] mt-auto  text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 "
-              onClick={() => {
-                addToCart({
-                  id: product._id,
-                  price: totalPrice(),
-                  size: selectedSize.value,
-                  color_1: selectedColor_1.value,
-                  color_2: selectedColor_2.value,
-                  style: selectedStyle.value,
-                  model: selectedModel.value,
-                } as CartItemType);
-              }}
-            >
-              Agregar al carrito
-            </button>
+            <div className="flex gap-2 mt-auto ">
+              <button
+                className="bg-yellow-300 p-3 font-semibold  w-[100%]  text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 "
+                onClick={() => {
+                  console.log(selectedSize.value);
+                  addToCart({
+                    id: product._id,
+                    price: totalPrice(),
+                    size: selectedSize?.value || "none",
+                    color_1: selectedColor_1?.value || "none",
+                    color_2: selectedColor_2?.value || "none",
+                    style: selectedStyle?.value || "none",
+                    model: selectedModel?.value || "none",
+                  } as CartItemType);
+                }}
+              >
+                Agregar al carrito
+              </button>
+              {user?.sub === process.env.NEXT_PUBLIC_ADMIN1 ||
+              user?.sub === process.env.NEXT_PUBLIC_ADMIN1 ? (
+                <button
+                  className="bg-yellow-300 p-3 font-semibold  w-[100%] mt-auto  text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 "
+                  onClick={() => {
+                    editProduct(true);
+                  }}
+                >
+                  Editar producto
+                </button>
+              ) : null}
+            </div>
           )}
         </div>
       </div>

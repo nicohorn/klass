@@ -211,13 +211,8 @@ export default function Cart({ items }) {
                               {formatter.format(product.price)}
                             </div>
                             <div className="flex gap-1 flex-wrap">
-                              {product.size &&
-                              product.color_1 &&
-                              product.color_2 &&
-                              product.style &&
-                              product.model === "none" ? null : (
+                              {
                                 <>
-                                  <div className="font-bold">Opciones: </div>
                                   <div>
                                     {product.size == "none" ? null : (
                                       <span className="flex gap-1">
@@ -251,7 +246,7 @@ export default function Cart({ items }) {
                                     )}
                                   </div>
                                 </>
-                              )}
+                              }
                             </div>
                           </div>
                           <button

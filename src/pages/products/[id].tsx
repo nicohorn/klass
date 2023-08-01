@@ -7,6 +7,7 @@ var ObjectId = require("mongodb").ObjectId;
 import clientPromise from "mongodb.js";
 import type { ColorOptionType, ProductType } from "src/utils/types";
 import ProductView from "../components/product/ProductView";
+import ProductForm from "../components/product/ProductForm";
 
 export default function Id({
   item,
@@ -20,6 +21,8 @@ export default function Id({
   const setCart = useProducts((state: any) => state.setCart);
   const product: ProductType = item[0];
   const colors: [ColorOptionType] = color_options;
+
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
@@ -68,7 +71,12 @@ export default function Id({
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <ProductView product={product} colors={colors} addToCart={addToCart} />
+      <ProductView
+        product={product}
+        colors={colors}
+        addToCart={addToCart}
+        editProduct={setEdit}
+      />
     </>
   );
 }
