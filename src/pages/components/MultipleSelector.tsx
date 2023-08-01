@@ -75,7 +75,7 @@ export default function MultipleSelector({
                           if (!selectedItems.find((e) => e._id === item._id)) {
                             setSelectedItems([
                               ...selectedItems,
-                              { ...item, multiplier },
+                              { ...item, value: item.name, multiplier },
                             ]);
                           } else if (
                             selectedItems.find((e) => e._id === item._id)

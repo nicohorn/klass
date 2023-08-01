@@ -93,7 +93,7 @@ export default function Custom_orders() {
               setOpen(true);
               setIsProject(false);
             }}
-            className="card rounded-md  w-full"
+            className="card  w-full"
           >
             <div className="p-4">
               <h1 className="font-bold md:text-xl">
@@ -106,7 +106,7 @@ export default function Custom_orders() {
               setOpen(true);
               setIsProject(true);
             }}
-            className="card rounded-md w-full"
+            className="card  w-full"
           >
             <div className="p-4">
               <h1 className="font-bold md:text-xl">

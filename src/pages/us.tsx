@@ -11,7 +11,7 @@ export default function Us() {
       <div className="text-center text-black opacity-animation font-bold xl:text-5xl text-3xl">
         Nosotros
       </div>
-      <div className="text-black mx-5  slide-left   xl:w-[40%] xl:mx-auto md:text-justify md:p-10 p-4 flex flex-col gap-6 lg:shadow-md mt-5 bg-white/60 backdrop-blur-sm rounded-md ">
+      <div className="text-black mx-5  slide-left   xl:w-[40%] xl:mx-auto md:text-justify md:p-10 p-4 flex flex-col gap-6 lg:shadow-md mt-5 bg-white/60 backdrop-blur-sm  ">
         <p>
           Nuestra guía es el diseño, el resultado son <b>muebles asequibles.</b>{" "}
           Con la mirada puesta en la vida diaria del hogar, tomamos decisiones
@@ -41,7 +41,7 @@ export default function Us() {
             Información de contacto
           </p>
           <div className="sm:text-lg text-sm text-center sm:text-left">
-            <div className="flex sm:flex-row flex-col flex-wrap gap-2 mt-3  bg-white/60 px-5 p-2 items-center  rounded-md shadow-sm">
+            <div className="flex sm:flex-row flex-col flex-wrap gap-2 mt-3  bg-white/60 px-5 p-2 items-center   shadow-sm">
               <p>Email:</p>
               <a href="mailto:contacto.klass@gmail.com">
                 <p className="font-semibold hover:text-gray-700">
@@ -63,7 +63,7 @@ export default function Us() {
                 />
               </svg>
             </div>
-            <div className="flex sm:flex-row flex-col flex-wrap gap-2 mt-3 bg-white/60 px-5 p-2 items-center  rounded-md shadow-sm">
+            <div className="flex sm:flex-row flex-col flex-wrap gap-2 mt-3 bg-white/60 px-5 p-2 items-center   shadow-sm">
               <p>Fábrica:</p>
               <a href="https://goo.gl/maps/2FtsgEF26J1z1FJj8">
                 <p className="font-semibold hover:text-gray-700">
@@ -85,7 +85,7 @@ export default function Us() {
                 />
               </svg>
             </div>
-            <div className="flex sm:flex-row flex-col flex-wrap gap-2 mt-3 bg-white/60 px-5 p-2 items-center  rounded-md shadow-sm">
+            <div className="flex sm:flex-row flex-col flex-wrap gap-2 mt-3 bg-white/60 px-5 p-2 items-center   shadow-sm">
               <p>Local comercial: </p>
               <a href="https://goo.gl/maps/AktyAXMrSyGFWBJY6">
                 <p className="font-semibold hover:text-gray-700">

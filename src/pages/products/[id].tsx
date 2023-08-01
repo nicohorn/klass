@@ -5,9 +5,7 @@ import { useProducts } from "../../utils/zustand";
 import Head from "next/head";
 var ObjectId = require("mongodb").ObjectId;
 import clientPromise from "mongodb.js";
-import SimpleImageSlider from "react-simple-image-slider";
-import type { ColorOptionType, OptionType, ProductType } from "src/utils/types";
-import OptionsListbox from "../components/OptionsListbox";
+import type { ColorOptionType, ProductType } from "src/utils/types";
 import ProductView from "../components/product/ProductView";
 
 export default function Id({
@@ -22,41 +20,6 @@ export default function Id({
   const setCart = useProducts((state: any) => state.setCart);
   const product: ProductType = item[0];
   const colors: [ColorOptionType] = color_options;
-  /**This functions retrieves an object with 3 properties: size options, color 1 options and color 2 options. It's a helper function to easily access and use the product options */
-  const size_options = product.options.find((optionList) => {
-    return optionList.name === "size";
-  })?.elements;
-  const color_1_options = product.options.find((optionList) => {
-    return optionList.name === "color_1";
-  })?.elements;
-  const color_2_options = product.options.find((optionList) => {
-    return optionList.name === "color_2";
-  })?.elements;
-  const style_options = product.options.find((optionList) => {
-    return optionList.name === "style";
-  })?.elements;
-  const model_options = product.options.find((optionList) => {
-    return optionList.name === "model";
-  })?.elements;
-
-  //This useState hook holds one of the options with its price that was selected from the product (in case of having an option to chose, e.g. S, M, L, etc)
-  const [selectedSize, setSelectedSize] = useState<OptionType>(
-    size_options ? size_options[0] : { value: "none", multiplier: 1 }
-  );
-  const [selectedColor_1, setSelectedColor_1] = useState<OptionType>(
-    color_1_options ? color_1_options[0] : { value: "none", multiplier: 1 }
-  );
-  const [selectedColor_2, setSelectedColor_2] = useState<OptionType>(
-    color_2_options ? color_2_options[0] : { value: "none", multiplier: 1 }
-  );
-
-  const [selectedStyle, setSelectedStyle] = useState<OptionType>(
-    style_options ? style_options[0] : { value: "none", multiplier: 1 }
-  );
-
-  const [selectedModel, setSelectedModel] = useState<OptionType>(
-    model_options ? model_options[0] : { value: "none", multiplier: 1 }
-  );
 
   useEffect(() => {
     //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
@@ -74,63 +37,7 @@ export default function Id({
     }
   });
 
-  /**Helper function to calculate the total price of a product with its selected options */
-  function totalPrice() {
-    const total =
-      product.base_price +
-      (selectedSize.multiplier * product.base_price - product.base_price) +
-      (selectedColor_1.multiplier * product.base_price - product.base_price) +
-      (selectedColor_2.multiplier * product.base_price - product.base_price) +
-      (selectedStyle.multiplier * product.base_price - product.base_price) +
-      (selectedModel.multiplier * product.base_price - product.base_price);
-
-    const totalToNeareastFive = Math.ceil(total / 5) * 5;
-
-    return totalToNeareastFive;
-  }
-
   /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
-  function listboxOptions() {
-    return (
-      <div className="flex gap-5 flex-col  ">
-        <OptionsListbox
-          title="Tamaño (en metros)"
-          selectedOption={selectedSize}
-          setSelectedOption={setSelectedSize}
-          options={size_options}
-        />
-
-        <OptionsListbox
-          title="Color 1"
-          selectedOption={selectedColor_1}
-          setSelectedOption={setSelectedColor_1}
-          options={color_1_options}
-          colors={colors}
-        />
-
-        <OptionsListbox
-          title="Color 2"
-          selectedOption={selectedColor_2}
-          setSelectedOption={setSelectedColor_2}
-          options={color_2_options}
-          colors={colors}
-        />
-
-        <OptionsListbox
-          title="Estilo"
-          selectedOption={selectedStyle}
-          setSelectedOption={setSelectedStyle}
-          options={style_options}
-        />
-        <OptionsListbox
-          title="Modelo"
-          selectedOption={selectedModel}
-          setSelectedOption={setSelectedModel}
-          options={model_options}
-        />
-      </div>
-    );
-  }
 
   return (
     <>
@@ -161,16 +68,7 @@ export default function Id({
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <ProductView
-        product={product}
-        selectedSize={selectedSize}
-        selectedColor_1={selectedColor_1}
-        selectedColor_2={selectedColor_2}
-        selectedModel={selectedModel}
-        selectedStyle={selectedStyle}
-        listboxOptions={listboxOptions()}
-        addToCart={addToCart}
-      />
+      <ProductView product={product} colors={colors} addToCart={addToCart} />
     </>
   );
 }

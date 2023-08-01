@@ -20,12 +20,12 @@ export default function OptionsListbox({
 }) {
   return (
     <>
-      {selectedOption && selectedOption.value == "none" ? null : (
+      {!selectedOption || selectedOption.value == "none" ? null : (
         <div className="">
           <p className="italic text-sm">{title}</p>
           <Listbox value={selectedOption} onChange={setSelectedOption}>
             <div className="relative mt-1 flex-auto">
-              <Listbox.Button className="relative w-full cursor-default rounded-lg bg-yellow-50 py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+              <Listbox.Button className="relative w-full cursor-default  bg-yellow-50 py-2 pl-3 pr-10 text-left shadow focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                 <span className="block truncate">
                   {selectedOption && selectedOption.value}
                 </span>
@@ -42,7 +42,7 @@ export default function OptionsListbox({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute mt-1 z-50 max-h-60 bg-yellow-50 w-full overflow-auto rounded-md  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Listbox.Options className="absolute mt-1 z-50 max-h-60 bg-yellow-50 w-full overflow-auto  py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {options &&
                     options.map((option, i) => (
                       <Listbox.Option

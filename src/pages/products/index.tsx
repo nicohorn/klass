@@ -8,6 +8,7 @@ import { formatter } from "src/utils/utils";
 import type { ProductType } from "src/utils/types";
 import Image from "next/image";
 import { getCategories } from "src/utils/utils";
+import TextEditor from "../components/TextEditor";
 
 function Products({ items }: { items: ProductType[] }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -127,9 +128,9 @@ function Products({ items }: { items: ProductType[] }) {
                 <div className="delay-150 border-opacity-0 w-[80%] sm:w-full mx-auto transition-all duration-150 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
                   <a href={`/products/` + item._id}>
                     <div className="flex flex-col ">
-                      <div className="rounded-md  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm">
+                      <div className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm">
                         <Image
-                          className="rounded-md  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm"
+                          className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm"
                           width={500}
                           height={500}
                           alt="Imagen del producto"
@@ -139,7 +140,7 @@ function Products({ items }: { items: ProductType[] }) {
                           <p className=" px-4 my-3 uppercase font-bold transition-all duration-300  text-white  drop-shadow-[0px_0px_6px_rgba(0,0,0,0.75)] ">
                             {item.name}
                           </p>
-                          <span className="px-5 -translate-x-1 max-w-fit mb-2 py-1 font-bold bg-yellow-300  text-black drop-shadow-[0px_0px_6px_rgba(0,0,0,0.25)] flex items-center rounded-md">
+                          <span className="px-5 -translate-x-1 max-w-fit mb-2 py-1 font-bold bg-yellow-300  text-black drop-shadow-[0px_0px_6px_rgba(0,0,0,0.25)] flex items-center ">
                             {formatter.format(item.base_price)}
                             <div className=" flex flex-col">
                               {" "}
@@ -151,8 +152,11 @@ function Products({ items }: { items: ProductType[] }) {
                               </span>
                             </div>
                           </span>
-                          <span className="text-sm p-4 md:block hidden bg-black/60 text-white transition-all delay-500 duration-200  absolute bottom-full group-hover:scale-[1.02] pointer-events-none opacity-0 group-hover:opacity-100">
-                            {item.description}
+                          <span className="text-xs p-4 md:block hidden bg-black/60 text-white transition-all delay-500 duration-200  absolute bottom-full group-hover:scale-[1.02] pointer-events-none opacity-0 group-hover:opacity-100">
+                            <TextEditor
+                              editable={false}
+                              content={item.description}
+                            />
                           </span>
                         </div>
                       </div>

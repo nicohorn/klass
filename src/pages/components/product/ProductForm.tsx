@@ -12,37 +12,42 @@ import Adder from "../Adder";
 import CurrencyInput from "../CurrencyInput";
 import { parseLocaleNumber } from "src/utils/utils";
 import TextEditor from "../TextEditor";
+import ModalComponent from "../ModalComponent";
+import ProductView from "./ProductView";
 
 export default function ProductForm({
   color_options,
   productCategories,
-  setProduct,
 }: {
   color_options: ColorOptionType[];
   productCategories: Array<string>;
-  setProduct: React.Dispatch<ProductType>;
 }) {
-  const [selectedSizeOptions, setSelectedSizeOptions] = useState<OptionType[]>([
-    { value: "none", multiplier: 1 },
-  ]);
+  const [product, setProduct] = useState<ProductType>();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSizeOptions, setSelectedSizeOptions] = useState<OptionType[]>(
+    []
+  );
   const [selectedColor_1Options, setSelectedColor_1Options] = useState<
     OptionType[]
-  >([{ value: "none", multiplier: 1 }]);
+  >([]);
   const [selectedColor_2Options, setSelectedColor_2Options] = useState<
     OptionType[]
-  >([{ value: "none", multiplier: 1 }]);
+  >([]);
   const [selectedModelOptions, setSelectedModelOptions] = useState<
     OptionType[]
-  >([{ value: "none", multiplier: 1 }]);
+  >([]);
   const [selectedStyleOptions, setSelectedStyleOptions] = useState<
     OptionType[]
-  >([{ value: "none", multiplier: 1 }]);
+  >([]);
+
+  const [loading, setLoading] = useState(false);
 
   const productName = useRef<HTMLInputElement>();
   const productPrice = useRef<HTMLInputElement>();
   const [selectedCategories, setCategories] = useState([]);
-  const [productDescription, setProductDescription] = useState();
-  const [productSteel, setProductSteel] = useState(false);
+  const [productDescription, setProductDescription] = useState<string>();
+  const productSteel = useRef<HTMLInputElement>();
   const [productImages, setImages] = useState();
   const [previewImages, setPreviewImages] = useState([]);
 
@@ -57,6 +62,8 @@ export default function ProductForm({
   useEffect(() => {
     (document.getElementById("categoriaProducto") as HTMLInputElement).value =
       `${selectedCategories}`.replaceAll(",", "/");
+
+    console.log(product);
   });
 
   useEffect(() => {
@@ -67,6 +74,30 @@ export default function ProductForm({
       });
     setPreviewImages(images);
   }, [productImages]);
+
+  const createProduct = async (product: ProductType) => {
+    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
+    setLoading(true);
+
+    await fetch("/api/products/create_product", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    })
+      .then((response) => {
+        setLoading(false);
+
+        return response.json();
+      })
+      .then((json) => {});
+  };
+
+  function productPreview() {
+    return;
+  }
 
   return (
     <div className="text-white">
@@ -154,11 +185,16 @@ export default function ProductForm({
             </label>
             <TextEditor setDescription={setProductDescription} />
           </div>
-          <div className="flex py-2 items-center gap-3 ">
+          <div className="flex py-1 items-center gap-3 ">
             <label className="text-[.8rem] py-2" htmlFor="hasSteel">
               Producto con acero / hierro
             </label>
-            <input className="" type="checkbox" />
+            <input
+              className="w-5 h-5 checked:accent-yellow-500"
+              type="checkbox"
+              ref={productSteel}
+              id="productSteel"
+            />
           </div>
         </div>
         <div className="min-w-[29rem] px-2">
@@ -278,6 +314,24 @@ export default function ProductForm({
           setProduct({
             name: productName.current.value,
             base_price: parseLocaleNumber(productPrice.current.value, "de-DE"),
+            img: previewImages,
+            categories:
+              `/` + selectedCategories.toString().replaceAll(",", "/"),
+            options: [
+              { name: "size", elements: selectedSizeOptions },
+              { name: "color_1", elements: selectedColor_1Options },
+              { name: "color_2", elements: selectedColor_2Options },
+              { name: "model", elements: selectedModelOptions },
+              { name: "style", elements: selectedStyleOptions },
+            ],
+            description: productDescription,
+            tags: "",
+            steel: productSteel.current.checked,
+          });
+
+          createProduct({
+            name: productName.current.value,
+            base_price: parseLocaleNumber(productPrice.current.value, "de-DE"),
             img: [],
             categories:
               `/` + selectedCategories.toString().replaceAll(",", "/"),
@@ -290,13 +344,29 @@ export default function ProductForm({
             ],
             description: productDescription,
             tags: "",
-            steel: productSteel,
+            steel: productSteel.current.checked,
           });
+
+          setModalOpen(true);
         }}
         className="text-primary absolute -bottom-8 right-0 px-6 py-2 text-xl transition-all duration-100 hover:text-white hover:bg-yellow-600 active:scale-95 bg-yellow-500"
       >
         Crear producto
       </button>
+      <button>Vista previa del producto</button>
+      <ModalComponent
+        title="Vista previa del producto a crear"
+        isOpen={modalOpen}
+        closeModal={() => setModalOpen(false)}
+      >
+        {product && (
+          <ProductView
+            preview={true}
+            product={product}
+            colors={color_options}
+          />
+        )}
+      </ModalComponent>
     </div>
   );
 }
