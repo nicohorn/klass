@@ -249,7 +249,7 @@ export async function getStaticProps() {
         };
       }),
     },
-    revalidate: 300,
+    revalidate: 1,
   };
 }
 
