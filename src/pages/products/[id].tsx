@@ -14,7 +14,7 @@ export default function Id({
   item,
   color_options,
 }: {
-  item: [ProductType];
+  item?: [ProductType];
   color_options: [ColorOptionType];
 }) {
   const addToCart = useProducts((state: any) => state.addToCart);
