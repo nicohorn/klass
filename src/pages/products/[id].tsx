@@ -8,6 +8,7 @@ import clientPromise from "mongodb.js";
 import type { ColorOptionType, ProductType } from "src/utils/types";
 import ProductView from "../components/product/ProductView";
 import ProductForm from "../components/product/ProductForm";
+import { Router, useRouter } from "next/router";
 
 export default function Id({
   item,
@@ -45,6 +46,10 @@ export default function Id({
   });
 
   /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
+
+  if (useRouter().isFallback) {
+    return <div className="mx-20">Cargando</div>;
+  }
 
   return (
     <>
@@ -169,6 +174,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // See the "fallback" section below
+    fallback: true,
+    // See the "fallback" section below
   };
 }
