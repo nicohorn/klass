@@ -42,8 +42,6 @@ export default function Id({
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
-
-    console.log(edit);
   });
 
   /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
@@ -171,6 +169,6 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: true, // See the "fallback" section below
+    fallback: false, // See the "fallback" section below
   };
 }
