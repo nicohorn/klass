@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Disclosure, Transition } from "@headlessui/react";
+import type { OptionType } from "src/utils/types";
 
 export default function MultipleSelector({
   items,
@@ -7,20 +8,23 @@ export default function MultipleSelector({
   hasMultiplier,
   setOptions,
   show,
+  content,
 }: {
   items: any;
   label: string;
   hasMultiplier: boolean;
   setOptions: Function;
   show: boolean;
+  content?: any[];
 }) {
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState(content || []);
   const multiplier = 1;
 
   const [active, setActive] = useState(show);
 
   useEffect(() => {
     setOptions(selectedItems);
+    console.log(selectedItems);
   });
 
   return (
@@ -63,7 +67,7 @@ export default function MultipleSelector({
                   return (
                     <div
                       className={`relative transition-all duration-150 border px-2 py-1 cursor-pointer hover:border-yellow-500 ${
-                        selectedItems.find((e) => e._id === item._id)
+                        selectedItems.find((e) => e.name === item.name)
                           ? " border-yellow-600 text-yellow-500 "
                           : null
                       }`}
@@ -72,16 +76,18 @@ export default function MultipleSelector({
                       <span
                         className="text-xs "
                         onClick={() => {
-                          if (!selectedItems.find((e) => e._id === item._id)) {
+                          if (
+                            !selectedItems.find((e) => e.name === item.name)
+                          ) {
                             setSelectedItems([
                               ...selectedItems,
                               { ...item, value: item.name, multiplier },
                             ]);
                           } else if (
-                            selectedItems.find((e) => e._id === item._id)
+                            selectedItems.find((e) => e.name === item.name)
                           ) {
                             setSelectedItems(
-                              selectedItems.filter((e) => e._id !== item._id)
+                              selectedItems.filter((e) => e.name !== item.name)
                             );
                           }
                         }}
@@ -91,14 +97,14 @@ export default function MultipleSelector({
                       <p className="absolute -top-2 -left-[.3rem] bg-yellow-500 w-4 text-center rounded-full text-xs text-black">
                         {selectedItems.indexOf(
                           selectedItems.find((e) => {
-                            return e._id === item._id;
+                            return e.name === item.name;
                           })
                         ) +
                           1 >=
                         1
                           ? selectedItems.indexOf(
                               selectedItems.find((e) => {
-                                return e._id === item._id;
+                                return e.name === item.name;
                               })
                             ) + 1
                           : null}
@@ -106,22 +112,22 @@ export default function MultipleSelector({
                       {hasMultiplier ? (
                         <input
                           className={`${
-                            !selectedItems.find((e) => e._id === item._id)
+                            !selectedItems.find((e) => e.name === item.name)
                               ? "w-0"
                               : "w-6"
                           } bg-primary text-center outline-none ml-2 text-xs border-b-white border-b transition-all duration-150 `}
                           type="number"
-                          id={`multiplier${item._id}`}
+                          id={`multiplier${item.name}`}
                           onChange={() => {
                             const m = (
                               document.getElementById(
-                                `multiplier${item._id}`
+                                `multiplier${item.name}`
                               ) as HTMLInputElement
                             ).value;
 
                             const indexOfItemToUpdate = selectedItems.indexOf(
                               selectedItems.find((e) => {
-                                return e._id === item._id;
+                                return e.name === item.name;
                               })
                             );
 

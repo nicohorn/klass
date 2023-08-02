@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 const CurrencyInput = ({
   productPrice,
+  defaultPrice,
 }: {
   productPrice: React.MutableRefObject<any>;
+  defaultPrice?: number;
 }) => {
-  const [amount, setAmount] = useState("");
-
   const formatCurrency = (value) => {
     const formattedValue = value.replace(/\D/g, ""); // Remove non-numeric characters
     const numberValue = Number(formattedValue);
@@ -15,6 +15,10 @@ const CurrencyInput = ({
       maximumFractionDigits: 2,
     }).format(numberValue / 100); // Convert back to number before formatting
   };
+
+  const [amount, setAmount] = useState(
+    (defaultPrice && formatCurrency(defaultPrice.toString() + ",00")) || ""
+  );
 
   const handleChange = (e) => {
     const inputValue = e.target.value;

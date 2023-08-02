@@ -8,6 +8,7 @@ import clientPromise from "mongodb.js";
 import type { ColorOptionType, ProductType } from "src/utils/types";
 import ProductView from "../components/product/ProductView";
 import ProductForm from "../components/product/ProductForm";
+import { cookies } from "next/dist/client/components/headers";
 
 export default function Id({
   item,
@@ -24,6 +25,8 @@ export default function Id({
 
   const [edit, setEdit] = useState(false);
 
+  const [cats, setCats] = useState();
+
   useEffect(() => {
     //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
     let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
@@ -31,6 +34,8 @@ export default function Id({
     if (retrieveLocalStorage) {
       setCart(retrieveLocalStorage);
     }
+
+    setCats(JSON.parse(localStorage.getItem("productCategories")));
   }, []);
 
   useEffect(() => {
@@ -38,6 +43,8 @@ export default function Id({
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
+
+    console.log(edit);
   });
 
   /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
@@ -71,12 +78,22 @@ export default function Id({
         <meta property="product:brand" content="Klass" />
       </Head>
 
-      <ProductView
-        product={product}
-        colors={colors}
-        addToCart={addToCart}
-        editProduct={setEdit}
-      />
+      {!edit ? (
+        <ProductView
+          product={product}
+          colors={colors}
+          addToCart={addToCart}
+          editProduct={setEdit}
+        />
+      ) : (
+        <div className="mx-20">
+          <ProductForm
+            productToEdit={product}
+            color_options={colors}
+            productCategories={cats}
+          />
+        </div>
+      )}
     </>
   );
 }
