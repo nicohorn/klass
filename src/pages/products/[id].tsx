@@ -8,18 +8,19 @@ import clientPromise from "mongodb.js";
 import type { ColorOptionType, ProductType } from "src/utils/types";
 import ProductView from "../components/product/ProductView";
 import ProductForm from "../components/product/ProductForm";
+import { useRouter } from "next/router";
 
 export default function Id({
   item,
   color_options,
 }: {
-  item: [ProductType];
+  item?: [ProductType];
   color_options: [ColorOptionType];
 }) {
   const addToCart = useProducts((state: any) => state.addToCart);
   let productsCart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
-  const product: ProductType = item[0];
+
   const colors: [ColorOptionType] = color_options;
 
   const [edit, setEdit] = useState(false);
@@ -43,6 +44,13 @@ export default function Id({
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
+  if (useRouter().isFallback) {
+    return <div className="mx-20">Cargando</div>;
+  }
+  if (!item || !item[0]) {
+    return null;
+  }
+  const product: ProductType = item[0];
 
   /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
 
@@ -94,6 +102,38 @@ export default function Id({
     </>
   );
 }
+export async function getStaticPaths() {
+  async function handler() {
+    const client = await clientPromise;
+    const db = client.db("klass_ecommerce");
+    const collection = db.collection("products");
+
+    return await collection.find({}).toArray();
+  }
+
+  const products = await handler();
+
+  function transformProduct() {
+    return products.map((product) => {
+      return {
+        ...product,
+        _id: product._id.toString(),
+      };
+    });
+  }
+
+  const product = transformProduct();
+
+  const paths = product.map((product) => {
+    return { params: { id: product._id } };
+  });
+
+  return {
+    paths,
+    fallback: true,
+    // See the "fallback" section below
+  };
+}
 
 export async function getStaticProps(context) {
   // Call an external API endpoint to get posts.
@@ -138,37 +178,6 @@ export async function getStaticProps(context) {
         };
       }),
     },
-    revalidate: 300,
-  };
-}
-export async function getStaticPaths() {
-  async function handler() {
-    const client = await clientPromise;
-    const db = client.db("klass_ecommerce");
-    const collection = db.collection("products");
-
-    return await collection.find({}).toArray();
-  }
-
-  const products = await handler();
-
-  function transformProduct() {
-    return products.map((product) => {
-      return {
-        ...product,
-        _id: product._id.toString(),
-      };
-    });
-  }
-
-  const product = transformProduct();
-
-  const paths = product.map((product) => {
-    return { params: { id: product._id } };
-  });
-
-  return {
-    paths,
-    fallback: false, // See the "fallback" section below
+    revalidate: 1,
   };
 }
