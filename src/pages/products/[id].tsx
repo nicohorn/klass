@@ -99,6 +99,38 @@ export default function Id({
     </>
   );
 }
+export async function getStaticPaths() {
+  async function handler() {
+    const client = await clientPromise;
+    const db = client.db("klass_ecommerce");
+    const collection = db.collection("products");
+
+    return await collection.find({}).toArray();
+  }
+
+  const products = await handler();
+
+  function transformProduct() {
+    return products.map((product) => {
+      return {
+        ...product,
+        _id: product._id.toString(),
+      };
+    });
+  }
+
+  const product = transformProduct();
+
+  const paths = product.map((product) => {
+    return { params: { id: product._id } };
+  });
+
+  return {
+    paths,
+    fallback: true,
+    // See the "fallback" section below
+  };
+}
 
 export async function getStaticProps(context) {
   // Call an external API endpoint to get posts.
@@ -143,38 +175,6 @@ export async function getStaticProps(context) {
         };
       }),
     },
-    revalidate: 300,
-  };
-}
-export async function getStaticPaths() {
-  async function handler() {
-    const client = await clientPromise;
-    const db = client.db("klass_ecommerce");
-    const collection = db.collection("products");
-
-    return await collection.find({}).toArray();
-  }
-
-  const products = await handler();
-
-  function transformProduct() {
-    return products.map((product) => {
-      return {
-        ...product,
-        _id: product._id.toString(),
-      };
-    });
-  }
-
-  const product = transformProduct();
-
-  const paths = product.map((product) => {
-    return { params: { id: product._id } };
-  });
-
-  return {
-    paths,
-    fallback: true,
-    // See the "fallback" section below
+    revalidate: 1,
   };
 }
