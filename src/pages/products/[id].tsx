@@ -8,7 +8,6 @@ import clientPromise from "mongodb.js";
 import type { ColorOptionType, ProductType } from "src/utils/types";
 import ProductView from "../components/product/ProductView";
 import ProductForm from "../components/product/ProductForm";
-import { cookies } from "next/dist/client/components/headers";
 
 export default function Id({
   item,
@@ -172,6 +171,6 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // See the "fallback" section below
+    fallback: true, // See the "fallback" section below
   };
 }

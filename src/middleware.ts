@@ -18,5 +18,11 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/adminpanel/:path*",
+  matcher: [
+    "/adminpanel/:path*",
+    "/api/products/:path*",
+    "/api/orders/:path*",
+    "/api/custom_orders/:path*",
+    "/api/color_options/:path*",
+  ],
 };
