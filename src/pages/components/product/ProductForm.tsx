@@ -20,9 +20,11 @@ import { notify } from "src/utils/utils";
 export default function ProductForm({
   color_options,
   productCategories,
+  productToEdit,
 }: {
   color_options: ColorOptionType[];
   productCategories: Array<string>;
+  productToEdit?: ProductType;
 }) {
   const [product, setProduct] = useState<ProductType>();
 
@@ -47,7 +49,9 @@ export default function ProductForm({
 
   const productName = useRef<HTMLInputElement>();
   const productPrice = useRef<HTMLInputElement>();
-  const [selectedCategories, setCategories] = useState([]);
+  const [selectedCategories, setCategories] = useState(
+    productToEdit?.categories.split("/").slice(1) || []
+  );
   const [productDescription, setProductDescription] = useState<string>();
   const productSteel = useRef<HTMLInputElement>();
   const [productImages, setImages] = useState([]);
@@ -65,6 +69,12 @@ export default function ProductForm({
         images.push(URL.createObjectURL(image));
       });
     setPreviewImages(images);
+
+    (document.getElementById("nombreProducto") as HTMLInputElement).value =
+      productToEdit?.name || "";
+
+    (document.getElementById("productSteel") as HTMLInputElement).checked =
+      productToEdit?.steel || false;
   }, [productImages]);
 
   const createProduct = async (product: ProductType) => {
@@ -100,6 +110,8 @@ export default function ProductForm({
       }
     };
 
+    console.log(pictures());
+
     const imagesArray = [...images];
 
     for (const image of imagesArray) {
@@ -131,8 +143,10 @@ export default function ProductForm({
   }
 
   return (
-    <div className="text-white">
-      <h1 className="font-bold text-2xl">Crear nuevo producto</h1>
+    <div className="text-white opacity-animation">
+      <h1 className="font-bold text-2xl">
+        {!productToEdit ? "Crear nuevo producto" : "Editar producto"}
+      </h1>
       <form
         className="mt-2 flex gap-10 flex-col lg:flex-row overflow-x-auto"
         action=""
@@ -154,7 +168,10 @@ export default function ProductForm({
             <label htmlFor="precioProducto" className="text-[.8rem]">
               Precio del producto
             </label>
-            <CurrencyInput productPrice={productPrice} />
+            <CurrencyInput
+              productPrice={productPrice}
+              defaultPrice={productToEdit?.base_price}
+            />
           </div>
           <div className="flex flex-col py-2">
             <label htmlFor="categoriaProducto" className="text-[.8rem]">
@@ -214,7 +231,10 @@ export default function ProductForm({
             <label className="text-[.8rem] py-2" htmlFor="richtext">
               Descripción
             </label>
-            <TextEditor setDescription={setProductDescription} />
+            <TextEditor
+              content={productToEdit?.description}
+              setDescription={setProductDescription}
+            />
           </div>
           <div className="flex py-1 items-center gap-3 ">
             <label className="text-[.8rem] py-2" htmlFor="hasSteel">
@@ -236,6 +256,7 @@ export default function ProductForm({
               hasMultiplier={true}
               setOptions={setSelectedColor_1Options}
               show={true}
+              content={productToEdit?.options[1].elements}
             />
             <MultipleSelector
               items={color_options}

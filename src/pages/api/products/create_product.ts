@@ -2,7 +2,7 @@ import clientPromise from "../../../../mongodb";
 export default async function handler(req, res) {
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");
-  const collection = db.collection("products");
+  const collection = db.collection("products2");
 
   if (req.method === "POST") {
     await collection.insertOne({ ...req.body });
