@@ -8,7 +8,7 @@ import clientPromise from "mongodb.js";
 import type { ColorOptionType, ProductType } from "src/utils/types";
 import ProductView from "../components/product/ProductView";
 import ProductForm from "../components/product/ProductForm";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 export default function Id({
   item,
@@ -20,7 +20,7 @@ export default function Id({
   const addToCart = useProducts((state: any) => state.addToCart);
   let productsCart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
-  const product: ProductType = item[0];
+
   const colors: [ColorOptionType] = color_options;
 
   const [edit, setEdit] = useState(false);
@@ -44,12 +44,15 @@ export default function Id({
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
   });
-
-  /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
-
   if (useRouter().isFallback) {
     return <div className="mx-20">Cargando</div>;
   }
+  if (!item || !item[0]) {
+    return null;
+  }
+  const product: ProductType = item[0];
+
+  /**Returns listbox with the available options for each product. Each listbox modifies one of these three useState hooks: selectedSize, selectedColor_1, selectedColor_2. Each of these options always have a document in the database, but if the option does not apply to a product, the only document available will contain a "none" string as a value, which I then use to conditionally render the listboxs */
 
   return (
     <>
