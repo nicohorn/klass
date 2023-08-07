@@ -21,8 +21,6 @@ export const config = {
   matcher: [
     "/adminpanel/:path*",
     "/api/products/:path*",
-    "/api/orders/:path*",
-    "/api/custom_orders/:path*",
     "/api/color_options/:path*",
   ],
 };
