@@ -199,12 +199,6 @@ function Products({ items }: { items: ProductType[] }) {
                               </span>
                             </div>
                           </span>
-                          <span className="text-xs p-4 md:block hidden bg-black/60 text-white transition-all delay-500 duration-200  absolute bottom-full group-hover:scale-[1.02] pointer-events-none opacity-0 group-hover:opacity-100">
-                            <TextEditor
-                              editable={false}
-                              content={item.description}
-                            />
-                          </span>
                         </div>
                       </div>
                     </div>

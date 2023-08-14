@@ -101,7 +101,7 @@ export default function Navbar(props) {
   const desktopNav = () => {
     return (
       <nav className="hidden md:block">
-        <div className="w-full flex py-5 px-20 bg-primary gap-10 items-center justify-between">
+        <div className=" flex py-5 mx-20 bg-primary gap-10 items-center justify-between">
           <Link href={"/"} className="text-4xl font-bold text-white ">
             <img alt="image" className="h-16" src="/logos-03.png"></img>
           </Link>
