@@ -24,7 +24,6 @@ export default function MultipleSelector({
 
   useEffect(() => {
     setOptions(selectedItems);
-    console.log(selectedItems);
   });
 
   return (

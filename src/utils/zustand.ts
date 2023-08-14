@@ -46,8 +46,6 @@ export const useProducts = create((set) => ({
         return objectsComparator(item, prdouctWithoutCount);
       });
 
-      console.log(item);
-
       //Si el producto no existe, devuelve el carrito con el producto adentro y un count = 1;
       if (!isInCart) {
         return {

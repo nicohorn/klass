@@ -63,15 +63,17 @@ export default function ProductForm({
   });
 
   useEffect(() => {
+    (document.getElementById("nombreProducto") as HTMLInputElement).value =
+      productToEdit?.name || "";
+  }, []);
+
+  useEffect(() => {
     let images = [];
     productImages &&
       [...productImages].forEach((image) => {
         images.push(URL.createObjectURL(image));
       });
     setPreviewImages(images);
-
-    (document.getElementById("nombreProducto") as HTMLInputElement).value =
-      productToEdit?.name || "";
 
     (document.getElementById("productSteel") as HTMLInputElement).checked =
       productToEdit?.steel || false;
@@ -96,11 +98,38 @@ export default function ProductForm({
       .then((json) => {});
   };
 
+  const updateProduct = async (product: ProductType, productId: string) => {
+    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
+
+    const bodyObject = { product, productId };
+
+    await fetch("/api/products/update_product", {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyObject),
+    })
+      .then((response) => {
+        setLoading(false);
+
+        return response.json();
+      })
+      .then((json) => {});
+  };
+
   async function imagesUpload(images: any[]) {
     setLoading(true);
     const pictures = () => {
       if (images) {
         return [...images].map((img) => {
+          console.log(
+            "imagen",
+            process.env.NEXT_PUBLIC_SUPABASESTORAGE +
+              "product-images/" +
+              img.name
+          );
           return (
             process.env.NEXT_PUBLIC_SUPABASESTORAGE +
             "product-images/" +
@@ -110,11 +139,12 @@ export default function ProductForm({
       }
     };
 
-    console.log(pictures());
-
     const imagesArray = [...images];
 
+    let response;
+
     for (const image of imagesArray) {
+      console.log("IMAGE", image);
       const res = supabase.storage
         .from("personalized-projects-images")
         .upload(`product-images/${image.name}`, image, {
@@ -125,20 +155,19 @@ export default function ProductForm({
           return result;
         });
 
-      const response = await res;
+      response = await res;
+      console.log("RESPONSE", response);
+    }
 
-      if (response.error) {
-        console.log(response.error);
-        setLoading(false);
-        setModalOpen(false);
-        notify("Las imágenes del producto ya existen en la base de datos");
-        return null;
-      } else {
-        console.log("success");
-        setLoading(false);
-        setModalOpen(false);
-        return pictures();
-      }
+    if (response.error) {
+      setLoading(false);
+      setModalOpen(false);
+      notify("Las imágenes del producto ya existen en la base de datos");
+      return null;
+    } else {
+      setLoading(false);
+      setModalOpen(false);
+      return pictures();
     }
   }
 
@@ -385,40 +414,73 @@ export default function ProductForm({
         }}
         className="text-primary absolute -bottom-8 right-0 px-6 py-2 text-xl transition-all duration-100 hover:text-white hover:bg-yellow-600 active:scale-95 bg-yellow-500"
       >
-        Crear producto
+        {productToEdit ? "Actualizar producto" : "Crear"}
       </button>
 
       <ModalComponent
-        buttonTitle="Crear"
+        buttonTitle={productToEdit ? "Actualizar producto" : "Crear"}
         title="Vista previa del producto a crear"
         isOpen={modalOpen}
         closeModal={() => setModalOpen(false)}
         loading={loading}
-        buttonFunction={async () => {
-          const uploadedImages = await imagesUpload(productImages);
-          uploadedImages
-            ? createProduct({
-                name: productName.current.value,
-                base_price: parseLocaleNumber(
-                  productPrice.current.value,
-                  "de-DE"
-                ),
-                img: uploadedImages,
-                categories:
-                  `/` + selectedCategories.toString().replaceAll(",", "/"),
-                options: [
-                  { name: "size", elements: selectedSizeOptions },
-                  { name: "color_1", elements: selectedColor_1Options },
-                  { name: "color_2", elements: selectedColor_2Options },
-                  { name: "model", elements: selectedModelOptions },
-                  { name: "style", elements: selectedStyleOptions },
-                ],
-                description: productDescription,
-                tags: "",
-                steel: productSteel.current.checked,
-              })
-            : null;
-        }}
+        buttonFunction={
+          productToEdit
+            ? async () => {
+                const uploadedImages = null;
+                uploadedImages
+                  ? updateProduct(
+                      {
+                        name: productName.current.value,
+                        base_price: parseLocaleNumber(
+                          productPrice.current.value,
+                          "de-DE"
+                        ),
+                        img: productToEdit.img,
+                        categories:
+                          `/` +
+                          selectedCategories.toString().replaceAll(",", "/"),
+                        options: [
+                          { name: "size", elements: selectedSizeOptions },
+                          { name: "color_1", elements: selectedColor_1Options },
+                          { name: "color_2", elements: selectedColor_2Options },
+                          { name: "model", elements: selectedModelOptions },
+                          { name: "style", elements: selectedStyleOptions },
+                        ],
+                        description: productDescription,
+                        tags: "",
+                        steel: productSteel.current.checked,
+                      },
+                      productToEdit._id
+                    )
+                  : null;
+              }
+            : async () => {
+                const uploadedImages = await imagesUpload(productImages);
+                uploadedImages
+                  ? createProduct({
+                      name: productName.current.value,
+                      base_price: parseLocaleNumber(
+                        productPrice.current.value,
+                        "de-DE"
+                      ),
+                      img: uploadedImages,
+                      categories:
+                        `/` +
+                        selectedCategories.toString().replaceAll(",", "/"),
+                      options: [
+                        { name: "size", elements: selectedSizeOptions },
+                        { name: "color_1", elements: selectedColor_1Options },
+                        { name: "color_2", elements: selectedColor_2Options },
+                        { name: "model", elements: selectedModelOptions },
+                        { name: "style", elements: selectedStyleOptions },
+                      ],
+                      description: productDescription,
+                      tags: "",
+                      steel: productSteel.current.checked,
+                    })
+                  : null;
+              }
+        }
       >
         {product && (
           <ProductView
