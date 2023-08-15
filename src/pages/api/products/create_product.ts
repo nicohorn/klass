@@ -5,8 +5,9 @@ export default async function handler(req, res) {
   const collection = db.collection("products");
 
   if (req.method === "POST") {
-    await collection.insertOne({ ...req.body });
-    return res.status(200).json({ ...req.body });
+    const response = await collection.insertOne({ ...req.body });
+    const result = await collection.findOne({ _id: response.insertedId });
+    return res.status(200).json(result);
   } else {
     return res.status(200).json("Hubo un error");
   }

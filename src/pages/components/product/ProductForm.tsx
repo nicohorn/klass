@@ -16,6 +16,7 @@ import ModalComponent from "../ModalComponent";
 import ProductView from "./ProductView";
 import { supabase } from "supabase";
 import { notify } from "src/utils/utils";
+import { useRouter } from "next/router";
 
 export default function ProductForm({
   color_options,
@@ -46,6 +47,8 @@ export default function ProductForm({
   >([]);
 
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const productName = useRef<HTMLInputElement>();
   const productPrice = useRef<HTMLInputElement>();
@@ -89,13 +92,13 @@ export default function ProductForm({
         "Content-Type": "application/json",
       },
       body: JSON.stringify(product),
-    })
-      .then((response) => {
-        setLoading(false);
+    }).then((response) => {
+      setLoading(false);
 
-        return response.json();
-      })
-      .then((json) => {});
+      return response.json().then((res) => {
+        router.push(`/products/${res._id}`);
+      });
+    });
   };
 
   const updateProduct = async (product: ProductType, productId: string) => {
@@ -124,16 +127,10 @@ export default function ProductForm({
     const pictures = () => {
       if (images) {
         return [...images].map((img) => {
-          console.log(
-            "imagen",
-            process.env.NEXT_PUBLIC_SUPABASESTORAGE +
-              "product-images/" +
-              img.name.toString().replaceAll(" ", "_")
-          );
           return (
             process.env.NEXT_PUBLIC_SUPABASESTORAGE +
             "product-images/" +
-            img.name
+            img.name.toString().replaceAll(" ", "_")
           );
         });
       }
@@ -144,19 +141,21 @@ export default function ProductForm({
     let response;
 
     for (const image of imagesArray) {
-      console.log("IMAGE", image);
       const res = supabase.storage
         .from("personalized-projects-images")
-        .upload(`product-images/${image.name}`, image, {
-          cacheControl: "3600",
-          upsert: false,
-        })
+        .upload(
+          `product-images/${image.name.toString().replaceAll(" ", "_")}`,
+          image,
+          {
+            cacheControl: "3600",
+            upsert: false,
+          }
+        )
         .then((result) => {
           return result;
         });
 
       response = await res;
-      console.log("RESPONSE", response);
     }
 
     if (response.error) {
