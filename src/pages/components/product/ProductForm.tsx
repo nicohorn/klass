@@ -128,7 +128,7 @@ export default function ProductForm({
             "imagen",
             process.env.NEXT_PUBLIC_SUPABASESTORAGE +
               "product-images/" +
-              img.name
+              img.name.toString().replaceAll(" ", "_")
           );
           return (
             process.env.NEXT_PUBLIC_SUPABASESTORAGE +
