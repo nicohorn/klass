@@ -121,8 +121,6 @@ export default function ProductForm({
   }, [productImages]);
 
   const createProduct = async (product: ProductType) => {
-    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
-
     await fetch("/api/products/create_product", {
       method: "POST",
       mode: "cors",
@@ -140,8 +138,6 @@ export default function ProductForm({
   };
 
   const updateProduct = async (product: ProductType, productId: string) => {
-    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
-
     const bodyObject = { product, productId };
 
     await fetch("/api/products/update_product", {
