@@ -17,6 +17,7 @@ import ProductView from "./ProductView";
 import { supabase } from "supabase";
 import { notify } from "src/utils/utils";
 import { useRouter } from "next/router";
+import ImagesHandler from "./ImagesHandler";
 
 export default function ProductForm({
   color_options,
@@ -58,7 +59,9 @@ export default function ProductForm({
   const [productDescription, setProductDescription] = useState<string>();
   const productSteel = useRef<HTMLInputElement>();
   const [productImages, setImages] = useState([]);
-  const [previewImages, setPreviewImages] = useState([]);
+  const [previewImages, setPreviewImages] = useState(
+    [...productToEdit.img] || []
+  );
 
   useEffect(() => {
     (document.getElementById("categoriaProducto") as HTMLInputElement).value =
@@ -68,6 +71,44 @@ export default function ProductForm({
   useEffect(() => {
     (document.getElementById("nombreProducto") as HTMLInputElement).value =
       productToEdit?.name || "";
+
+    console.log(previewImages);
+
+    productToEdit &&
+      setSelectedSizeOptions(
+        productToEdit.options[
+          productToEdit.options.indexOf(
+            productToEdit.options.find((e) => {
+              return e.name == "size";
+            })
+          )
+        ]?.elements
+      );
+
+    productToEdit &&
+      setSelectedModelOptions(
+        productToEdit.options[
+          productToEdit.options.indexOf(
+            productToEdit.options.find((e) => {
+              return e.name == "model";
+            })
+          )
+        ]?.elements
+      );
+
+    productToEdit &&
+      setSelectedStyleOptions(
+        productToEdit.options[
+          productToEdit.options.indexOf(
+            productToEdit.options.find((e) => {
+              return e.name == "style";
+            })
+          )
+        ]?.elements
+      );
+
+    (document.getElementById("productSteel") as HTMLInputElement).checked =
+      productToEdit?.steel || false;
   }, []);
 
   useEffect(() => {
@@ -76,10 +117,7 @@ export default function ProductForm({
       [...productImages].forEach((image) => {
         images.push(URL.createObjectURL(image));
       });
-    setPreviewImages(images);
-
-    (document.getElementById("productSteel") as HTMLInputElement).checked =
-      productToEdit?.steel || false;
+    setPreviewImages([...previewImages, ...images]);
   }, [productImages]);
 
   const createProduct = async (product: ProductType) => {
@@ -284,7 +322,15 @@ export default function ProductForm({
               hasMultiplier={true}
               setOptions={setSelectedColor_1Options}
               show={true}
-              content={productToEdit?.options[1].elements}
+              content={
+                productToEdit.options[
+                  productToEdit.options.indexOf(
+                    productToEdit.options.find((e) => {
+                      return e.name == "color_1";
+                    })
+                  )
+                ]?.elements
+              }
             />
             <MultipleSelector
               items={color_options}
@@ -292,6 +338,15 @@ export default function ProductForm({
               hasMultiplier={true}
               setOptions={setSelectedColor_2Options}
               show={false}
+              content={
+                productToEdit.options[
+                  productToEdit.options.indexOf(
+                    productToEdit.options.find((e) => {
+                      return e.name == "color_2";
+                    })
+                  )
+                ]?.elements
+              }
             />
             <Adder
               setOptions={setSelectedSizeOptions}
@@ -332,61 +387,12 @@ export default function ProductForm({
           </div>
         </div>
         <div className="w-[29rem] min-w-[29rem] px-2 mb-10">
-          <div>
-            <p className="mb-4">Imágenes del producto</p>
-            <label
-              htmlFor="imagenesProducto"
-              className="border uppercase px-4 py-2 hover:bg-yellow-500 hover:border-yellow-500 hover:text-black text-sm opacity-100 cursor-pointer transition-all duration-150"
-            >
-              Subir imágenes{" "}
-            </label>
-            {productImages.length !== 0 ? (
-              <div className="flex flex-wrap mt-6 gap-3 opacity-animation">
-                {" "}
-                {previewImages.map((i, idx) => {
-                  return (
-                    <img
-                      draggable={true}
-                      className="w-20 h-20 object-cover border p-1 border-yellow-500"
-                      key={idx}
-                      src={`${i}`}
-                      alt=""
-                    />
-                  );
-                })}
-                <span className="text-[.65rem] text-white opacity-50">
-                  Vista previa de las imágenes seleccionadas.
-                  <br />
-                  <br />
-                  La primera imagen será la imagen principal del producto.
-                  <br />
-                  Recordá que el orden de las imágenes está dado por el nombre
-                  del archivo (orden alfabético).
-                  <br />
-                  <br />
-                  Es recomendable nombrar los archivos de la siguiente forma:
-                  <br />
-                  {"=>"} 1_NombreProducto.jpg <br />
-                  {"=>"} 2_NombreProducto.jpg <br />
-                  {"=>"} 3_NombreProducto.jpg <br />
-                  {"=>"} Etc... <br />
-                </span>
-              </div>
-            ) : null}
-
-            <input
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const imageFiles: FileList | null = e.target.files;
-                setImages(imageFiles as any);
-              }}
-              className="hidden"
-              type="file"
-              id="imagenesProducto"
-              name="img"
-              accept="image/*"
-              multiple
-            />
-          </div>
+          <ImagesHandler
+            setImages={setImages}
+            setPreviewImages={setPreviewImages}
+            productImages={productImages}
+            previewImages={previewImages}
+          ></ImagesHandler>
         </div>
       </form>
       <button

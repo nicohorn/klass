@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useEditor } from "@tiptap/react";
+import React, { useEffect, useState } from "react";
 
 export default function Adder({
   selectedOptions,
