@@ -7,18 +7,18 @@ import clientPromise from "../../mongodb";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
-import { useUser } from "@auth0/nextjs-auth0";
 import gsap from "gsap";
 import { toast } from "react-toastify";
 import { formatter } from "src/utils/utils";
 import { CartItemType, OrderType } from "src/utils/types";
+import { useUser } from "src/utils/fire";
 
 export default function Cart({ items }) {
   const productsCart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
   const removeFromCart = useProducts((state: any) => state.removeFromCart);
   const deleteCart = useProducts((state: any) => state.deleteCart);
-  const { user, isLoading } = useUser();
+  const user = useUser(state => state.user);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -39,11 +39,6 @@ export default function Cart({ items }) {
 
     gsap.fromTo("#loading-icon", { rotate: 0 }, { rotate: 180, repeat: -1 });
   });
-
-  if (isLoading) {
-    //This if is to wait for the user data retrieved by auth0 useUser hook.
-    return null;
-  }
 
   /**Function to join the products retrieved from the db and the products in cart (which only have id and count properties, while the products form the database have all the rest of the info) */
   const filteredProducts = () => {
@@ -287,8 +282,8 @@ export default function Cart({ items }) {
                   onClick={() => {
                     if (user) {
                       createOrder({
-                        userId: user?.sub,
-                        clientName: user?.name,
+                        userId: user?.uid,
+                        clientName: user?.displayName,
                         clientEmail: user?.email,
                         products: transformedProducts,
                         total: totalCartPrice(),
@@ -299,7 +294,7 @@ export default function Cart({ items }) {
                         notify();
                       }, 1000);
                     } else {
-                      router.push("/api/auth/login?returnTo=/cart");
+                      // router.push("/api/auth/login?returnTo=/cart");
                     }
                   }}
                 >
@@ -349,7 +344,6 @@ export default function Cart({ items }) {
 export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-
   async function handler() {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");

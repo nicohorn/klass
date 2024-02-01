@@ -14,7 +14,7 @@ export default function NewProduct({
   products: ProductType[];
 }) {
   return (
-    <main className="relative min-h-[72vh] mx-20 ">
+    <main className="relative min-h-[72vh] mx-2 md:mx-20 ">
       <ProductForm
         productCategories={getCategories(products)}
         color_options={color_options}

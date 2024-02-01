@@ -4,7 +4,6 @@ import React from "react";
 import { useEffect, useState, useLayoutEffect } from "react";
 import { useProducts } from "../utils/zustand";
 import clientPromise from "../../mongodb";
-import { useUser } from "@auth0/nextjs-auth0";
 import ProductSlider from "./components/product/ProductSlider";
 import Link from "next/link";
 import Modal from "./components/Modal";
@@ -15,13 +14,14 @@ import { toast } from "react-toastify";
 import Message from "./components/Message";
 import { formatter, getCategories } from "src/utils/utils";
 import { CustomOrderType } from "src/utils/types";
+import { useUser } from "src/utils/fire";
 
 export default function Home({ products }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
   const router = useRouter();
 
-  const { user } = useUser();
+  const user = useUser(state => state.user);
 
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
@@ -76,11 +76,11 @@ export default function Home({ products }) {
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
-    if (user) {
-      document.cookie = `userId=${user.sub}`;
-    } else {
-      document.cookie = `userId=null`;
-    }
+    // if (user) {
+    //   document.cookie = `userId=${user.sub}`;
+    // } else {
+    //   document.cookie = `userId=null`;
+    // }
   });
 
   const frontPageProducts = [
@@ -178,8 +178,8 @@ export default function Home({ products }) {
               });
             if (idx === images.length - 1) {
               createCustomOrder({
-                userId: user?.sub,
-                clientName: user?.name,
+                userId: user?.uid,
+                clientName: user?.displayName,
                 clientEmail: user?.email,
                 clientNumber: parseInt(clientNumber),
                 address: address,
@@ -201,7 +201,7 @@ export default function Home({ products }) {
         <div>
           <form className="w-full md:p-5 p-0">
             <input
-              value={user && `${user.name}`}
+              value={user && `${user.displayName}`}
               id="nombre-apellido"
               className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Nombre y apellido"
@@ -289,7 +289,7 @@ export default function Home({ products }) {
                 if (user) {
                   setOpen(true);
                 } else {
-                  router.push("/api/auth/login?returnTo=/");
+                  // router.push("/api/auth/login?returnTo=/");
                 }
               }}
               className="cursor-pointer hover:bg-yellow-500 px-3 py-2  my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] flex flex-col items-center  bg-yellow-300 md:self-start self-center font-normal text-sm transition-all duration-200 text-black"

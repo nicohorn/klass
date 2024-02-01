@@ -79,14 +79,15 @@ export default function Dropdown(props) {
       >
         <div className=" w-4 h-4 rotate-45 absolute -translate-y-4 translate-x-32 bg-white"></div>
         {props.options?.map((option, i) => {
+          const Component = option.action ? 'button' : Link
           return (
             <div className="cursor-pointer" key={i}>
-              <Link href={option.href}>
+              <Component onClick={option.action} href={option.href}>
                 <div className=" p-2  border bg-white border-white  shadow-sm  my-2 hover:border-gray-400 transition-all duration-150 flex justify-between h-full">
                   <span>{option.title}</span>
                   <span>{option.icon}</span>
                 </div>
-              </Link>
+              </Component>
             </div>
           );
         })}

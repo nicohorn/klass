@@ -4,7 +4,6 @@ import Navbar from "./layout/navbar";
 import Footer from "./layout/footer";
 import Head from "next/head";
 import React, { useEffect } from "react";
-import { UserProvider } from "@auth0/nextjs-auth0";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../app/global.css";
@@ -13,7 +12,7 @@ function MyApp({ Component, pageProps }) {
   const path = useRouter().pathname;
 
   return (
-    <UserProvider>
+    <>
       <Head>
         <title>Klass</title>
 
@@ -35,7 +34,7 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
         <Footer />
       </main>
-    </UserProvider>
+    </>
   );
 }
 

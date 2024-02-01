@@ -9,7 +9,7 @@ import type { ProductType } from "src/utils/types";
 import Image from "next/image";
 import { getCategories } from "src/utils/utils";
 import TextEditor from "../components/TextEditor";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "src/utils/fire";
 
 function Products({ items }: { items: ProductType[] }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -17,7 +17,7 @@ function Products({ items }: { items: ProductType[] }) {
   const [active, setActive] = useState(null);
   const [searchString, setSearchString] = useState("");
 
-  const { user, error, isLoading } = useUser();
+  const user = useUser(state => state.user);
 
   //This useEffect is used to retrieve the cart from the local storage if it exists, and then set it in the cart state (zustand).
   useEffect(() => {
@@ -146,8 +146,8 @@ function Products({ items }: { items: ProductType[] }) {
             {getItemsBySearch(searchString).map((item, i) => (
               <span className="relative" id="product" key={i}>
                 <div className="delay-150 border-opacity-0 w-[80%] sm:w-full mx-auto transition-all duration-150 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
-                  {user?.sub == process.env.NEXT_PUBLIC_ADMIN1 ||
-                  user?.sub == process.env.NEXT_PUBLIC_ADMIN2 ? (
+                  {user?.uid == process.env.NEXT_PUBLIC_ADMIN1 ||
+                  user?.uid == process.env.NEXT_PUBLIC_ADMIN2 ? (
                     <button
                       onClick={() => {
                         deleteProduct(item);

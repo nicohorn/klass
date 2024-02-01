@@ -1,12 +1,13 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import React, { useState, Fragment } from "react";
 import clientPromise from "../../mongodb";
 import { formatter } from "src/utils/utils";
 import { Dialog, Transition } from "@headlessui/react";
-import { getSession } from "@auth0/nextjs-auth0";
+import { useUser } from "src/utils/fire";
+import { NextApiRequest, NextApiResponse } from "next";
+import { validateToken } from "src/utils/firebaseadmin";
 
 export default function Orders({ items }) {
-  const { user, error, isLoading } = useUser();
+  const user = useUser(state => state.user);
   const [selected, setSelected] = useState(items[0]);
 
   let [isOpen, setIsOpen] = useState(false);
@@ -18,8 +19,8 @@ export default function Orders({ items }) {
     setIsOpen(false);
   }
 
-  if (isLoading) {
-    return null;
+  if (!user) {
+    return null
   }
 
   try {
@@ -28,7 +29,7 @@ export default function Orders({ items }) {
     return (
       <main className="w-full ">
         <div className="2xl:w-[60%] min-h-[60vh] md:w-[80%] mx-auto p-5 my-10 border bg-white  shadow-md">
-          <h1 className="text-3xl font-semibold">Hola {user.name}! </h1>
+          <h1 className="text-3xl font-semibold">Hola {user.displayName}! </h1>
           <p className="p-2">Estos son tus pedidos:</p>
 
           <div className="flex flex-col gap-3 mt-2 mb-2 ">
@@ -276,34 +277,19 @@ export default function Orders({ items }) {
   }
 }
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res }: { req: NextApiRequest, res: NextApiResponse }) {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-
   async function handler() {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
     const collection = db.collection("orders");
-    const collection2 = db.collection("custom_orders");
-
-    const session = getSession(req, res);
-    const at = session.accessToken;
-    const userInfo = await fetch(
-      "https://dev-5iz0oclpqjwsu4v1.us.auth0.com/userinfo",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      }
-    ).then((response) => {
-      return response.json();
-    });
-
-    const [items, custom_orders] = await Promise.all([
-      await collection.find({ userId: userInfo.sub }).toArray(),
-      await collection2.find({ userId: userInfo.sub }).toArray(),
-    ]);
+    const token = req.cookies.token
+    const user = await validateToken(token)
+    if (!user) {
+      return []
+    }
+    const items = await collection.find({ userId: user.user_id }).toArray()
 
     return items;
   }
