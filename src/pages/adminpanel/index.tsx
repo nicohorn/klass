@@ -48,6 +48,9 @@ export default function Page() {
           <Link href="/adminpanel/new_product">Crear un producto nuevo</Link>
         </p>
         <p className="hover:font-bold transition-all duration-150 w-fit">
+          <Link href={"/adminpanel/new_promotion"}>Crear promoción</Link>
+        </p>
+        <p className="hover:font-bold transition-all duration-150 w-fit">
           <Link href="/adminpanel/orders">Pedidos</Link>
         </p>
         <p className="hover:font-bold transition-all duration-150 w-fit">

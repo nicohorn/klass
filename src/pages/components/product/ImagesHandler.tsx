@@ -6,20 +6,24 @@ export default function ImagesHandler({
   setImages,
   previewImages,
   productImages,
+  promo,
 }: {
   setPreviewImages: React.Dispatch<any>;
   setImages: React.Dispatch<any>;
   previewImages: string[];
   productImages: any[];
+  promo?: boolean;
 }) {
   return (
     <div>
-      <p className="mb-4">Imágenes del producto</p>
+      <p className="mb-4">
+        {promo ? "Imagen de la promoción" : "Imágenes del producto"}
+      </p>
       <label
         htmlFor="imagenesProducto"
         className="border uppercase px-4 py-2 hover:bg-yellow-500 hover:border-yellow-500 hover:text-black text-sm opacity-100 cursor-pointer transition-all duration-150"
       >
-        Subir imágenes{" "}
+        {promo ? "Subir imagen" : "Subir imágenes"}
       </label>
       {previewImages.length !== 0 ? (
         <div className="flex flex-wrap mt-6 gap-3 opacity-animation">
@@ -55,23 +59,25 @@ export default function ImagesHandler({
               </div>
             );
           })}
-          <span className="text-[.65rem] text-white opacity-50">
-            Vista previa de las imágenes seleccionadas.
-            <br />
-            <br />
-            La primera imagen será la imagen principal del producto.
-            <br />
-            Recordá que el orden de las imágenes está dado por el nombre del
-            archivo (orden alfabético).
-            <br />
-            <br />
-            Es recomendable nombrar los archivos de la siguiente forma:
-            <br />
-            {"=>"} 1_NombreProducto.jpg <br />
-            {"=>"} 2_NombreProducto.jpg <br />
-            {"=>"} 3_NombreProducto.jpg <br />
-            {"=>"} Etc... <br />
-          </span>
+          {!promo && (
+            <span className="text-[.65rem] text-white opacity-50">
+              Vista previa de las imágenes seleccionadas.
+              <br />
+              <br />
+              La primera imagen será la imagen principal del producto.
+              <br />
+              Recordá que el orden de las imágenes está dado por el nombre del
+              archivo (orden alfabético).
+              <br />
+              <br />
+              Es recomendable nombrar los archivos de la siguiente forma:
+              <br />
+              {"=>"} 1_NombreProducto.jpg <br />
+              {"=>"} 2_NombreProducto.jpg <br />
+              {"=>"} 3_NombreProducto.jpg <br />
+              {"=>"} Etc... <br />
+            </span>
+          )}
         </div>
       ) : null}
 

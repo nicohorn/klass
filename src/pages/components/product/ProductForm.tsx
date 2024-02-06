@@ -72,8 +72,6 @@ export default function ProductForm({
     (document.getElementById("nombreProducto") as HTMLInputElement).value =
       productToEdit?.name || "";
 
-    console.log(previewImages);
-
     productToEdit &&
       setSelectedSizeOptions(
         productToEdit.options[

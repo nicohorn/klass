@@ -7,6 +7,7 @@ export const formatter = new Intl.NumberFormat("en-US", {
 });
 
 /**Helper function that retrieves the categories from the items array.
+ * As there isn't a collection or table of categories, categories are created once they're added in a product.
  */
 export function getCategories(items: ProductType[]): Array<string> {
   const categories = items.map((item) => {
