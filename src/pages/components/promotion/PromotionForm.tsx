@@ -23,7 +23,7 @@ export default function PromotionForm() {
 
   const todayDate = () => {
     let today = new Date(),
-      day = (today.getDate() + 1).toString(),
+      day = today.getDate().toString(),
       month = (today.getMonth() + 1).toString(), //January is 0
       year = today.getFullYear().toString();
     if (Number(day) < 10) {
@@ -166,10 +166,10 @@ export default function PromotionForm() {
           console.log(parseLocaleNumber(promoPrice.current.value, "de-DE"));
           const images = await imagesUpload(promoImages);
           createPromo({
-            title: promoName.current.value,
+            name: promoName.current.value,
             description: promoDescription,
             price: parseLocaleNumber(promoPrice.current.value, "de-DE"),
-            promo_image: images,
+            img: images,
             expiration_date: promoExpDate.current.value,
           });
         }}

@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { formatter } from "src/utils/utils";
 import { CartItemType, OrderType } from "src/utils/types";
 
-export default function Cart({ items }) {
+export default function Cart({ items, promotions }) {
   const productsCart = useProducts((state: any) => state.cart);
   const setCart = useProducts((state: any) => state.setCart);
   const removeFromCart = useProducts((state: any) => state.removeFromCart);
@@ -32,7 +32,7 @@ export default function Cart({ items }) {
   }, []);
 
   useEffect(() => {
-    //For some reason, the client "loads" two times. The first time, the productsCart holds an empty array, thus replacing the localStorage "my-cart" for an empty array. To wait for the second load where the productsCart gets populated by the setCart (which is called in the usedEffect above with an empty dependecy array) method defined in useProducts I use this if condition.
+    //Same as what was commented in /products/[id].tsx
     if (JSON.stringify(productsCart) != "[]") {
       localStorage.setItem("my-cart", JSON.stringify(productsCart));
     }
@@ -45,7 +45,7 @@ export default function Cart({ items }) {
     return null;
   }
 
-  /**Function to join the products retrieved from the db and the products in cart (which only have id and count properties, while the products form the database have all the rest of the info) */
+  /**Function to join the products retrieved from the db and the products in cart (which only have id and count properties, while the products from the database have all the rest of the info) */
   const filteredProducts = () => {
     /**Helper function to only get specific fields from the product document (there are many fields that aren't used for the order) */
     const itemsWithSpecificFields = items.map((item) => {
@@ -350,7 +350,7 @@ export async function getStaticProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
 
-  async function handler() {
+  async function productsHandler() {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
     const collection = db.collection("products");
@@ -358,13 +358,22 @@ export async function getStaticProps() {
     return await collection.find({}).toArray();
   }
 
-  const res = await handler();
+  async function promotionsHandler() {
+    const client = await clientPromise;
+    const db = client.db("klass_ecommerce");
+    const collection = db.collection("promotions");
+
+    return await collection.find({}).toArray();
+  }
+
+  const productsResponse = await productsHandler();
+  const promotionsResponse = await promotionsHandler();
 
   // By returning { props: { items } }, the Products component
   // will receive `items` as a prop at build time
   return {
     props: {
-      items: res.map((item) => {
+      items: productsResponse.map((item) => {
         return {
           ...item,
           _id: item._id.toString(),

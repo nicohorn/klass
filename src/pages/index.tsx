@@ -15,8 +15,9 @@ import { toast } from "react-toastify";
 import Message from "./components/Message";
 import { formatter, getCategories } from "src/utils/utils";
 import { CustomOrderType } from "src/utils/types";
+import PromotionHero from "./components/PromotionHero";
 
-export default function Home({ products }) {
+export default function Home({ products, promotions }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
   const router = useRouter();
@@ -266,9 +267,15 @@ export default function Home({ products }) {
           </form>
         </div>
       </Modal>
+      {promotions.map((promotion, idx) => {
+        const today = new Date();
+        const promoDate = new Date(promotion.expiration_date);
+        //This boolean check is to only return those promotions that didn't expire yet. This could be done from the backend to improve performance overall but since there there won't be thousands or even dozens of promotions (not at first at least) there isn't a noticeable impact on the UX, so I'm doing it on the frontend.
+        return today < promoDate && <PromotionHero key={idx} {...promotion} />;
+      })}
       <div
         id="product-container"
-        className=" bg-center bg-cover opacity-animation md:mx-20 py-8 px-4 md:px-16   shadow-lg"
+        className=" bg-center bg-cover opacity-animation md:mx-20 py-8 px-4 md:px-16 shadow-lg"
         style={{
           backgroundImage: `url("${frontPageProducts[0].img[0]}")`,
         }}
@@ -380,7 +387,16 @@ export async function getStaticProps() {
     return await collection.find({}).toArray();
   }
 
+  async function promotionsHandler() {
+    const client = await clientPromise;
+    const db = client.db("klass_ecommerce");
+    const collection = db.collection("promotions");
+
+    return await collection.find({}).toArray();
+  }
+
   const productsResponse = await productsHandler();
+  const promotionsResponse = await promotionsHandler();
 
   // By returning { props: { items } }, the Products component
   // will receive `items` as Link prop at build time
@@ -390,6 +406,12 @@ export async function getStaticProps() {
         return {
           ...product,
           _id: product._id.toString(),
+        };
+      }),
+      promotions: promotionsResponse.map((promotion) => {
+        return {
+          ...promotion,
+          _id: promotion._id.toString(),
         };
       }),
     },

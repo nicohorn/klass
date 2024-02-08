@@ -60,9 +60,10 @@ export type OptionsListType = {
 };
 
 export type PromotionType = {
-  title: string;
+  _id?: string;
+  name: string;
   price: number;
   description: string;
   expiration_date: string;
-  promo_image: string[];
+  img: string[];
 };
