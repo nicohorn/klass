@@ -62,7 +62,7 @@ export default function Page() {
             <input
               id="multiplier"
               maxLength={3}
-              className="w-14 text-black px-2 text-center"
+              className="w-14 px-2 text-center"
             />{" "}
             %
           </span>
@@ -94,7 +94,7 @@ export default function Page() {
             <input
               id="multiplier2"
               maxLength={3}
-              className="w-14 text-black px-2 text-center"
+              className="w-14  px-2 text-center"
             />{" "}
             %
           </span>

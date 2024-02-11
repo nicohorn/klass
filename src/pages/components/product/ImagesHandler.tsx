@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { Dispatch } from "react";
+import { supabase } from "supabase";
 
 export default function ImagesHandler({
   setPreviewImages,
@@ -14,6 +15,21 @@ export default function ImagesHandler({
   productImages: any[];
   promo?: boolean;
 }) {
+  const deleteImage = async (imageUrl: string) => {
+    const imageName = imageUrl.split("/").at(-1);
+    let response;
+    const res = supabase.storage
+      .from("personalized-projects-images")
+      .remove([`product-images/${imageName}`])
+      .then((result) => {
+        return result;
+      });
+
+    response = await res;
+    console.log(imageName);
+    console.log(response);
+    return response;
+  };
   return (
     <div>
       <p className="mb-4">
@@ -35,6 +51,7 @@ export default function ImagesHandler({
                   title="Eliminar"
                   className="absolute -right-1 -top-2 bg-primary border cursor-pointer hover:bg-yellow-500 hover:text-black rounded-full px-1 font-semibold text-xs border-yellow-500 transition"
                   onClick={() => {
+                    deleteImage(i);
                     setPreviewImages(
                       previewImages.filter((img) => {
                         return img !== i;

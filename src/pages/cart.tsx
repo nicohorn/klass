@@ -48,7 +48,7 @@ export default function Cart({ items, promotions }) {
   /**Function to join the products retrieved from the db and the products in cart (which only have id and count properties, while the products from the database have all the rest of the info) */
   const filteredProducts = () => {
     /**Helper function to only get specific fields from the product document (there are many fields that aren't used for the order) */
-    const itemsWithSpecificFields = items.map((item) => {
+    const itemsWithSpecificFields = [...items, ...promotions].map((item) => {
       const { _id, name, img } = item;
       return { _id, name, img };
     });
@@ -374,6 +374,12 @@ export async function getStaticProps() {
   return {
     props: {
       items: productsResponse.map((item) => {
+        return {
+          ...item,
+          _id: item._id.toString(),
+        };
+      }),
+      promotions: promotionsResponse.map((item) => {
         return {
           ...item,
           _id: item._id.toString(),

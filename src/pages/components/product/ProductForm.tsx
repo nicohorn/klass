@@ -59,9 +59,7 @@ export default function ProductForm({
   const [productDescription, setProductDescription] = useState<string>();
   const productSteel = useRef<HTMLInputElement>();
   const [productImages, setImages] = useState([]);
-  const [previewImages, setPreviewImages] = useState(
-    [...productToEdit.img] || []
-  );
+  const [previewImages, setPreviewImages] = useState([]);
 
   useEffect(() => {
     (document.getElementById("categoriaProducto") as HTMLInputElement).value =
@@ -71,6 +69,9 @@ export default function ProductForm({
   useEffect(() => {
     (document.getElementById("nombreProducto") as HTMLInputElement).value =
       productToEdit?.name || "";
+
+    console.log(previewImages);
+    console.log(productToEdit.img);
 
     productToEdit &&
       setSelectedSizeOptions(
@@ -104,7 +105,7 @@ export default function ProductForm({
           )
         ]?.elements
       );
-
+    productToEdit && setPreviewImages(["asdasdasd"]);
     (document.getElementById("productSteel") as HTMLInputElement).checked =
       productToEdit?.steel || false;
   }, []);
@@ -136,6 +137,7 @@ export default function ProductForm({
   };
 
   const updateProduct = async (product: ProductType, productId: string) => {
+    setLoading(true);
     const bodyObject = { product, productId };
 
     await fetch("/api/products/update_product", {
@@ -145,13 +147,13 @@ export default function ProductForm({
         "Content-Type": "application/json",
       },
       body: JSON.stringify(bodyObject),
-    })
-      .then((response) => {
-        setLoading(false);
+    }).then((response) => {
+      setLoading(false);
 
-        return response.json();
-      })
-      .then((json) => {});
+      return response.json().then((res) => {
+        router.reload();
+      });
+    });
   };
 
   async function imagesUpload(images: any[]) {
@@ -317,7 +319,7 @@ export default function ProductForm({
               setOptions={setSelectedColor_1Options}
               show={true}
               content={
-                productToEdit.options[
+                productToEdit?.options[
                   productToEdit.options.indexOf(
                     productToEdit.options.find((e) => {
                       return e.name == "color_1";
@@ -333,7 +335,7 @@ export default function ProductForm({
               setOptions={setSelectedColor_2Options}
               show={false}
               content={
-                productToEdit.options[
+                productToEdit?.options[
                   productToEdit.options.indexOf(
                     productToEdit.options.find((e) => {
                       return e.name == "color_2";
@@ -425,7 +427,7 @@ export default function ProductForm({
         buttonFunction={
           productToEdit
             ? async () => {
-                const uploadedImages = null;
+                const uploadedImages = true;
                 uploadedImages
                   ? updateProduct(
                       {

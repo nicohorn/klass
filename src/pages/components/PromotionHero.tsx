@@ -17,6 +17,7 @@ export default function PromotionHero(promotion: PromotionType) {
         <button
           className="bg-yellow-300 p-3 font-semibold   text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 w-72 mt-5"
           onClick={() => {
+            console.log(promotion);
             addToCart({
               id: promotion._id,
               price: promotion.price,
