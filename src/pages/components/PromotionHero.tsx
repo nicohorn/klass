@@ -37,7 +37,7 @@ export default function PromotionHero(promotion: PromotionType) {
         </button>
       </div>
       <div className="lg:max-w-[30%]">
-        {promotion.img.length > 0 && (
+        {promotion.img?.length > 0 && (
           <Image
             width={750}
             height={750}

@@ -40,10 +40,10 @@ export default function ImagesHandler({
       >
         {promo ? "Subir imagen" : "Subir imágenes"}
       </label>
-      {previewImages.length !== 0 ? (
+      {previewImages?.length !== 0 ? (
         <div className="flex flex-wrap mt-6 gap-3 opacity-animation">
           {" "}
-          {previewImages.map((i, idx) => {
+          {previewImages?.map((i, idx) => {
             return (
               <div key={idx} className="relative">
                 <span
