@@ -83,7 +83,7 @@ export default function PromotionForm() {
       response = await res;
     }
 
-    if (response.error) {
+    if (response?.error) {
       setLoading(false);
 
       notify("Las imágenes del producto ya existen en la base de datos");
@@ -169,7 +169,7 @@ export default function PromotionForm() {
             name: promoName.current.value,
             description: promoDescription,
             price: parseLocaleNumber(promoPrice.current.value, "de-DE"),
-            img: images,
+            img: promoImages ? promoImages : [],
             expiration_date: promoExpDate.current.value,
           });
         }}

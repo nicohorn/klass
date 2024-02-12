@@ -16,7 +16,7 @@ export default function ImagesHandler({
   promo?: boolean;
 }) {
   const deleteImage = async (imageUrl: string) => {
-    const imageName = imageUrl.split("/").at(-1);
+    const imageName = imageUrl?.split("/").at(-1);
     let response;
     const res = supabase.storage
       .from("personalized-projects-images")
@@ -26,8 +26,7 @@ export default function ImagesHandler({
       });
 
     response = await res;
-    console.log(imageName);
-    console.log(response);
+
     return response;
   };
   return (
@@ -55,11 +54,6 @@ export default function ImagesHandler({
                     setPreviewImages(
                       previewImages.filter((img) => {
                         return img !== i;
-                      })
-                    );
-                    console.log(
-                      [...productImages].map((img) => {
-                        return img.name.toString() === i;
                       })
                     );
                   }}

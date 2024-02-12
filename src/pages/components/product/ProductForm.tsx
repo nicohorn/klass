@@ -70,8 +70,9 @@ export default function ProductForm({
     (document.getElementById("nombreProducto") as HTMLInputElement).value =
       productToEdit?.name || "";
 
-    console.log(previewImages);
-    console.log(productToEdit.img);
+    setTimeout(() => {
+      productToEdit && setPreviewImages(productToEdit.img);
+    }, 50);
 
     productToEdit &&
       setSelectedSizeOptions(
@@ -105,7 +106,7 @@ export default function ProductForm({
           )
         ]?.elements
       );
-    productToEdit && setPreviewImages(["asdasdasd"]);
+
     (document.getElementById("productSteel") as HTMLInputElement).checked =
       productToEdit?.steel || false;
   }, []);
@@ -192,7 +193,7 @@ export default function ProductForm({
       response = await res;
     }
 
-    if (response.error) {
+    if (response?.error) {
       setLoading(false);
       setModalOpen(false);
       notify("Las imágenes del producto ya existen en la base de datos");
@@ -427,33 +428,46 @@ export default function ProductForm({
         buttonFunction={
           productToEdit
             ? async () => {
-                const uploadedImages = true;
-                uploadedImages
-                  ? updateProduct(
-                      {
-                        name: productName.current.value,
-                        base_price: parseLocaleNumber(
-                          productPrice.current.value,
-                          "de-DE"
-                        ),
-                        img: productToEdit.img,
-                        categories:
-                          `/` +
-                          selectedCategories.toString().replaceAll(",", "/"),
-                        options: [
-                          { name: "size", elements: selectedSizeOptions },
-                          { name: "color_1", elements: selectedColor_1Options },
-                          { name: "color_2", elements: selectedColor_2Options },
-                          { name: "model", elements: selectedModelOptions },
-                          { name: "style", elements: selectedStyleOptions },
-                        ],
-                        description: productDescription,
-                        tags: "",
-                        steel: productSteel.current.checked,
-                      },
-                      productToEdit._id
-                    )
-                  : null;
+                let combinedImagesArray;
+                let filteredImagesArray;
+                const uploadedImages = await imagesUpload(productImages).then(
+                  (uImages) => {
+                    combinedImagesArray = [
+                      ...new Set([...previewImages, ...uImages]),
+                    ];
+
+                    filteredImagesArray = combinedImagesArray.filter((x) => {
+                      return x.includes("product-images");
+                    });
+                  }
+                );
+
+                console.log("filteredImagesArray", filteredImagesArray);
+
+                updateProduct(
+                  {
+                    name: productName.current.value,
+                    base_price: parseLocaleNumber(
+                      productPrice.current.value,
+                      "de-DE"
+                    ),
+                    img: filteredImagesArray,
+
+                    categories:
+                      `/` + selectedCategories.toString().replaceAll(",", "/"),
+                    options: [
+                      { name: "size", elements: selectedSizeOptions },
+                      { name: "color_1", elements: selectedColor_1Options },
+                      { name: "color_2", elements: selectedColor_2Options },
+                      { name: "model", elements: selectedModelOptions },
+                      { name: "style", elements: selectedStyleOptions },
+                    ],
+                    description: productDescription,
+                    tags: "",
+                    steel: productSteel.current.checked,
+                  },
+                  productToEdit._id
+                );
               }
             : async () => {
                 const uploadedImages = await imagesUpload(productImages);
