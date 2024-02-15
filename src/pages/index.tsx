@@ -286,11 +286,7 @@ export default function Home({ products }) {
             </div>
             <div
               onClick={() => {
-                if (user) {
-                  setOpen(true);
-                } else {
-                  // router.push("/api/auth/login?returnTo=/");
-                }
+                setOpen(true);
               }}
               className="cursor-pointer hover:bg-yellow-500 px-3 py-2  my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] flex flex-col items-center  bg-yellow-300 md:self-start self-center font-normal text-sm transition-all duration-200 text-black"
             >

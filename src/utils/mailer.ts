@@ -75,7 +75,7 @@ export const sendOrderEmail = (order: OrderType) => {
         <b>Elegí la opción</b> que más te convenga y respondenos por este medio para completar la compra, y no te olvides de que tu pedido será confeccionado especialmente para vos, nuestro plazo de fabricación es de 25 días.
       </p>
       <p>
-        Cualquier duda podés escribirnos a <b>contact.klass@gmail.com</b> o por WhatsApp al <b>+54 9 3435035388</b>
+        Cualquier duda podés escribirnos a <a href="mailto:contacto.klass@gmail.com"><b>contacto.klass@gmail.com</b></a> o por WhatsApp al <b>+54 9 3435035388</b>
       </p>
     </body>
     </html>

@@ -11,7 +11,7 @@ import gsap from "gsap";
 import { toast } from "react-toastify";
 import { formatter } from "src/utils/utils";
 import { CartItemType, OrderType } from "src/utils/types";
-import { useUser } from "src/utils/fire";
+import { logIn, useUser } from "src/utils/fire";
 
 export default function Cart({ items }) {
   const productsCart = useProducts((state: any) => state.cart);
@@ -279,7 +279,10 @@ export default function Cart({ items }) {
               <div className=" bg-yellow-300 p-1 px-3 cursor-pointer mt-3 mr-2 self-end text-center text-black  hover:shadow-md transition-all duration-150 w-44 flex justify-center">
                 <button
                   className="font-semibold"
-                  onClick={() => {
+                  onClick={async () => {
+                    if (!user) {
+                      await logIn()
+                    }
                     if (user) {
                       createOrder({
                         userId: user?.uid,
@@ -294,7 +297,7 @@ export default function Cart({ items }) {
                         notify();
                       }, 1000);
                     } else {
-                      // router.push("/api/auth/login?returnTo=/cart");
+                      router.back()
                     }
                   }}
                 >
