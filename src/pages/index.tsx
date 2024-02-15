@@ -281,8 +281,7 @@ export default function Home({ products }) {
             <p className="uppercase slide-bottom  2xl:text-4xl text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] xl:text-4xl lg:text-4xl  lg:text-right">
               Cama funcional de dos plazas
             </p>
-            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem]  bg-black/50  py-5 px-4 md:px-8">
-              {frontPageProducts[0].description}
+            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem]  bg-black/50  py-5 px-4 md:px-8" dangerouslySetInnerHTML={{ __html: frontPageProducts[0].description }}>
             </div>
             <div
               onClick={() => {

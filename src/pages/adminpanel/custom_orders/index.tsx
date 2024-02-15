@@ -4,6 +4,7 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
 import { useUser } from "src/utils/fire";
+import { isAdmin } from "src/utils/isAdmin";
 
 export default function Orders({ items, totalDocuments }) {
   const router = useRouter();
@@ -134,8 +135,7 @@ export default function Orders({ items, totalDocuments }) {
 
   return (
     <main className="flex-grow ">
-      {user?.uid == "google-oauth2|102747183325371068763" ||
-      user?.uid == "google-oauth2|101977740947109023372" ? (
+      {(isAdmin(user?.uid)) ? (
         <div>
           <div className="2xl:w-[60%] min-h-[60vh] bg-white lg:w-[80%] mx-auto p-5 my-10 border bg-neutral-100  shadow-md">
             <h1 className="text-3xl font-semibold mb-5">
