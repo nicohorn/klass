@@ -333,7 +333,7 @@ export default function Home({ products }) {
                   src={`${p.img[0]}`}
                 ></img>
                 <div className="flex flex-col">
-                  <p>{p.description}</p>{" "}
+                  <p dangerouslySetInnerHTML={{__html: p.description}}></p>{" "}
                   <div
                     onClick={() => {
                       setOpen(true);
