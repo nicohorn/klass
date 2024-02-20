@@ -1,15 +1,15 @@
 import React from "react";
 import { CustomOrderType } from "src/utils/types";
 import { useEffect, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
 import { supabase } from "supabase";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
 import SimpleImageSlider from "react-simple-image-slider";
 import Modal from "./components/Modal";
+import { useUser } from "src/utils/fire";
 
 export default function Custom_orders() {
-  const { user } = useUser();
+  const user = useUser(state => state.user);
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
   const [imageLoading, setImageLoading] = useState("nada");
@@ -171,8 +171,8 @@ export default function Custom_orders() {
               });
             if (idx === images.length - 1) {
               createCustomOrder({
-                userId: user?.sub,
-                clientName: user?.name,
+                userId: user?.uid,
+                clientName: user?.displayName,
                 clientEmail: user?.email,
                 clientNumber: parseInt(clientNumber),
                 address: address,
@@ -198,7 +198,7 @@ export default function Custom_orders() {
         <div>
           <form className="w-full md:p-5 p-0">
             <input
-              value={user && `${user.name}`}
+              value={user && `${user.displayName}`}
               id="nombre-apellido"
               className="shadow-sm focus:shadow-md w-full my-2 py-1 px-2  focus:border-yellow-400 outline-none focus:bg-yellow-100 transition-all duration-200"
               placeholder="Nombre y apellido"

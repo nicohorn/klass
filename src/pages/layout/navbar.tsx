@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useProducts } from "../../utils/zustand";
 import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0";
 import Dropdown from "../components/Dropdown";
 import { Popover, Transition } from "@headlessui/react";
-
+import { logIn, logOut, useUser } from "src/utils/fire";
 export default function Navbar(props) {
-  const { user, error, isLoading } = useUser();
+  const user = useUser(state => state.user)
   const setCart = useProducts((state: any) => state.setCart);
   const products = useProducts((state: any) => state.cart);
 
@@ -23,8 +22,8 @@ export default function Navbar(props) {
   const content = () => {
     if (
       //Admins: Michelle, Nicolas.
-      user?.sub == process.env.NEXT_PUBLIC_ADMIN1 ||
-      user?.sub == process.env.NEXT_PUBLIC_ADMIN2
+      user?.uid == process.env.NEXT_PUBLIC_ADMIN1 ||
+      user?.uid == process.env.NEXT_PUBLIC_ADMIN2
     ) {
       return [
         { title: "Productos", url: "/products" },
@@ -65,7 +64,7 @@ export default function Navbar(props) {
     },
     {
       title: "Cerrar sesión",
-      href: "/api/auth/logout",
+      action: logOut,
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +143,7 @@ export default function Navbar(props) {
             {user ? (
               <Dropdown options={options} />
             ) : (
-              <Link href="/api/auth/login" className="text-white">
+              <button onClick={logIn} className="text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -160,7 +159,7 @@ export default function Navbar(props) {
                     d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
                   />
                 </svg>
-              </Link>
+              </button>
             )}
           </div>
         </div>
