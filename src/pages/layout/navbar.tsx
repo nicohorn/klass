@@ -5,9 +5,9 @@ import { useProducts } from "../../utils/zustand";
 import Link from "next/link";
 import Dropdown from "../components/Dropdown";
 import { Popover, Transition } from "@headlessui/react";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 export default function Navbar(props) {
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
   const setCart = useProducts((state: any) => state.setCart);
   const products = useProducts((state: any) => state.cart);
 

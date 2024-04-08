@@ -9,7 +9,7 @@ import type { ProductType } from "src/utils/types";
 import Image from "next/image";
 import { getCategories } from "src/utils/utils";
 import TextEditor from "../components/TextEditor";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { isAdmin } from "src/utils/isAdmin";
 
 function Products({ items }: { items: ProductType[] }) {

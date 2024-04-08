@@ -9,7 +9,7 @@ import SimpleImageSlider from "react-simple-image-slider";
 import { formatter } from "src/utils/utils";
 import OptionsListbox from "../OptionsListbox";
 import Tiptap from "../TextEditor";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { isAdmin } from "src/utils/isAdmin";
 
 export default function ProductView({

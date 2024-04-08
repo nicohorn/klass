@@ -4,7 +4,7 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { FileOpen } from "@mui/icons-material";
 import { formatter } from "src/utils/utils";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { isAdmin } from "src/utils/isAdmin";
 
 export default function Orders({ items, totalDocuments }) {

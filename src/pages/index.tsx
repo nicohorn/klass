@@ -4,7 +4,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useProducts } from "../utils/zustand";
 import clientPromise from "../../mongodb";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import ProductSlider from "./components/product/ProductSlider";
 import Link from "next/link";
 import Modal from "./components/Modal";

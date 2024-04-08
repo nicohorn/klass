@@ -2,7 +2,8 @@ import React, { useState, Fragment } from "react";
 import clientPromise from "../../mongodb";
 import { formatter } from "src/utils/utils";
 import { Dialog, Transition } from "@headlessui/react";
-import { useUser, getSession } from "@auth0/nextjs-auth0";
+import { getSession } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function Orders({ items }) {
@@ -283,7 +284,7 @@ export async function getServerSideProps({ req, res }: { req: NextApiRequest, re
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
     const collection = db.collection("orders");
-    const session = getSession(req, res)
+    const session = await getSession(req, res)
 
     if (!session?.user.sub) {
       return []

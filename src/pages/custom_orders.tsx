@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomOrderType } from "src/utils/types";
 import { useEffect, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { supabase } from "supabase";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";

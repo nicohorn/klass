@@ -1,9 +1,9 @@
-import { UserProfile } from "@auth0/nextjs-auth0"
+import { UserProfile } from "@auth0/nextjs-auth0/client"
 
 export async function validateToken(token: string) {
   try {
     const response = await fetch(
-      "https://dev-5iz0oclpqjwsu4v1.us.auth0.com/userinfo",
+      `${process.env.AUTH0_ISSUER_BASE_URL}/userinfo`,
       {
         method: "GET",
         headers: {
@@ -11,6 +11,7 @@ export async function validateToken(token: string) {
         },
       }
     )
+    console.log('val', response.status)
     const userInfo: UserProfile = await response.json()
     return userInfo
   } catch (error) {
