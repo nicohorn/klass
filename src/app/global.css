@@ -552,3 +552,7 @@ body {
   width: 25px;
   background-color: #eee;
 }
+
+input {
+  color-scheme: dark;
+}

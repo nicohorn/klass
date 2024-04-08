@@ -217,6 +217,7 @@ export default function ProductView({
               <button
                 className="bg-yellow-300 p-3 font-semibold  w-[100%]  text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 "
                 onClick={() => {
+                  console.log(product);
                   addToCart({
                     id: product._id,
                     price: totalPrice(),

@@ -48,6 +48,12 @@ export default function Page() {
           <Link href="/adminpanel/new_product">Crear un producto nuevo</Link>
         </p>
         <p className="hover:font-bold transition-all duration-150 w-fit">
+          <Link href={"/adminpanel/new_promotion"}>Crear promoción</Link>
+        </p>
+        <p className="hover:font-bold transition-all duration-150 w-fit">
+          <Link href="/adminpanel/promotions_list">Lista de promociones</Link>
+        </p>
+        <p className="hover:font-bold transition-all duration-150 w-fit">
           <Link href="/adminpanel/orders">Pedidos</Link>
         </p>
         <p className="hover:font-bold transition-all duration-150 w-fit">
@@ -59,7 +65,7 @@ export default function Page() {
             <input
               id="multiplier"
               maxLength={3}
-              className="w-14 text-black px-2 text-center"
+              className="w-14 px-2 text-center"
             />{" "}
             %
           </span>
@@ -91,7 +97,7 @@ export default function Page() {
             <input
               id="multiplier2"
               maxLength={3}
-              className="w-14 text-black px-2 text-center"
+              className="w-14  px-2 text-center"
             />{" "}
             %
           </span>

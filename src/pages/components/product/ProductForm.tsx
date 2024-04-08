@@ -17,6 +17,7 @@ import ProductView from "./ProductView";
 import { supabase } from "supabase";
 import { notify } from "src/utils/utils";
 import { useRouter } from "next/router";
+import ImagesHandler from "./ImagesHandler";
 
 export default function ProductForm({
   color_options,
@@ -68,6 +69,46 @@ export default function ProductForm({
   useEffect(() => {
     (document.getElementById("nombreProducto") as HTMLInputElement).value =
       productToEdit?.name || "";
+
+    setTimeout(() => {
+      productToEdit && setPreviewImages(productToEdit.img);
+    }, 50);
+
+    productToEdit &&
+      setSelectedSizeOptions(
+        productToEdit.options[
+          productToEdit.options.indexOf(
+            productToEdit.options.find((e) => {
+              return e.name == "size";
+            })
+          )
+        ]?.elements
+      );
+
+    productToEdit &&
+      setSelectedModelOptions(
+        productToEdit.options[
+          productToEdit.options.indexOf(
+            productToEdit.options.find((e) => {
+              return e.name == "model";
+            })
+          )
+        ]?.elements
+      );
+
+    productToEdit &&
+      setSelectedStyleOptions(
+        productToEdit.options[
+          productToEdit.options.indexOf(
+            productToEdit.options.find((e) => {
+              return e.name == "style";
+            })
+          )
+        ]?.elements
+      );
+
+    (document.getElementById("productSteel") as HTMLInputElement).checked =
+      productToEdit?.steel || false;
   }, []);
 
   useEffect(() => {
@@ -76,15 +117,10 @@ export default function ProductForm({
       [...productImages].forEach((image) => {
         images.push(URL.createObjectURL(image));
       });
-    setPreviewImages(images);
-
-    (document.getElementById("productSteel") as HTMLInputElement).checked =
-      productToEdit?.steel || false;
+    setPreviewImages([...previewImages, ...images]);
   }, [productImages]);
 
   const createProduct = async (product: ProductType) => {
-    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
-
     await fetch("/api/products/create_product", {
       method: "POST",
       mode: "cors",
@@ -102,8 +138,7 @@ export default function ProductForm({
   };
 
   const updateProduct = async (product: ProductType, productId: string) => {
-    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
-
+    setLoading(true);
     const bodyObject = { product, productId };
 
     await fetch("/api/products/update_product", {
@@ -113,13 +148,13 @@ export default function ProductForm({
         "Content-Type": "application/json",
       },
       body: JSON.stringify(bodyObject),
-    })
-      .then((response) => {
-        setLoading(false);
+    }).then((response) => {
+      setLoading(false);
 
-        return response.json();
-      })
-      .then((json) => {});
+      return response.json().then((res) => {
+        router.reload();
+      });
+    });
   };
 
   async function imagesUpload(images: any[]) {
@@ -158,7 +193,7 @@ export default function ProductForm({
       response = await res;
     }
 
-    if (response.error) {
+    if (response?.error) {
       setLoading(false);
       setModalOpen(false);
       notify("Las imágenes del producto ya existen en la base de datos");
@@ -284,7 +319,15 @@ export default function ProductForm({
               hasMultiplier={true}
               setOptions={setSelectedColor_1Options}
               show={true}
-              content={productToEdit?.options[1].elements}
+              content={
+                productToEdit?.options[
+                  productToEdit.options.indexOf(
+                    productToEdit.options.find((e) => {
+                      return e.name == "color_1";
+                    })
+                  )
+                ]?.elements
+              }
             />
             <MultipleSelector
               items={color_options}
@@ -292,6 +335,15 @@ export default function ProductForm({
               hasMultiplier={true}
               setOptions={setSelectedColor_2Options}
               show={false}
+              content={
+                productToEdit?.options[
+                  productToEdit.options.indexOf(
+                    productToEdit.options.find((e) => {
+                      return e.name == "color_2";
+                    })
+                  )
+                ]?.elements
+              }
             />
             <Adder
               setOptions={setSelectedSizeOptions}
@@ -332,61 +384,12 @@ export default function ProductForm({
           </div>
         </div>
         <div className="w-[29rem] min-w-[29rem] px-2 mb-10">
-          <div>
-            <p className="mb-4">Imágenes del producto</p>
-            <label
-              htmlFor="imagenesProducto"
-              className="border uppercase px-4 py-2 hover:bg-yellow-500 hover:border-yellow-500 hover:text-black text-sm opacity-100 cursor-pointer transition-all duration-150"
-            >
-              Subir imágenes{" "}
-            </label>
-            {productImages.length !== 0 ? (
-              <div className="flex flex-wrap mt-6 gap-3 opacity-animation">
-                {" "}
-                {previewImages.map((i, idx) => {
-                  return (
-                    <img
-                      draggable={true}
-                      className="w-20 h-20 object-cover border p-1 border-yellow-500"
-                      key={idx}
-                      src={`${i}`}
-                      alt=""
-                    />
-                  );
-                })}
-                <span className="text-[.65rem] text-white opacity-50">
-                  Vista previa de las imágenes seleccionadas.
-                  <br />
-                  <br />
-                  La primera imagen será la imagen principal del producto.
-                  <br />
-                  Recordá que el orden de las imágenes está dado por el nombre
-                  del archivo (orden alfabético).
-                  <br />
-                  <br />
-                  Es recomendable nombrar los archivos de la siguiente forma:
-                  <br />
-                  {"=>"} 1_NombreProducto.jpg <br />
-                  {"=>"} 2_NombreProducto.jpg <br />
-                  {"=>"} 3_NombreProducto.jpg <br />
-                  {"=>"} Etc... <br />
-                </span>
-              </div>
-            ) : null}
-
-            <input
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                const imageFiles: FileList | null = e.target.files;
-                setImages(imageFiles as any);
-              }}
-              className="hidden"
-              type="file"
-              id="imagenesProducto"
-              name="img"
-              accept="image/*"
-              multiple
-            />
-          </div>
+          <ImagesHandler
+            setImages={setImages}
+            setPreviewImages={setPreviewImages}
+            productImages={productImages}
+            previewImages={previewImages}
+          ></ImagesHandler>
         </div>
       </form>
       <button
@@ -425,33 +428,46 @@ export default function ProductForm({
         buttonFunction={
           productToEdit
             ? async () => {
-                const uploadedImages = null;
-                uploadedImages
-                  ? updateProduct(
-                      {
-                        name: productName.current.value,
-                        base_price: parseLocaleNumber(
-                          productPrice.current.value,
-                          "de-DE"
-                        ),
-                        img: productToEdit.img,
-                        categories:
-                          `/` +
-                          selectedCategories.toString().replaceAll(",", "/"),
-                        options: [
-                          { name: "size", elements: selectedSizeOptions },
-                          { name: "color_1", elements: selectedColor_1Options },
-                          { name: "color_2", elements: selectedColor_2Options },
-                          { name: "model", elements: selectedModelOptions },
-                          { name: "style", elements: selectedStyleOptions },
-                        ],
-                        description: productDescription,
-                        tags: "",
-                        steel: productSteel.current.checked,
-                      },
-                      productToEdit._id
-                    )
-                  : null;
+                let combinedImagesArray;
+                let filteredImagesArray;
+                const uploadedImages = await imagesUpload(productImages).then(
+                  (uImages) => {
+                    combinedImagesArray = [
+                      ...new Set([...previewImages, ...uImages]),
+                    ];
+
+                    filteredImagesArray = combinedImagesArray.filter((x) => {
+                      return x.includes("product-images");
+                    });
+                  }
+                );
+
+                console.log("filteredImagesArray", filteredImagesArray);
+
+                updateProduct(
+                  {
+                    name: productName.current.value,
+                    base_price: parseLocaleNumber(
+                      productPrice.current.value,
+                      "de-DE"
+                    ),
+                    img: filteredImagesArray,
+
+                    categories:
+                      `/` + selectedCategories.toString().replaceAll(",", "/"),
+                    options: [
+                      { name: "size", elements: selectedSizeOptions },
+                      { name: "color_1", elements: selectedColor_1Options },
+                      { name: "color_2", elements: selectedColor_2Options },
+                      { name: "model", elements: selectedModelOptions },
+                      { name: "style", elements: selectedStyleOptions },
+                    ],
+                    description: productDescription,
+                    tags: "",
+                    steel: productSteel.current.checked,
+                  },
+                  productToEdit._id
+                );
               }
             : async () => {
                 const uploadedImages = await imagesUpload(productImages);

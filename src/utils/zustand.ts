@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import type { ProductType, CartItemType } from "./types";
 
-/** The objectsComparator function checks if the two objects have the same keys and if their corresponding values are equal. It can be used to compare item and productWithoutCount, which will now correctly return true if their contents are the same (I was trying to compare them directly but this cannot be done since JavaScript compares objects by reference and not by their content) */
+/** The objectsComparator function checks if the two objects have the same keys and if their corresponding values are equal. It can be used to compare item and productWithoutCount, which will now correctly return true if their contents are the same.*/
 function objectsComparator(obj1: Object, obj2: Object): boolean {
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
@@ -66,6 +66,7 @@ export const useProducts = create((set) => ({
   },
   removeFromCart: (item: CartItemType) =>
     set((state) => {
+      console.log(item)
       const isPresent = state.cart.findIndex((product) => {
         const { count, ...productWithoutCount } = product;
         return (
@@ -87,11 +88,11 @@ export const useProducts = create((set) => ({
       const updatedCart = state.cart
         .map((product) =>
           product.id == item.id &&
-          product.size == item.size &&
-          product.color_1 == item.color_1 &&
-          product.color_2 == item.color_2 &&
-          product.style == item.style &&
-          product.model == item.model
+            product.size == item.size &&
+            product.color_1 == item.color_1 &&
+            product.color_2 == item.color_2 &&
+            product.style == item.style &&
+            product.model == item.model
             ? { ...product, count: Math.max(product.count - 1, 0) }
             : product
         )

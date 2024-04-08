@@ -22,7 +22,7 @@ export default function Navbar(props) {
 
   const content = () => {
     if (
-      //Admins: Michelle, Nicolas.
+      //Admins: Michelle & Nicolas. The route /adminpanel is also protected in the middleware, this is just for frontend purposes
       user?.sub == process.env.NEXT_PUBLIC_ADMIN1 ||
       user?.sub == process.env.NEXT_PUBLIC_ADMIN2
     ) {
@@ -165,7 +165,7 @@ export default function Navbar(props) {
           </div>
         </div>
         {/* Navbar routes / páginas, segunda mitad */}
-        <div className="text-md text-white grow capitalize flex gap-5 bg-primary px-20 pb-5">
+        <div className="text-md text-white grow capitalize flex gap-5 bg-primary px-20">
           {content().map((item, i) => (
             <div
               key={i}

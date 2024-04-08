@@ -58,3 +58,12 @@ export type OptionsListType = {
   name: string;
   elements: OptionType[];
 };
+
+export type PromotionType = {
+  _id?: string;
+  name: string;
+  price: number;
+  description: string;
+  expiration_date: string;
+  img: string[];
+};

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Disclosure, Transition } from "@headlessui/react";
 import type { OptionType } from "src/utils/types";
@@ -17,10 +18,14 @@ export default function MultipleSelector({
   show: boolean;
   content?: any[];
 }) {
-  const [selectedItems, setSelectedItems] = useState(content || []);
+  const [selectedItems, setSelectedItems] = useState([]);
   const multiplier = 1;
 
   const [active, setActive] = useState(show);
+
+  useEffect(() => {
+    content && setSelectedItems(content);
+  }, []);
 
   useEffect(() => {
     setOptions(selectedItems);
@@ -66,7 +71,9 @@ export default function MultipleSelector({
                   return (
                     <div
                       className={`relative transition-all duration-150 border px-2 py-1 cursor-pointer hover:border-yellow-500 ${
-                        selectedItems.find((e) => e.name === item.name)
+                        selectedItems.find(
+                          (e) => e.name === item.name || e.value === item.name
+                        )
                           ? " border-yellow-600 text-yellow-500 "
                           : null
                       }`}
@@ -76,17 +83,23 @@ export default function MultipleSelector({
                         className="text-xs "
                         onClick={() => {
                           if (
-                            !selectedItems.find((e) => e.name === item.name)
+                            !selectedItems.find(
+                              (e) =>
+                                e.name === item.name || e.value === item.name
+                            )
                           ) {
                             setSelectedItems([
                               ...selectedItems,
                               { ...item, value: item.name, multiplier },
                             ]);
                           } else if (
-                            selectedItems.find((e) => e.name === item.name)
+                            selectedItems.find(
+                              (e) =>
+                                e.name === item.name || e.value === item.name
+                            )
                           ) {
                             setSelectedItems(
-                              selectedItems.filter((e) => e.name !== item.name)
+                              selectedItems.filter((e) => e.value !== item.name)
                             );
                           }
                         }}
@@ -96,22 +109,41 @@ export default function MultipleSelector({
                       <p className="absolute -top-2 -left-[.3rem] bg-yellow-500 w-4 text-center rounded-full text-xs text-black">
                         {selectedItems.indexOf(
                           selectedItems.find((e) => {
-                            return e.name === item.name;
+                            return (
+                              e.name === item.name || e.value === item.name
+                            );
                           })
                         ) +
                           1 >=
                         1
                           ? selectedItems.indexOf(
                               selectedItems.find((e) => {
-                                return e.name === item.name;
+                                return (
+                                  e.name === item.name || e.value === item.name
+                                );
                               })
                             ) + 1
                           : null}
                       </p>
                       {hasMultiplier ? (
                         <input
+                          defaultValue={
+                            selectedItems[
+                              selectedItems.indexOf(
+                                selectedItems.find((e) => {
+                                  return (
+                                    e.name === item.name ||
+                                    e.value === item.name
+                                  );
+                                })
+                              )
+                            ]?.multiplier
+                          }
                           className={`${
-                            !selectedItems.find((e) => e.name === item.name)
+                            !selectedItems.find(
+                              (e) =>
+                                e.name === item.name || e.value === item.name
+                            )
                               ? "w-0"
                               : "w-6"
                           } bg-primary text-center outline-none ml-2 text-xs border-b-white border-b transition-all duration-150 `}
@@ -126,7 +158,9 @@ export default function MultipleSelector({
 
                             const indexOfItemToUpdate = selectedItems.indexOf(
                               selectedItems.find((e) => {
-                                return e.name === item.name;
+                                return (
+                                  e.name === item.name || e.value === item.name
+                                );
                               })
                             );
 
