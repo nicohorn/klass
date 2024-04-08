@@ -21,5 +21,6 @@ export const config = {
     "/adminpanel/:path*",
     "/api/products/:path*",
     "/api/color_options/:path*",
+    "/api/promotions/:path*",
   ],
 };
