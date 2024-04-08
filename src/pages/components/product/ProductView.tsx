@@ -10,6 +10,7 @@ import { formatter } from "src/utils/utils";
 import OptionsListbox from "../OptionsListbox";
 import Tiptap from "../TextEditor";
 import { useUser } from "@auth0/nextjs-auth0";
+import { isAdmin } from "src/utils/isAdmin";
 
 export default function ProductView({
   product,
@@ -231,8 +232,7 @@ export default function ProductView({
               >
                 Agregar al carrito
               </button>
-              {user?.sub === process.env.NEXT_PUBLIC_ADMIN1 ||
-              user?.sub === process.env.NEXT_PUBLIC_ADMIN1 ? (
+              {isAdmin(user?.sub) ? (
                 <button
                   className="bg-yellow-300 p-3 font-semibold  w-[100%] mt-auto  text-black active:scale-95 transition-all duration-150 hover:drop-shadow-md hover:bg-yellow-400 "
                   onClick={() => editProduct(true)}

@@ -1,5 +1,7 @@
 import clientPromise from "@clientPromise";
 import { ObjectId } from "mongodb";
+import { sendOrderEmail } from '../../../utils/mailer'
+import { validateToken } from "src/utils/validateToken";
 
 export default async function handler(req, res) {
   try {
@@ -7,17 +9,20 @@ export default async function handler(req, res) {
     const db = client.db("klass_ecommerce");
     const collection = db.collection("orders");
     let result;
+    const token = req.cookies.get('token')?.value
+
+    if (!await validateToken(token)) {
+      return res.status(401).json("Forbidden access");
+    }
 
     switch (req.method) {
-      case "GET":
-        return res.status(401).json("Forbidden access");
-
       case "POST":
         result = await collection.insertOne({ ...req.body });
         result = await collection.findOne({ _id: result.insertedId });
+        sendOrderEmail(result);
         break;
       case "PUT":
-        const filter = { _id: ObjectId(req.body._id) };
+        const filter = { _id: new ObjectId(req.body._id) };
         const updateDocument = {
           $set: {
             state: req.body.state,

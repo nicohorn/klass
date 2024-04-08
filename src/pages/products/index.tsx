@@ -10,6 +10,7 @@ import Image from "next/image";
 import { getCategories } from "src/utils/utils";
 import TextEditor from "../components/TextEditor";
 import { useUser } from "@auth0/nextjs-auth0";
+import { isAdmin } from "src/utils/isAdmin";
 
 function Products({ items }: { items: ProductType[] }) {
   const setCart = useProducts((state: any) => state.setCart);
@@ -146,8 +147,7 @@ function Products({ items }: { items: ProductType[] }) {
             {getItemsBySearch(searchString).map((item, i) => (
               <span className="relative" id="product" key={i}>
                 <div className="delay-150 border-opacity-0 w-[80%] sm:w-full mx-auto transition-all duration-150 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
-                  {user?.sub == process.env.NEXT_PUBLIC_ADMIN1 ||
-                  user?.sub == process.env.NEXT_PUBLIC_ADMIN2 ? (
+                  {isAdmin(user?.sub) ? (
                     <button
                       onClick={() => {
                         deleteProduct(item);

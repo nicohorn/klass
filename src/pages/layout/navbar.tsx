@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useProducts } from "../../utils/zustand";
 import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0";
 import Dropdown from "../components/Dropdown";
 import { Popover, Transition } from "@headlessui/react";
-
+import { useUser } from "@auth0/nextjs-auth0";
 export default function Navbar(props) {
   const { user, error, isLoading } = useUser();
   const setCart = useProducts((state: any) => state.setCart);
@@ -65,7 +64,7 @@ export default function Navbar(props) {
     },
     {
       title: "Cerrar sesión",
-      href: "/api/auth/logout",
+      href: '/api/auth/logout',
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

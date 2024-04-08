@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProducts } from "../utils/zustand";
 import clientPromise from "../../mongodb";
 import { useUser } from "@auth0/nextjs-auth0";
@@ -9,7 +9,6 @@ import ProductSlider from "./components/product/ProductSlider";
 import Link from "next/link";
 import Modal from "./components/Modal";
 import { supabase } from "supabase.js";
-import { useRouter } from "next/router";
 import { CheckBadgeIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
 import Message from "./components/Message";
@@ -20,7 +19,6 @@ import PromotionHero from "./components/PromotionHero";
 export default function Home({ products, promotions }) {
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
-  const router = useRouter();
 
   const { user } = useUser();
 
@@ -288,16 +286,11 @@ export default function Home({ products, promotions }) {
             <p className="uppercase slide-bottom  2xl:text-4xl text-3xl text-center font-bold text-neutral-50 mb-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] xl:text-4xl lg:text-4xl  lg:text-right">
               Cama funcional de dos plazas
             </p>
-            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem]  bg-black/50  py-5 px-4 md:px-8">
-              {frontPageProducts[0].description}
+            <div className="backdrop-blur-lg shadow-lg font-normal text-[.9rem]  bg-black/50  py-5 px-4 md:px-8" dangerouslySetInnerHTML={{ __html: frontPageProducts[0].description }}>
             </div>
             <div
               onClick={() => {
-                if (user) {
-                  setOpen(true);
-                } else {
-                  router.push("/api/auth/login?returnTo=/");
-                }
+                setOpen(true);
               }}
               className="cursor-pointer hover:bg-yellow-500 px-3 py-2  my-5 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.30)] flex flex-col items-center  bg-yellow-300 md:self-start self-center font-normal text-sm transition-all duration-200 text-black"
             >
@@ -345,7 +338,7 @@ export default function Home({ products, promotions }) {
                   src={`${p.img[0]}`}
                 ></img>
                 <div className="flex flex-col">
-                  <p>{p.description}</p>{" "}
+                  <p dangerouslySetInnerHTML={{__html: p.description}}></p>{" "}
                   <div
                     onClick={() => {
                       setOpen(true);
