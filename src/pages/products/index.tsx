@@ -10,14 +10,28 @@ import Image from "next/image";
 import { getCategories } from "src/utils/utils";
 import TextEditor from "../components/TextEditor";
 import { useUser } from "@auth0/nextjs-auth0";
+import { useRouter } from "next/router";
 
 function Products({ items }: { items: ProductType[] }) {
+  const router = useRouter()
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
   const [active, setActive] = useState(null);
-  const [searchString, setSearchString] = useState("");
+
+  const [searchString, setSearchString] = useState(router.query.search?.toString() ?? '');
 
   const { user, error, isLoading } = useUser();
+
+  useEffect(() => {
+    if (router.query.search) {
+      setSearchString(router.query.search.toString())
+    }
+  }, [router.query.search])
+
+  useEffect(() => {
+    const newurl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?search=${searchString}`;
+    window.history.replaceState({path:newurl},'',newurl);
+  }, [searchString])
 
   //This useEffect is used to retrieve the cart from the local storage if it exists, and then set it in the cart state (zustand).
   useEffect(() => {
@@ -89,6 +103,7 @@ function Products({ items }: { items: ProductType[] }) {
                 setSearchString(e.target.value);
                 setActive(null);
               }}
+              value={searchString}
               id="input-search"
               className="placeholder:pl-1 text-white flex-grow w-auto outline-none text-lg opacity-100 placeholder:transition-all placeholder:duration-150 bg-primary placeholder:opacity-30 focus:placeholder:opacity-90 "
               placeholder="Ingresá el nombre o categoría del producto que buscás"
