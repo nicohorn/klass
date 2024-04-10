@@ -21,7 +21,7 @@ function objectsComparator(obj1: Object, obj2: Object): boolean {
 
 export const useProducts = create((set) => ({
   //Zustand is a state management solution. I've used it in order to make the cart available throughout all components of the page.
-  cart: [],
+  cart: [] as CartItemType[],
   deleteCart: () => {
     set((state) => {
       return {
@@ -41,13 +41,13 @@ export const useProducts = create((set) => ({
   addToCart: (item: CartItemType) => {
     set((state) => {
       //Función para chequear si el producto ya existe en el carrito (por id, size, color, style y model).
-      const isInCart = state.cart.find((product) => {
+      const inCart = state.cart.find((product) => {
         const { count, ...prdouctWithoutCount } = product;
         return objectsComparator(item, prdouctWithoutCount);
       });
 
       //Si el producto no existe, devuelve el carrito con el producto adentro y un count = 1;
-      if (!isInCart) {
+      if (!inCart) {
         return {
           ...state,
           cart: [...state.cart, { ...item, count: 1 }],
@@ -55,7 +55,7 @@ export const useProducts = create((set) => ({
       }
       //Recorre el array de productos para ver si encuentra el producto que se quiere agregar, en caso de encontrarlo, suma +1 a su count, si no, queda solo el producto.
       const updatedCart = state.cart.map((product) =>
-        item ? { ...product, count: product.count + 1 } : product
+        product === inCart ? { ...product, count: product.count + 1 } : product
       );
 
       return {

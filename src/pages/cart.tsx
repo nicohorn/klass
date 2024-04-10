@@ -1,9 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import { ProductType, PromotionType } from "src/utils/types"
+import clientPromise from "../../mongodb";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useProducts } from "../utils/zustand";
-import clientPromise from "../../mongodb";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
@@ -12,9 +12,14 @@ import gsap from "gsap";
 import { toast } from "react-toastify";
 import { formatter } from "src/utils/utils";
 import { CartItemType, OrderType } from "src/utils/types";
+import { productPrice } from "src/utils/productPrice";
 
-export default function Cart({ items, promotions }) {
-  const productsCart = useProducts((state: any) => state.cart);
+type CartProps = {
+  items: ProductType[],
+  promotions: PromotionType[]
+}
+export default function Cart({ items, promotions }: CartProps) {
+  const productsCart = useProducts((state: any) => state.cart as CartItemType[]);
   const setCart = useProducts((state: any) => state.setCart);
   const removeFromCart = useProducts((state: any) => state.removeFromCart);
   const deleteCart = useProducts((state: any) => state.deleteCart);
@@ -23,96 +28,65 @@ export default function Cart({ items, promotions }) {
   const router = useRouter();
 
   useEffect(() => {
-    //This useEffect hook is used to populate the useProducts hook, which holds the products in the cart in a global state for the whole application, but it gets erased when the page is refreshed, that's why I make use of localStorage, to persist the state.
-    let retrieveLocalStorage = JSON.parse(localStorage.getItem("my-cart"));
+    const localStorageCart = JSON.parse(localStorage.getItem("my-cart") ?? '[]');
+    setCart(localStorageCart);
+  }, [])
 
-    if (retrieveLocalStorage) {
-      setCart(retrieveLocalStorage);
-    }
-  }, []);
+  const transformedProducts = useMemo(() => {
+    return productsCart.map(cartItem => {
+      const product = items.find(p => p._id === cartItem.id);
+      return {
+        ...cartItem,
+        _id: product._id,
+        name: product.name,
+        img: product.img,
+        price: productPrice(product, cartItem)
+      }
+    })
+  }, [productsCart, items])
 
-  useEffect(() => {
-    //Same as what was commented in /products/[id].tsx
-    if (JSON.stringify(productsCart) != "[]") {
-      localStorage.setItem("my-cart", JSON.stringify(productsCart));
-    }
+  const totalCartPrice = transformedProducts.reduce(
+    (sum, p) => sum + p.price * p.count, 0
+  )
 
-    gsap.fromTo("#loading-icon", { rotate: 0 }, { rotate: 180, repeat: -1 });
-  });
+  const totalCount = transformedProducts.reduce(
+    (sum, p) => sum + p.count, 0
+  )
 
   if (isLoading) {
-    //This if is to wait for the user data retrieved by auth0 useUser hook.
-    return null;
+    return null
   }
 
-  /**Function to join the products retrieved from the db and the products in cart (which only have id and count properties, while the products from the database have all the rest of the info) */
-  const filteredProducts = () => {
-    /**Helper function to only get specific fields from the product document (there are many fields that aren't used for the order) */
-    const itemsWithSpecificFields = [...items, ...promotions].map((item) => {
-      const { _id, name, img } = item;
-      return { _id, name, img };
-    });
-    return productsCart.map((product) => {
-      return {
-        ...itemsWithSpecificFields.find((item) => item._id === product.id),
-        ...product,
-      };
-    });
-  };
-
-  let transformedProducts = filteredProducts();
-
-  const totalCartPrice = () => {
-    //Gets the corresponding individual price (meaning that if the product has an option selected, it will get the price for that option) of each product in cart and then sums them all up to get the total price of the cart using the reduce function.
-    let sum = 0;
-    for (let i = 0; i < transformedProducts.length; i++) {
-      if (typeof transformedProducts[i].price == "number") {
-        sum += transformedProducts[i].price * transformedProducts[i].count;
-      }
+  const createOrder = async () => {
+    if (!user) {
+      return router.push("/api/auth/login?returnTo=/cart")
     }
+    try {
+      setLoading(true);
 
-    return sum;
-  };
-
-  const getTotalCount = () => {
-    //Gets the count of each product in cart and then sums them all up to get the total count using the reduce function.
-    let counts = productsCart.map((product) => {
-      return product.count;
-    });
-
-    let sum = counts.reduce((acc, num) => {
-      return acc + num;
-    }, 0);
-
-    return sum;
-  };
-
-  const createOrder = async (order: OrderType) => {
-    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
-    setLoading(true);
-
-    const res = await fetch("/api/orders", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    })
-      .then((response) => {
-        setLoading(false);
-
-        return response.json();
+      await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user?.sub,
+          clientName: user?.name,
+          clientEmail: user?.email,
+          products: transformedProducts,
+        })
       })
-      .then((json) => {
+
+      deleteCart();
+      localStorage.clear();
+
+      setTimeout(() => {
+        notify();
         router.push(`/orders`);
-      });
+      }, 1000);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-    deleteCart();
-    localStorage.clear();
-  };
-
-  /** Toast */
   const notify = () =>
     toast.success(
       <p className="">
@@ -154,7 +128,7 @@ export default function Cart({ items, promotions }) {
             </div>
           </div>
         </div>
-        {getTotalCount() != 0 ? (
+        {totalCount != 0 ? (
           <>
             {transformedProducts.map((product, i) => {
               return (
@@ -177,20 +151,15 @@ export default function Cart({ items, promotions }) {
                             Total:{" "}
                             {typeof product.price == "number"
                               ? formatter.format(product.price * product.count)
-                              : typeof product.price[0] == "object"
-                              ? formatter.format(
-                                  product.price[0].price * product.count
-                                )
                               : typeof product.price[0] == "string"
-                              ? product.price[0]
-                              : product.price[0] * product.count}
+                                ? product.price[0]
+                                : product.price[0] * product.count}
                           </div>
                         </div>
 
                         <ChevronUpIcon
-                          className={`${
-                            open ? "" : "rotate-180 transform"
-                          } h-5 w-5 text-yellow-500`}
+                          className={`${open ? "" : "rotate-180 transform"
+                            } h-5 w-5 text-yellow-500`}
                         />
                       </Disclosure.Button>
                       <Transition
@@ -278,30 +247,13 @@ export default function Cart({ items, promotions }) {
             <div className="flex flex-col">
               <div className="flex justify-end text-lg mr-2 mt-5 font-bold text-yellow-500">
                 <span className="mr-3">Total:</span>
-                <span>{formatter.format(totalCartPrice())}</span>
+                <span>{formatter.format(totalCartPrice)}</span>
               </div>
 
               <div className=" bg-yellow-300 p-1 px-3 cursor-pointer mt-3 mr-2 self-end text-center text-black  hover:shadow-md transition-all duration-150 w-44 flex justify-center">
                 <button
                   className="font-semibold"
-                  onClick={() => {
-                    if (user) {
-                      createOrder({
-                        userId: user?.sub,
-                        clientName: user?.name,
-                        clientEmail: user?.email,
-                        products: transformedProducts,
-                        total: totalCartPrice(),
-                        createdAt: new Date().toISOString(),
-                        state: "pending",
-                      });
-                      setTimeout(() => {
-                        notify();
-                      }, 1000);
-                    } else {
-                      router.push("/api/auth/login?returnTo=/cart");
-                    }
-                  }}
+                  onClick={createOrder}
                 >
                   {loading ? (
                     <svg
@@ -347,44 +299,20 @@ export default function Cart({ items, promotions }) {
 }
 
 export async function getStaticProps() {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
+  const client = await clientPromise;
+  const db = client.db("klass_ecommerce");
+  const products = db.collection("products");
+  const promotions = db.collection("promotions");
 
-  async function productsHandler() {
-    const client = await clientPromise;
-    const db = client.db("klass_ecommerce");
-    const collection = db.collection("products");
+  const [productList, promotionList]: [ProductType[], PromotionType[]] = await Promise.all([
+    products.find({}).toArray(),
+    promotions.find({}).toArray()
+  ])
 
-    return await collection.find({}).toArray();
-  }
-
-  async function promotionsHandler() {
-    const client = await clientPromise;
-    const db = client.db("klass_ecommerce");
-    const collection = db.collection("promotions");
-
-    return await collection.find({}).toArray();
-  }
-
-  const productsResponse = await productsHandler();
-  const promotionsResponse = await promotionsHandler();
-
-  // By returning { props: { items } }, the Products component
-  // will receive `items` as a prop at build time
   return {
     props: {
-      items: productsResponse.map((item) => {
-        return {
-          ...item,
-          _id: item._id.toString(),
-        };
-      }),
-      promotions: promotionsResponse.map((item) => {
-        return {
-          ...item,
-          _id: item._id.toString(),
-        };
-      }),
-    },
-  };
+      items: productList.map(p => ({ ...p, _id: p._id.toString() })),
+      promotions: promotionList.map(p => ({ ...p, _id: p._id.toString() }))
+    }
+  }
 }
