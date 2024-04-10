@@ -277,32 +277,15 @@ export default function Orders({ items }) {
 }
 
 export async function getServerSideProps({ req, res }) {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-
   async function handler() {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
     const collection = db.collection("orders");
-    const collection2 = db.collection("custom_orders");
 
     const session = getSession(req, res);
-    const at = session.accessToken;
-    const userInfo = await fetch(
-      "https://dev-5iz0oclpqjwsu4v1.us.auth0.com/userinfo",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${at}`,
-        },
-      }
-    ).then((response) => {
-      return response.json();
-    });
 
-    const [items, custom_orders] = await Promise.all([
-      await collection.find({ userId: userInfo.sub }).toArray(),
-      await collection2.find({ userId: userInfo.sub }).toArray(),
+    const [items] = await Promise.all([
+      await collection.find({ userId: session.user.sub }).toArray(),
     ]);
 
     return items;

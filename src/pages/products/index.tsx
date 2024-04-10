@@ -24,7 +24,12 @@ function Products({ items }: { items: ProductType[] }) {
 
   useEffect(() => {
     if (router.query.search) {
-      setSearchString(router.query.search.toString())
+      const search = router.query.search.toString()
+      setSearchString(search)
+      const index = getCategories(items).findIndex(c => c === search)
+      if (index >= 0) {
+        setActive(index)
+      }
     }
   }, [router.query.search])
 
@@ -191,7 +196,7 @@ function Products({ items }: { items: ProductType[] }) {
                     <div className="flex flex-col ">
                       <div className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm">
                         <Image
-                          className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm"
+                          className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-md"
                           width={500}
                           height={500}
                           alt="Imagen del producto"
