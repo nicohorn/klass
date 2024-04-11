@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^1.9.3",
+    "@auth0/nextjs-auth0": "^3.5.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@headlessui/react": "^1.7.4",
@@ -34,16 +34,19 @@
     "bcryptjs": "^2.4.3",
     "brfs": "^2.0.2",
     "fast-glob": "^3.2.12",
+    "firebase": "^10.7.2",
+    "firebase-admin": "^12.0.0",
     "fuzzysort": "^2.0.4",
     "gsap": "^3.11.3",
     "heroicons": "^2.0.13",
-    "jose": "^4.14.4",
+    "jose": "^4.15.4",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1 ",
     "mongodb": "^4.14.0",
     "mui": "^0.0.1",
     "net": "^1.0.2",
     "next": "^13.2.4",
+    "nodemailer": "^6.9.8",
     "pnpm": "^8.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -59,6 +62,7 @@
     "zustand": "^4.3.6"
   },
   "devDependencies": {
+    "@types/nodemailer": "^6.4.14",
     "autoprefixer": "^10.4.14",
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.6",

@@ -1,11 +1,11 @@
 import React from "react";
-import { useUser } from "@auth0/nextjs-auth0";
-import { json } from "stream/consumers";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Us() {
   const { user, error, isLoading } = useUser();
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
+
   return (
     <main className="bg-[url('/images/gardenia.jpg')] min-h-[85vh]  bg-cover bg-center lg:bg-[center_top_-35rem] bg-no-repeat flex flex-col justify-center py-12">
       <div className="text-center text-black opacity-animation font-bold xl:text-5xl text-3xl">

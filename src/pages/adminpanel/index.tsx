@@ -42,8 +42,8 @@ export default function Page() {
   };
 
   return (
-    <div className="h-[65vh] text-white">
-      <div className="mx-20 flex flex-col gap-3 text-xl ">
+    <div className="md:h-[65vh] text-white">
+      <div className="mx-2 md:mx-20 flex flex-col gap-3 text-xl ">
         <p className="hover:font-bold transition-all duration-150 w-fit">
           <Link href="/adminpanel/new_product">Crear un producto nuevo</Link>
         </p>

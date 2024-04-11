@@ -15,7 +15,7 @@ export type OrderType = {
   userId: string;
   clientName: string;
   clientEmail: string;
-  products: object[];
+  products: ProductType[];
   total: number;
   createdAt: string;
   state: string;
@@ -31,6 +31,11 @@ export type ProductType = {
   description: string;
   tags: string;
   steel?: boolean;
+  count?: number;
+  size?: string;
+  color_1?: string;
+  color_2?: string;
+  price?: number
 };
 
 export type ColorOptionType = {

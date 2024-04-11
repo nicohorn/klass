@@ -1,6 +1,7 @@
 import { getSession } from "@auth0/nextjs-auth0";
 import clientPromise from "@clientPromise";
 import { ObjectId } from "mongodb";
+import { sendOrderEmail } from "src/utils/mailer";
 import { productPrice } from "src/utils/productPrice";
 import { ProductType } from "src/utils/types";
 
@@ -32,7 +33,7 @@ async function POST(req, res) {
   const db = client.db("klass_ecommerce");
   const orders = db.collection("orders");
   const products = db.collection("products");
-  const session = getSession(req, res);
+  const session = await getSession(req, res);
 
   const body: Order = req.body
 
@@ -55,6 +56,7 @@ async function POST(req, res) {
   body.state = "pending";
 
   const result = await orders.insertOne(body);
+  sendOrderEmail(result);
   return res.status(200).json(result);
 }
 
@@ -62,7 +64,7 @@ async function PUT(req, res) {
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");
   const collection = db.collection("orders");
-  const session = getSession(req, res);
+  const session = await getSession(req, res);
 
   const body: Order = req.body
 

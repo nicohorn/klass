@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useProducts } from "../../utils/zustand";
 import clientPromise from "../../../mongodb";
 import { Search } from "@mui/icons-material";
@@ -8,8 +8,8 @@ import { formatter } from "src/utils/utils";
 import type { ProductType } from "src/utils/types";
 import Image from "next/image";
 import { getCategories } from "src/utils/utils";
-import TextEditor from "../components/TextEditor";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { isAdmin } from "src/utils/isAdmin";
 import { useRouter } from "next/router";
 
 function Products({ items }: { items: ProductType[] }) {
@@ -166,8 +166,7 @@ function Products({ items }: { items: ProductType[] }) {
             {getItemsBySearch(searchString).map((item, i) => (
               <span className="relative" id="product" key={i}>
                 <div className="delay-150 border-opacity-0 w-[80%] sm:w-full mx-auto transition-all duration-150 active:scale-95 hover:drop-shadow-[8px_8px_5px_rgba(0,0,0,0.45)] group ">
-                  {user?.sub == process.env.NEXT_PUBLIC_ADMIN1 ||
-                  user?.sub == process.env.NEXT_PUBLIC_ADMIN2 ? (
+                  {isAdmin(user?.sub) ? (
                     <button
                       onClick={() => {
                         deleteProduct(item);

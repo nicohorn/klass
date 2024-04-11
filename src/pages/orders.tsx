@@ -1,12 +1,13 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import React, { useState, Fragment } from "react";
 import clientPromise from "../../mongodb";
 import { formatter } from "src/utils/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { getSession } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default function Orders({ items }) {
-  const { user, error, isLoading } = useUser();
+  const { user, isLoading } = useUser();
   const [selected, setSelected] = useState(items[0]);
 
   let [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function Orders({ items }) {
   }
 
   if (isLoading) {
-    return null;
+    return null
   }
 
   try {
@@ -28,7 +29,7 @@ export default function Orders({ items }) {
     return (
       <main className="w-full ">
         <div className="2xl:w-[60%] min-h-[60vh] md:w-[80%] mx-auto p-5 my-10 border bg-white  shadow-md">
-          <h1 className="text-3xl font-semibold">Hola {user.name}! </h1>
+          <h1 className="text-3xl font-semibold">Hola {user?.name}! </h1>
           <p className="p-2">Estos son tus pedidos:</p>
 
           <div className="flex flex-col gap-3 mt-2 mb-2 ">
@@ -276,17 +277,19 @@ export default function Orders({ items }) {
   }
 }
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res }: { req: NextApiRequest, res: NextApiResponse }) {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
   async function handler() {
     const client = await clientPromise;
     const db = client.db("klass_ecommerce");
     const collection = db.collection("orders");
+    const session = await getSession(req, res)
 
-    const session = getSession(req, res);
-
-    const [items] = await Promise.all([
-      await collection.find({ userId: session.user.sub }).toArray(),
-    ]);
+    if (!session?.user.sub) {
+      return []
+    }
+    const items: any[] = await collection.find({ userId: session.user.sub }).toArray()
 
     return items;
   }
