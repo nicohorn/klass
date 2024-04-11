@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useProducts } from "../../utils/zustand";
 import clientPromise from "../../../mongodb";
 import { Search } from "@mui/icons-material";
@@ -8,17 +8,35 @@ import { formatter } from "src/utils/utils";
 import type { ProductType } from "src/utils/types";
 import Image from "next/image";
 import { getCategories } from "src/utils/utils";
-import TextEditor from "../components/TextEditor";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { isAdmin } from "src/utils/isAdmin";
+import { useRouter } from "next/router";
 
 function Products({ items }: { items: ProductType[] }) {
+  const router = useRouter()
   const setCart = useProducts((state: any) => state.setCart);
   let productsCart = useProducts((state: any) => state.cart);
   const [active, setActive] = useState(null);
-  const [searchString, setSearchString] = useState("");
+
+  const [searchString, setSearchString] = useState(router.query.search?.toString() ?? '');
 
   const { user, error, isLoading } = useUser();
+
+  useEffect(() => {
+    if (router.query.search) {
+      const search = router.query.search.toString()
+      setSearchString(search)
+      const index = getCategories(items).findIndex(c => c === search)
+      if (index >= 0) {
+        setActive(index)
+      }
+    }
+  }, [router.query.search])
+
+  useEffect(() => {
+    const newurl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?search=${searchString}`;
+    window.history.replaceState({path:newurl},'',newurl);
+  }, [searchString])
 
   //This useEffect is used to retrieve the cart from the local storage if it exists, and then set it in the cart state (zustand).
   useEffect(() => {
@@ -90,6 +108,7 @@ function Products({ items }: { items: ProductType[] }) {
                 setSearchString(e.target.value);
                 setActive(null);
               }}
+              value={searchString}
               id="input-search"
               className="placeholder:pl-1 text-white flex-grow w-auto outline-none text-lg opacity-100 placeholder:transition-all placeholder:duration-150 bg-primary placeholder:opacity-30 focus:placeholder:opacity-90 "
               placeholder="Ingresá el nombre o categoría del producto que buscás"
@@ -176,7 +195,7 @@ function Products({ items }: { items: ProductType[] }) {
                     <div className="flex flex-col ">
                       <div className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm">
                         <Image
-                          className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-t-sm"
+                          className="  aspect-[4/5] md:group-hover:scale-[1.02] bg-cover relative bg-center transition-all duration-300  object-cover object-center  rounded-md"
                           width={500}
                           height={500}
                           alt="Imagen del producto"

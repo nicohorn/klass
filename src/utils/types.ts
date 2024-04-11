@@ -52,6 +52,8 @@ export type CartItemType = {
   color_2: string;
   style: string;
   model: string;
+  count: number;
+  option?: string;
 };
 
 export type OptionType = {
