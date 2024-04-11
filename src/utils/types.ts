@@ -31,7 +31,7 @@ export type ProductType = {
   description: string;
   tags: string;
   steel?: boolean;
-  count: number;
+  count?: number;
   size?: string;
   color_1?: string;
   color_2?: string;
