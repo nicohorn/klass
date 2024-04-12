@@ -26,7 +26,7 @@ export default function Orders({ items, totalDocuments }) {
 
   const [orderState, setOrderState] = useState(0);
 
-  if (!isLoading || !user) {
+  if (isLoading || !user) {
     return null
   }
 
