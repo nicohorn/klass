@@ -1,6 +1,7 @@
 import { getSession } from "@auth0/nextjs-auth0";
 import clientPromise from "@clientPromise";
 import { ObjectId } from "mongodb";
+import { isAdmin } from "src/utils/isAdmin";
 import { sendOrderEmail } from "src/utils/mailer";
 import { productPrice } from "src/utils/productPrice";
 import { ProductType } from "src/utils/types";
@@ -68,7 +69,7 @@ async function PUT(req, res) {
 
   const body: Order = req.body
 
-  if (!session || session.user.sub !== body.userId) {
+  if (!session || !isAdmin(session.user.sub)) {
     return res.status(401).json({error: "Unauthorized"});
   }
 
