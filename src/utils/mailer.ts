@@ -66,8 +66,8 @@ export const sendOrderEmail = (order: Order) => {
           <li>
             Dentro de rosario
             <ul>
-              <li>Envío simple: $8.500</li>
-              <li>Envío con servicio de armado: $15.200</li>
+              <li>Envío simple: $10.500</li>
+              <li>Envío con servicio de armado: $18.200</li>
             </ul>
           </li>
         </ul>
