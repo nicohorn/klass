@@ -36,7 +36,7 @@ async function POST(req, res) {
   body.state = "pending";
 
   const result = await orders.insertOne(body);
-  sendOrderEmail(body);
+  await sendOrderEmail(body);
   return res.status(200).json(result);
 }
 
