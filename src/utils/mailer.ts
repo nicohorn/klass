@@ -1,20 +1,18 @@
 import nodemailer from 'nodemailer'
 import { Order } from './types'
 
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-      user: process.env.EMAIL,
-      pass: process.env.GMAIL_PASSWORD
-  }
-})
-
-
 export const sendOrderEmail = (order: Order) => {
-  console.log(order)
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.GMAIL_PASSWORD
+    }
+  })
+  console.log(process.env.EMAIL, !!process.env.GMAIL_PASSWORD)
   const mailOptions = {
     from: process.env.EMAIL,
     to: order.clientEmail,
@@ -42,7 +40,7 @@ export const sendOrderEmail = (order: Order) => {
       <div style="display: flex;">
         <div style="min-width: 30%;">
           <h2>Formas de pago:</h2>
-          <img src="https://klass.tienda/icons/money.jpg" alt="Money">
+          <img src="https://klass.tienda/icons/money.jpg" alt="Money" style="width: 100px;">
         </div>
         <ul>
           <li>Seña del 50% y el 50% restante a 25 días cuando se entrega, efectivo / transferencia</li>
@@ -59,7 +57,7 @@ export const sendOrderEmail = (order: Order) => {
       <div style="display: flex;">
         <div style="min-width: 30%;">
           <h2>Formas de envío:</h2>
-          <img src="https://klass.tienda/icons/truck.png" alt="Truck">
+          <img src="https://klass.tienda/icons/truck.png" alt="Truck" style="width: 100px;">
         </div>
         <ul>
           <li>Retiro del depósito: en Jujuy 3287 portón negro, Rosario, SF - $0</li>
