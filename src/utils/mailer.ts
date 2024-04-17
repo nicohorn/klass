@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { OrderType } from './types'
+import { Order } from './types'
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -13,7 +13,8 @@ const transporter = nodemailer.createTransport({
 })
 
 
-export const sendOrderEmail = (order: OrderType) => {
+export const sendOrderEmail = (order: Order) => {
+  console.log(order)
   const mailOptions = {
     from: process.env.EMAIL,
     to: order.clientEmail,
@@ -41,7 +42,7 @@ export const sendOrderEmail = (order: OrderType) => {
       <div style="display: flex;">
         <div style="min-width: 30%;">
           <h2>Formas de pago:</h2>
-          <img src="" alt="Money">
+          <img src="https://klass.tienda/icons/money.jpg" alt="Money">
         </div>
         <ul>
           <li>Seña del 50% y el 50% restante a 25 días cuando se entrega, efectivo / transferencia</li>
@@ -58,10 +59,10 @@ export const sendOrderEmail = (order: OrderType) => {
       <div style="display: flex;">
         <div style="min-width: 30%;">
           <h2>Formas de envío:</h2>
-          <img src="" alt="Truck">
+          <img src="https://klass.tienda/icons/truck.png" alt="Truck">
         </div>
         <ul>
-          <li>Retiro del depósito: en Jujuy 3287 portón negr, Rosario, SF - $0</li>
+          <li>Retiro del depósito: en Jujuy 3287 portón negro, Rosario, SF - $0</li>
           <li>
             Dentro de rosario
             <ul>
