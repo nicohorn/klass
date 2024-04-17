@@ -21,6 +21,29 @@ export type OrderType = {
   state: string;
 };
 
+export type Order = {
+  _id: string,
+  userId: string,
+  clientName: string,
+  clientEmail: string,
+  products: {
+    _id: string,
+    name: string,
+    img: string[],
+    id: string,
+    size: string,
+    color_1: string,
+    color_2: string,
+    style: string,
+    model: string,
+    price: number,
+    count: number
+  }[],
+  total: number,
+  createdAt: string,
+  state: string
+}
+
 export type ProductType = {
   _id?: string;
   name: string;

@@ -4,30 +4,9 @@ import { ObjectId } from "mongodb";
 import { isAdmin } from "src/utils/isAdmin";
 import { sendOrderEmail } from "src/utils/mailer";
 import { productPrice } from "src/utils/productPrice";
-import { ProductType } from "src/utils/types";
+import { Order, ProductType } from "src/utils/types";
 
-export type Order = {
-  _id: string,
-  userId: string,
-  clientName: string,
-  clientEmail: string,
-  products: {
-    _id: string,
-    name: string,
-    img: string[],
-    id: string,
-    size: string,
-    color_1: string,
-    color_2: string,
-    style: string,
-    model: string,
-    price: number,
-    count: number
-  }[],
-  total: number,
-  createdAt: string,
-  state: string
-}
+
 
 async function POST(req, res) {
   const client = await clientPromise;
@@ -57,7 +36,7 @@ async function POST(req, res) {
   body.state = "pending";
 
   const result = await orders.insertOne(body);
-  sendOrderEmail(result);
+  sendOrderEmail(body);
   return res.status(200).json(result);
 }
 
