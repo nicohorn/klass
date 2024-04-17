@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import { Order } from './types'
 
-export const sendOrderEmail = (order: Order) => {
+export const sendOrderEmail = async (order: Order) => {
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     host: 'smtp.gmail.com',
@@ -12,7 +12,6 @@ export const sendOrderEmail = (order: Order) => {
         pass: process.env.GMAIL_PASSWORD
     }
   })
-  console.log(process.env.EMAIL, !!process.env.GMAIL_PASSWORD)
   const mailOptions = {
     from: process.env.EMAIL,
     to: order.clientEmail,
@@ -39,7 +38,7 @@ export const sendOrderEmail = (order: Order) => {
       <p>Ya casi estamos, pero antes, necesitamos que selecciones la forma de pago y de envío para terminar la compra:</p>
       <div style="display: flex;">
         <div style="min-width: 30%;">
-          <h2>Formas de pago:</h2>
+          <h2>Opciones de pago:</h2>
           <img src="https://klass.tienda/icons/money.jpg" alt="Money" style="width: 100px;">
         </div>
         <ul>
@@ -56,16 +55,24 @@ export const sendOrderEmail = (order: Order) => {
       </div>
       <div style="display: flex;">
         <div style="min-width: 30%;">
-          <h2>Formas de envío:</h2>
+          <h2>Opciones de envío:</h2>
           <img src="https://klass.tienda/icons/truck.png" alt="Truck" style="width: 100px;">
         </div>
         <ul>
-          <li>Retiro del depósito: en Jujuy 3287 portón negro, Rosario, SF - $0</li>
           <li>
-            Dentro de rosario
+            Retiro : $0
             <ul>
-              <li>Envío simple: $10.500</li>
-              <li>Envío con servicio de armado: $18.200</li>
+              <li>Rosario,SF - Depósito en Jujuy 3287, portón negro</li>
+              <li>Crespo,ER - Fábrica en Francisco Sagemuller 590</li>
+            </ul>
+          </li>
+          <li>
+            Envío con instalación: se coordina el día y horario previamente.
+            <ul>
+              <li>Rosario, SF - ciudad $18.200 / alrededores hasta 20km - $25.200</li>
+              <li>Santa Fe, SF - ciudad $18.200 /  alrededores hasta 20km - $25.200</li>
+              <li>Paraná, ER - ciudad $15.200</li>
+              <li>*Consultar por otras localidades</li>
             </ul>
           </li>
         </ul>
@@ -81,5 +88,6 @@ export const sendOrderEmail = (order: Order) => {
     `,
     cc: process.env.EMAIL
   }
-  transporter.sendMail(mailOptions)
+  const response = await transporter.sendMail(mailOptions)
+  console.log({ mail: response })
 }
