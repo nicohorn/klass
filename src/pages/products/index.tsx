@@ -200,6 +200,7 @@ function Products({ items }: { items: ProductType[] }) {
                           height={500}
                           alt="Imagen del producto"
                           src={item.img[0]}
+                          unoptimized={true}
                         ></Image>
 
                         <div className="absolute w-full bottom-0  transition-all duration-300 delay-300">

@@ -82,7 +82,7 @@ export default function ProductForm({
               return e.name == "size";
             })
           )
-        ]?.elements
+        ]?.elements ?? []
       );
 
     productToEdit &&
@@ -93,7 +93,7 @@ export default function ProductForm({
               return e.name == "model";
             })
           )
-        ]?.elements
+        ]?.elements ?? []
       );
 
     productToEdit &&
@@ -104,7 +104,7 @@ export default function ProductForm({
               return e.name == "style";
             })
           )
-        ]?.elements
+        ]?.elements ?? []
       );
 
     (document.getElementById("productSteel") as HTMLInputElement).checked =
