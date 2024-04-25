@@ -85,7 +85,7 @@ export default function ProductView({
             />
 
             <OptionsListbox
-              title="Color 1"
+              title="Color Estructura"
               selectedOption={selectedColor_1}
               setSelectedOption={setSelectedColor_1}
               options={color_1_options}
@@ -93,7 +93,7 @@ export default function ProductView({
             />
 
             <OptionsListbox
-              title="Color 2"
+              title="Color Tapa/Puerta"
               selectedOption={selectedColor_2}
               setSelectedOption={setSelectedColor_2}
               options={color_2_options}
