@@ -43,6 +43,7 @@ export default function PromotionHero(promotion: PromotionType) {
             height={750}
             alt="Imagen de la promoción"
             src={promotion.img[0]}
+            unoptimized
           ></Image>
         )}
       </div>

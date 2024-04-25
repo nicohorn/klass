@@ -75,7 +75,7 @@ export default function Adder({
               if (
                 value &&
                 multiplier &&
-                !selectedOptions.find((a) => {
+                !selectedOptions?.find((a) => {
                   return a.value === value;
                 })
               )
