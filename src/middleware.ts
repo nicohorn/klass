@@ -1,23 +1,16 @@
 /* eslint-disable @next/next/no-server-import-in-page */
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { isAdmin } from "./utils/isAdmin";
-import { withMiddlewareAuthRequired, getSession } from "@auth0/nextjs-auth0/edge";
+import { withMiddlewareAuthRequired } from "@auth0/nextjs-auth0/edge";
+import { handleIsAdmin } from "./utils/isAdmin";
 
 export const runtime = 'nodejs'
 
 export default withMiddlewareAuthRequired(async (req, res) => {
   // @ts-ignore
-  const user = await getSession(req, res)
-  if (isAdmin(user?.sub)) {
-    return NextResponse.next()
-  }
-  return NextResponse.redirect(new URL("/", req.url));
-})
+  const isAdmin = await handleIsAdmin(req, res)
 
-// This middleware matches the paths below to ensure that those are only available to the admins.
-export async function middleware(request: NextRequest, response: NextResponse) {
-}
+  return isAdmin ? NextResponse.next() : NextResponse.redirect(new URL("/", req.url))
+})
 
 // See "Matching Paths" below to learn more
 export const config = {
@@ -26,5 +19,6 @@ export const config = {
     "/api/products/:path*",
     "/api/color_options/:path*",
     "/api/promotions/:path*",
+    "/api/email",
   ],
 };
