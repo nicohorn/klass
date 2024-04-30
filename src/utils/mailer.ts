@@ -1,7 +1,9 @@
 import nodemailer from 'nodemailer'
 import { Order } from './types'
+import { getEmailContent } from 'src/services/admin'
 
 export const sendOrderEmail = async (order: Order) => {
+  const content = await getEmailContent()
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     host: 'smtp.gmail.com',
@@ -35,54 +37,7 @@ export const sendOrderEmail = async (order: Order) => {
           <p style="text-align: right;"><i>$${product.price}</i></p>
         </div>
       `)}
-      <p>Ya casi estamos, pero antes, necesitamos que selecciones la forma de pago y de envío para terminar la compra:</p>
-      <div style="display: flex;">
-        <div style="min-width: 30%;">
-          <h2>Opciones de pago:</h2>
-          <img src="https://klass.tienda/icons/money.jpg" alt="Money" style="width: 100px;">
-        </div>
-        <ul>
-          <li>Seña del 50% y el 50% restante a 25 días cuando se entrega, efectivo / transferencia</li>
-          <li>10% de descuento abonando en 1 solo pago en efectivo / transferencia</li>
-          <li>1 pago con tarjeta de crédito sin recargo</li>
-          <li>
-            Tarjeta Visa o Mastercard, programa CUOTA SIMPLE
-            <ul>
-              <li>3 cuotas con 14% de interés</li>
-              <li>6 cuotas con 30% de interés</li>
-          </li>
-        </ul>
-      </div>
-      <div style="display: flex;">
-        <div style="min-width: 30%;">
-          <h2>Opciones de envío:</h2>
-          <img src="https://klass.tienda/icons/truck.png" alt="Truck" style="width: 100px;">
-        </div>
-        <ul>
-          <li>
-            Retiro : $0
-            <ul>
-              <li>Rosario,SF - Depósito en Jujuy 3287, portón negro</li>
-              <li>Crespo,ER - Fábrica en Francisco Sagemuller 590</li>
-            </ul>
-          </li>
-          <li>
-            Envío con instalación: se coordina el día y horario previamente.
-            <ul>
-              <li>Rosario, SF - ciudad $18.200 / alrededores hasta 20km - $25.200</li>
-              <li>Santa Fe, SF - ciudad $18.200 /  alrededores hasta 20km - $25.200</li>
-              <li>Paraná, ER - ciudad $15.200</li>
-              <li>*Consultar por otras localidades</li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <p>
-        <b>Elegí la opción</b> que más te convenga y respondenos por este medio para completar la compra, y no te olvides de que tu pedido será confeccionado especialmente para vos, nuestro plazo de fabricación es de 25 días.
-      </p>
-      <p>
-        Cualquier duda podés escribirnos a <a href="mailto:contacto.klass@gmail.com"><b>contacto.klass@gmail.com</b></a> o por WhatsApp al <b>+54 9 3435035388</b>
-      </p>
+      ${content}
     </body>
     </html>
     `,

@@ -6,8 +6,6 @@ import { sendOrderEmail } from "src/utils/mailer";
 import { productPrice } from "src/utils/productPrice";
 import { Order, ProductType } from "src/utils/types";
 
-
-
 async function POST(req, res) {
   const client = await clientPromise;
   const db = client.db("klass_ecommerce");

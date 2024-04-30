@@ -57,6 +57,9 @@ export default function Page() {
           <Link href="/adminpanel/orders">Pedidos</Link>
         </p>
         <p className="hover:font-bold transition-all duration-150 w-fit">
+          <Link href="/adminpanel/email">Editar email</Link>
+        </p>
+        <p className="hover:font-bold transition-all duration-150 w-fit">
           <Link href="/adminpanel/custom_orders">Pedidos personalizados</Link>
         </p>
         <div className="flex gap-4 items-center">

@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
 
-      <main className=" bg-primary">
+      <main className=" bg-primary min-h-screen">
         <Navbar path={path} />
         <ToastContainer position="top-center" />
 
