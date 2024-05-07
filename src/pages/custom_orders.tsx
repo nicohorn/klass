@@ -47,25 +47,19 @@ export default function Custom_orders() {
     }
   });
 
-  const createCustomOrder = async (order: CustomOrderType) => {
-    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
-    setLoading(true);
-
-    const res = await fetch("/api/custom_orders", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    })
-      .then((response) => {
-        setLoading(false);
-
-        return response.json();
-      })
-      .then((json) => {});
-  };
+  const uploadImages = async () => {
+    return Promise.all(Array.from(images).map(img => {
+      const randomId = Math.random().toString(36).substring(7);
+      const extension = img.name.split(".").pop();
+      const name = `${randomId}.${extension}`;
+      return supabase.storage
+        .from("personalized-projects-images")
+        .upload(`personalized-projects/${name}`, img, {
+          cacheControl: "3600",
+          upsert: false,
+        }).then(() => process.env.NEXT_PUBLIC_SUPABASESTORAGE + "personalized-projects/" + name);
+    }))
+  }
 
   const notify = () =>
     toast.success(
@@ -78,6 +72,42 @@ export default function Custom_orders() {
         autoClose: 8000,
       }
     );
+
+  const createCustomOrder = async () => {
+    //Once the client is in the cart page, he can delete some products from the cart if needed or wanted, and then he can chose to complete an order, which posts a new order document to mongodb. This is the function that does it.
+    setLoading(true);
+    const pictures = await uploadImages();
+    const clientNumber = (document.getElementById("celular") as HTMLInputElement).value
+    const address = (document.getElementById("direccion") as HTMLInputElement).value
+    const message = (document.getElementById("mensaje") as HTMLInputElement).value;
+
+    const order: CustomOrderType = {
+      userId: user?.sub,
+      clientName: user?.name,
+      clientEmail: user?.email,
+      clientNumber: parseInt(clientNumber, 10),
+      address: address,
+      message: message,
+      images: pictures,
+      createdAt: new Date().toISOString(),
+      state: "pending",
+      isProject: isProject,
+    };
+
+    try {
+      await fetch("/api/custom_orders", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+      })
+    } finally {
+      setLoading(false)
+      notify()
+    }
+  };
 
   return (
     <main className="w-full text-white flex xl:flex-row flex-col justify-between min-h-screen">
@@ -133,60 +163,7 @@ export default function Custom_orders() {
       <Modal
         imageLoadingState={setImageLoading}
         loading={loading}
-        buttonFunction={() => {
-          const clientNumber = (
-              document.getElementById("celular") as HTMLInputElement
-            ).value,
-            address = (document.getElementById("direccion") as HTMLInputElement)
-              .value,
-            message = (document.getElementById("mensaje") as HTMLInputElement)
-              .value;
-
-          const pictures = () => {
-            if (images) {
-              return [...images].map((img) => {
-                return (
-                  process.env.NEXT_PUBLIC_SUPABASESTORAGE +
-                  "personalized-projects/" +
-                  img.name
-                );
-              });
-            }
-          };
-
-          [...images].forEach(function (image, idx, images) {
-            setImageLoading("cargando");
-            supabase.storage
-              .from("personalized-projects-images")
-              .upload(`personalized-projects/${image.name}`, image, {
-                cacheControl: "3600",
-                upsert: false,
-              })
-              .then((result) => {
-                if (result.error) {
-                  console.log("A", result.error);
-                } else {
-                  setImageLoading("finalizado");
-                }
-              });
-            if (idx === images.length - 1) {
-              createCustomOrder({
-                userId: user?.sub,
-                clientName: user?.name,
-                clientEmail: user?.email,
-                clientNumber: parseInt(clientNumber),
-                address: address,
-                message: message,
-                images: pictures(),
-                createdAt: new Date().toISOString(),
-                state: "pending",
-                isProject: isProject,
-              }).then(() => {
-                notify();
-              });
-            }
-          });
-        }}
+        buttonFunction={createCustomOrder}
         openModal={open}
         closeModal={setOpen}
         title={
@@ -270,6 +247,6 @@ export default function Custom_orders() {
           </form>
         </div>
       </Modal>
-    </main>
+    </main >
   );
 }
