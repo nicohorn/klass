@@ -1,15 +1,16 @@
 /* eslint-disable @next/next/no-server-import-in-page */
 import { NextResponse } from "next/server";
-import { withMiddlewareAuthRequired } from "@auth0/nextjs-auth0/edge";
-import { handleIsAdmin } from "./utils/isAdmin";
+import { withMiddlewareAuthRequired, getSession } from "@auth0/nextjs-auth0/edge";
+import { isAdmin } from "./utils/isAdmin";
 
 export const runtime = 'nodejs'
 
 export default withMiddlewareAuthRequired(async (req, res) => {
   // @ts-ignore
-  const isAdmin = await handleIsAdmin(req, res)
+  const session = await getSession(req, res)
+  const userIsAdmin = isAdmin(session?.user?.sub)
 
-  return isAdmin ? NextResponse.next() : NextResponse.redirect(new URL("/", req.url))
+  return userIsAdmin ? NextResponse.next() : NextResponse.redirect(new URL("/", req.url))
 })
 
 // See "Matching Paths" below to learn more
