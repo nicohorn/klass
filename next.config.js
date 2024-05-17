@@ -1,18 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  compilerOptions: {
-    target: "es5",
-  },
-  experimental: {
-    appDir: true,
-  },
   images: {
     domains: ["wwhqpgatccjocygubiey.supabase.co"],
-  },
-  future: {
-    webpack5: true, // by default, if you customize webpack config, they switch back to version 4.
-    // Looks like backward compatibility approach.
   },
   webpack(config) {
     config.resolve.fallback = {

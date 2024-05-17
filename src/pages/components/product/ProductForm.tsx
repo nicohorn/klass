@@ -205,6 +205,72 @@ export default function ProductForm({
     }
   }
 
+  async function createOrUpdateProduct() {
+    if (productToEdit) {
+      let combinedImagesArray;
+      let filteredImagesArray;
+      const uploadedImages = await imagesUpload(productImages).then(
+        (uImages) => {
+          filteredImagesArray = [
+            ...new Set([...previewImages, ...uImages]),
+          ];
+        }
+      );
+
+      console.log("filteredImagesArray", filteredImagesArray);
+
+      updateProduct(
+        {
+          name: productName.current.value,
+          base_price: parseLocaleNumber(
+            productPrice.current.value,
+            "de-DE"
+          ),
+          img: filteredImagesArray,
+
+          categories:
+            `/` + selectedCategories.toString().replaceAll(",", "/"),
+          options: [
+            { name: "size", elements: selectedSizeOptions },
+            { name: "color_1", elements: selectedColor_1Options },
+            { name: "color_2", elements: selectedColor_2Options },
+            { name: "model", elements: selectedModelOptions },
+            { name: "style", elements: selectedStyleOptions },
+          ],
+          description: productDescription,
+          tags: "",
+          steel: productSteel.current.checked,
+        },
+        productToEdit._id
+      );
+    } else {
+      const uploadedImages = await imagesUpload(productImages);
+      uploadedImages
+        ? createProduct({
+          name: productName.current.value,
+          base_price: parseLocaleNumber(
+            productPrice.current.value,
+            "de-DE"
+          ),
+          img: uploadedImages,
+          categories:
+            `/` +
+            selectedCategories.toString().replaceAll(",", "/"),
+          options: [
+            { name: "size", elements: selectedSizeOptions },
+            { name: "color_1", elements: selectedColor_1Options },
+            { name: "color_2", elements: selectedColor_2Options },
+            { name: "model", elements: selectedModelOptions },
+            { name: "style", elements: selectedStyleOptions },
+          ],
+          description: productDescription,
+          tags: "",
+          steel: productSteel.current.checked,
+        })
+        : null;
+    }
+  }
+
   return (
     <div className="text-white opacity-animation">
       <h1 className="font-bold text-2xl">
@@ -244,24 +310,23 @@ export default function ProductForm({
             <div className="flex flex-wrap text-xs mt-1 group">
               {productCategories
                 ? productCategories.map((category, i) => {
-                    return (
-                      <label
-                        htmlFor="categoriaProducto"
-                        onClick={() => {
-                          if (!selectedCategories.includes(category))
-                            setCategories([...selectedCategories, category]);
-                        }}
-                        className={`transition-all duration-150 cursor-pointer  ${
-                          selectedCategories.includes(category)
-                            ? "opacity-0 w-0 h-0"
-                            : "hover:opacity-100 opacity-30 border px-1  mr-1 mb-1"
+                  return (
+                    <label
+                      htmlFor="categoriaProducto"
+                      onClick={() => {
+                        if (!selectedCategories.includes(category))
+                          setCategories([...selectedCategories, category]);
+                      }}
+                      className={`transition-all duration-150 cursor-pointer  ${selectedCategories.includes(category)
+                        ? "opacity-0 w-0 h-0"
+                        : "hover:opacity-100 opacity-30 border px-1  mr-1 mb-1"
                         }`}
-                        key={i}
-                      >
-                        {category}
-                      </label>
-                    );
-                  })
+                      key={i}
+                    >
+                      {category}
+                    </label>
+                  );
+                })
                 : null}
             </div>
             <input
@@ -271,8 +336,8 @@ export default function ProductForm({
                   const selectedCategories =
                     inputValue.split("/").length <= 1
                       ? inputValue
-                          .split("/")
-                          .filter((category) => category.trim() !== "")
+                        .split("/")
+                        .filter((category) => category.trim() !== "")
                       : inputValue.split("/");
 
                   if (selectedCategories.length !== 0) {
@@ -425,77 +490,7 @@ export default function ProductForm({
         isOpen={modalOpen}
         closeModal={() => setModalOpen(false)}
         loading={loading}
-        buttonFunction={
-          productToEdit
-            ? async () => {
-                let combinedImagesArray;
-                let filteredImagesArray;
-                const uploadedImages = await imagesUpload(productImages).then(
-                  (uImages) => {
-                    combinedImagesArray = [
-                      ...new Set([...previewImages, ...uImages]),
-                    ];
-
-                    filteredImagesArray = combinedImagesArray.filter((x) => {
-                      return x.includes("product-images");
-                    });
-                  }
-                );
-
-                console.log("filteredImagesArray", filteredImagesArray);
-
-                updateProduct(
-                  {
-                    name: productName.current.value,
-                    base_price: parseLocaleNumber(
-                      productPrice.current.value,
-                      "de-DE"
-                    ),
-                    img: filteredImagesArray,
-
-                    categories:
-                      `/` + selectedCategories.toString().replaceAll(",", "/"),
-                    options: [
-                      { name: "size", elements: selectedSizeOptions },
-                      { name: "color_1", elements: selectedColor_1Options },
-                      { name: "color_2", elements: selectedColor_2Options },
-                      { name: "model", elements: selectedModelOptions },
-                      { name: "style", elements: selectedStyleOptions },
-                    ],
-                    description: productDescription,
-                    tags: "",
-                    steel: productSteel.current.checked,
-                  },
-                  productToEdit._id
-                );
-              }
-            : async () => {
-                const uploadedImages = await imagesUpload(productImages);
-                uploadedImages
-                  ? createProduct({
-                      name: productName.current.value,
-                      base_price: parseLocaleNumber(
-                        productPrice.current.value,
-                        "de-DE"
-                      ),
-                      img: uploadedImages,
-                      categories:
-                        `/` +
-                        selectedCategories.toString().replaceAll(",", "/"),
-                      options: [
-                        { name: "size", elements: selectedSizeOptions },
-                        { name: "color_1", elements: selectedColor_1Options },
-                        { name: "color_2", elements: selectedColor_2Options },
-                        { name: "model", elements: selectedModelOptions },
-                        { name: "style", elements: selectedStyleOptions },
-                      ],
-                      description: productDescription,
-                      tags: "",
-                      steel: productSteel.current.checked,
-                    })
-                  : null;
-              }
-        }
+        buttonFunction={createOrUpdateProduct}
       >
         {product && (
           <ProductView
