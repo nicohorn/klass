@@ -41,7 +41,7 @@
     "heroicons": "^2.0.13",
     "jose": "^4.15.4",
     "js-cookie": "^3.0.1",
-    "jsonwebtoken": "^8.5.1 ",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^4.14.0",
     "mui": "^0.0.1",
     "net": "^1.0.2",
@@ -64,12 +64,14 @@
   "devDependencies": {
     "@types/nodemailer": "^6.4.14",
     "autoprefixer": "^10.4.14",
+    "dotenv": "^16.4.5",
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.6",
     "install": "^0.13.0",
-    "npm": "^9.8.0",
+    "npm": "^10.8.0",
     "postcss": "^8.4.21",
     "supabase": "^1.38.7",
-    "tailwindcss": "^3.3.1"
+    "tailwindcss": "^3.3.1",
+    "ts-node": "^10.9.2"
   }
 }

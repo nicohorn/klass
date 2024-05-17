@@ -1,4 +1,9 @@
 {
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+    }
+  },
   "compilerOptions": {
     "target": "es2015",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -31,7 +36,8 @@
     "**/*.tsx",
     "pages/context.jsx",
     ".next/types/**/*.ts",
-    "src/pages/api/products/delete_product.js"
+    "src/pages/api/products/delete_product.js",
+    "scripts/**/*.ts",
   ],
 
   "exclude": ["node_modules", "build/**/*"]
