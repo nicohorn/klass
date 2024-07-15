@@ -8,10 +8,9 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import gsap from "gsap";
 import { toast } from "react-toastify";
 import { formatter } from "src/utils/utils";
-import { CartItemType, OrderType } from "src/utils/types";
+import { CartItemType } from "src/utils/types";
 import { productPrice } from "src/utils/productPrice";
 
 type CartProps = {
